@@ -17,7 +17,6 @@ object SparkForTesting {
     new SparkConf()
       .setMaster(master)
       .setAppName("Tests")
-//      .set("spark.driver.allowMultipleContexts", "true")
       .set(SPARK_SESSION_EXTENSIONS.key, "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")
       .set("spark.sql.catalog.spark_catalog", "org.apache.iceberg.spark.SparkSessionCatalog")
       .set(CATALOG_IMPLEMENTATION.key, "hive")
