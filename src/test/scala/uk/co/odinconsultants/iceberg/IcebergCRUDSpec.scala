@@ -15,7 +15,7 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
 
     "create the appropriate Iceberg files" in {
       Given(s"data\n${prettyPrintSampleOf(data)}")
-      When(s"writing to table $tableName")
+      When(s"writing to table '$tableName'")
       df.writeTo(tableName).create()
       Then("reading the table back yields the same data")
       val output: DataFrame = spark.read.table(tableName)
@@ -25,7 +25,7 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
     val newVal    = "ipse locum"
     val updateSql = s"update $tableName set _2='$newVal'"
     s"support updates with '$updateSql'" in {
-      Given(s"SQL '$updateSql")
+      Given(s"SQL '$updateSql''")
       When("we execute it")
       spark.sqlContext.sql(updateSql)
       Then("all rows are updated")
