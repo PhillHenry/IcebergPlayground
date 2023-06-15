@@ -5,11 +5,9 @@ import org.scalatest.GivenWhenThen
 import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
-import org.scalatest._
 
 
 class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
-  import org.apache.spark.sql.Encoders._
   "A dataset to CRUD" should {
     import spark.implicits._
     val tableName                = "spark_file_test_writeTo"
@@ -26,7 +24,7 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
     val newVal    = "ipse locum"
     val updateSql = s"update $tableName set label='$newVal'"
     s"support updates with '$updateSql'" in new SimpleFixture {
-      Given(s"SQL '$updateSql''")
+      Given(s"SQL '$updateSql")
       When("we execute it")
       spark.sqlContext.sql(updateSql)
       Then("all rows are updated")
@@ -37,6 +35,23 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
       for {
         row <- rows
       } yield assert(row.label == newVal)
+    }
+
+    val newColumn = "new_string"
+    val alterTable = s"ALTER TABLE $tableName ADD COLUMNS ($newColumn string comment '$newColumn docs')"
+    s"updates the schema" in {
+      Given(s"SQL '$alterTable")
+      When("we execute it")
+      spark.sqlContext.sql(alterTable)
+      Then("all rows are updated")
+      val output: DataFrame = spark.read.table(tableName)
+      val rows: Array[Row]  = output.collect()
+      And(s"look like:\n${prettyPrintSampleOf(rows)}")
+      for {
+        row <- rows
+      } yield {
+        assert(row.getAs[String](newColumn) == null)
+      }
     }
   }
 }
