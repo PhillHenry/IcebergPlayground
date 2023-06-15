@@ -4,6 +4,7 @@ import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.GivenWhenThen
 import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
+import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
 
 class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
   val IntField: String = "_1"
@@ -13,7 +14,7 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
     val tableName                = "spark_file_test_writeTo"
 
     "create the appropriate Iceberg files" in {
-      Given(s"data $data")
+      Given(s"data\n${prettyPrintSampleOf(data)}")
       When(s"writing to table $tableName")
       df.writeTo(tableName).create()
       Then("reading the table back yields the same data")
