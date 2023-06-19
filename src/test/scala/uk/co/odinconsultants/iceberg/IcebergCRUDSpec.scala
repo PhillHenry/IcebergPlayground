@@ -6,11 +6,16 @@ import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
 
+import java.nio.file.{Files, Path, Paths}
+import java.util.stream.Collectors
+import scala.jdk.javaapi.CollectionConverters
+import scala.collection.mutable.{Set => MSet}
 
 class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
   "A dataset to CRUD" should {
     import spark.implicits._
-    val tableName                = "spark_file_test_writeTo"
+    val tableName           = "spark_file_test_writeTo"
+    val files: MSet[String] = MSet.empty[String]
 
     "create the appropriate Iceberg files" in new SimpleFixture {
       Given(s"data\n${prettyPrintSampleOf(data)}")
@@ -19,6 +24,7 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
       Then("reading the table back yields the same data")
       val output: Dataset[Datum] = spark.read.table(tableName).as[Datum]
       assert(output.collect().toSet == data.toSet)
+      files.addAll(dataFilesIn(tableName))
     }
 
     val newVal    = "ipse locum"
@@ -28,17 +34,21 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
       When("we execute it")
       spark.sqlContext.sql(updateSql)
       Then("all rows are updated")
-      val output: Dataset[Datum] = spark.read.table(tableName).as[Datum]
-      val rows: Array[Datum]  = output.collect()
+      val output: Dataset[Datum]  = spark.read.table(tableName).as[Datum]
+      val rows: Array[Datum]      = output.collect()
       And(s"look like:\n${prettyPrintSampleOf(rows)}")
       assert(rows.length == data.length)
       for {
         row <- rows
       } yield assert(row.label == newVal)
+      val dataFiles: List[String] = dataFilesIn(tableName)
+      assert(dataFiles.length > files.size)
+      files.addAll(dataFiles)
     }
 
-    val newColumn = "new_string"
-    val alterTable = s"ALTER TABLE $tableName ADD COLUMNS ($newColumn string comment '$newColumn docs')"
+    val newColumn  = "new_string"
+    val alterTable =
+      s"ALTER TABLE $tableName ADD COLUMNS ($newColumn string comment '$newColumn docs')"
     s"updates the schema" in {
       Given(s"SQL '$alterTable")
       When("we execute it")
@@ -49,9 +59,13 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
       And(s"look like:\n${prettyPrintSampleOf(rows)}")
       for {
         row <- rows
-      } yield {
-        assert(row.getAs[String](newColumn) == null)
-      }
+      } yield assert(row.getAs[String](newColumn) == null)
     }
+  }
+
+  def dataFilesIn(tableName: String): List[String] = {
+    val dir                         = s"$tmpDir/$tableName/data"
+    val paths: java.util.List[Path] = Files.list(Paths.get(dir)).collect(Collectors.toList())
+    CollectionConverters.asScala(paths).toList.map(_.toString)
   }
 }
