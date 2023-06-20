@@ -1,5 +1,9 @@
 package uk.co.odinconsultants.iceberg
 
+import org.apache.iceberg.Table
+import org.apache.iceberg.expressions.Expressions
+import org.apache.iceberg.hadoop.HadoopTables
+import org.apache.iceberg.spark.actions.SparkActions
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.GivenWhenThen
 import org.scalatest.wordspec.AnyWordSpec
@@ -60,6 +64,24 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
       for {
         row <- rows
       } yield assert(row.getAs[String](newColumn) == null)
+    }
+
+    "when vacuumed, have old files removed" ignore {
+//      val df     = spark.read.format("iceberg").load(tableName)
+      val tables       = new HadoopTables(spark.sparkContext.hadoopConfiguration)
+      val table: Table = tables.load(s"$tmpDir/$tableName")
+      table
+        .expireSnapshots()
+        .expireOlderThan(System.currentTimeMillis())
+        .commit()
+      table.expireSnapshots()
+      SparkActions
+        .get()
+        .rewriteDataFiles(table)
+//        .filter(Expressions.equal("date", "2020-08-18"))
+        .option("target-file-size-bytes", (500 * 1024 * 1024L).toString) // 500 MB
+        .execute()
+      assert(dataFilesIn(tableName).length < files.size)
     }
   }
 
