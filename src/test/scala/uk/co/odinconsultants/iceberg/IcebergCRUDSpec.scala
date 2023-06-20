@@ -10,9 +10,6 @@ import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
 
-import java.nio.file.{Files, Path, Paths}
-import java.util.stream.Collectors
-import scala.jdk.javaapi.CollectionConverters
 import scala.collection.mutable.{Set => MSet}
 
 class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
@@ -66,10 +63,8 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
       } yield assert(row.getAs[String](newColumn) == null)
     }
 
-    "when vacuumed, have old files removed" ignore {
-//      val df     = spark.read.format("iceberg").load(tableName)
-      val tables       = new HadoopTables(spark.sparkContext.hadoopConfiguration)
-      val table: Table = tables.load(s"$tmpDir/$tableName")
+    "when vacuumed, have old files removed" ignore new SimpleFixture {
+      val table: Table = icebergTable(tableName)
       table
         .expireSnapshots()
         .expireOlderThan(System.currentTimeMillis())
@@ -78,16 +73,10 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
       SparkActions
         .get()
         .rewriteDataFiles(table)
-//        .filter(Expressions.equal("date", "2020-08-18"))
+        .filter(Expressions.equal("label", newVal))
         .option("target-file-size-bytes", (500 * 1024 * 1024L).toString) // 500 MB
         .execute()
       assert(dataFilesIn(tableName).length < files.size)
     }
-  }
-
-  def dataFilesIn(tableName: String): List[String] = {
-    val dir                         = s"$tmpDir/$tableName/data"
-    val paths: java.util.List[Path] = Files.list(Paths.get(dir)).collect(Collectors.toList())
-    CollectionConverters.asScala(paths).toList.map(_.toString)
   }
 }
