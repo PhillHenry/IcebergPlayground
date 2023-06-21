@@ -48,4 +48,13 @@ object SQL {
     }.mkString(",\n")
     s"""CREATE TABLE $tableName ($fields)""".stripMargin
   }
+
+  def insertSQL(tableName: String, data: Seq[Datum]): String = {
+    def subquery(f: Field => String): String = classOf[Datum].getDeclaredFields.map { field: Field =>
+        s"${f(field)}"
+      }.mkString(",\n")
+    val fields: String = subquery(_.getName)
+    val values: Seq[String] = data.map((x: Datum) => s"(${x.id}, '${x.label}')")
+    s"""INSERT INTO TABLE $tableName ($fields) VALUES ${values.mkString(",\n")}""".stripMargin
+  }
 }
