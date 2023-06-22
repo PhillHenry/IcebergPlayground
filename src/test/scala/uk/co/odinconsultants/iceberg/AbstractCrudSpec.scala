@@ -49,6 +49,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       thenTheDataFilesAre(original)
       val output: Array[Datum]  = andTheTableContains(tableName)
       assert(output.toSet != data.toSet)
+      checkDatafiles(original, files.toSet)
     }
     s"reading an updated table using $mode" in new SimpleFixture {
       Given("a table that has been updated")
@@ -70,6 +71,8 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}")
     }
   }
+
+  def checkDatafiles(previous: Set[String], current: Set[String]): Unit
 
   private def tableDDL(tableName: String, mode: String) = {
     val createSQL: String = s"""${createDatumTable(tableName)} TBLPROPERTIES (
