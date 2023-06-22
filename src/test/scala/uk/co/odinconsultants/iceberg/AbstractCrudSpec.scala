@@ -18,7 +18,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
   s"A $mode table" should {
     val files: MSet[String] = MSet.empty[String]
     val createSQL: String   = tableDDL(tableName, mode)
-    "create no new files for COW" in new SimpleFixture {
+    s"create no new files for $mode" in new SimpleFixture {
       Given(s"SQL:\n'$createSQL")
       When("we execute it")
       spark.sqlContext.sql(createSQL)
@@ -26,7 +26,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       assert(table != null)
       Then(s"the is an Iceberg table, $table")
     }
-    "insert creates new files for COW" in new SimpleFixture {
+    s"insert creates new files for $mode" in new SimpleFixture {
       val sql: String          = insertSQL(tableName, data)
       Given(s"SQL:\n$sql")
       When("we execute it")
@@ -37,7 +37,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       val output: Array[Datum] = andTheTableContains(tableName)
       assert(output.toSet == data.toSet)
     }
-    "update creates no new files for COW" in new SimpleFixture {
+    s"update creates no new files for $mode" in new SimpleFixture {
       val toUpdate: Datum      = data.head
       val fileCount: Int       = dataFilesIn(tableName).length
       val sql: String          = s"UPDATE $tableName SET label='${toUpdate.label}X' WHERE id=${toUpdate.id}"
@@ -54,6 +54,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
 
   private def tableDDL(tableName: String, mode: String) = {
     val createSQL: String = s"""${createDatumTable(tableName)} TBLPROPERTIES (
+                               |    'format-version' = '2',
                                |    'write.delete.mode'='$mode',
                                |    'write.update.mode'='$mode',
                                |    'write.merge.mode'='$mode'
