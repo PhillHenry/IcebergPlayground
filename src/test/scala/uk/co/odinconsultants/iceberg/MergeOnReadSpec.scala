@@ -19,10 +19,10 @@ class MergeOnReadSpec extends AbstractCrudSpec {
         || file.endsWith("00001-deletes.parquet.crc")
         || file.endsWith("00001-deletes.parquet"))
     }
-    newFiles.filter(_.endsWith("00001-deletes.parquet")).foreach { file: String =>
+    newFiles.filter(_.endsWith(".parquet")).foreach { file: String =>
       val df: DataFrame = spark.read.parquet(file)
       df.show(false)
-      assert(df.count() == 1)
+      assert(df.count() == 1)  // one row changed, one file changed
     }
   }
 }
