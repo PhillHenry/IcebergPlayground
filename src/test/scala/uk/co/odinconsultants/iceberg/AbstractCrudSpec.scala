@@ -16,42 +16,49 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
   def mode: String
 
   s"A $mode table" should {
-    val files: MSet[String]         = MSet.empty[String]
-    val createSQL: String           = tableDDL(tableName, mode)
+    val files: MSet[String]                              = MSet.empty[String]
+    val createSQL: String                                = tableDDL(tableName, mode)
     s"create no new files for $mode" in new SimpleFixture {
-      Given(s"SQL:\n'$createSQL")
+      Given(s"SQL:\n${Console.BLUE}'$createSQL")
       When("we execute it")
       spark.sqlContext.sql(createSQL)
       val table: Table = icebergTable(tableName)
       assert(table != null)
-      Then(s"the is an Iceberg table, $table")
+      Then(s"there is an Iceberg table, $table")
     }
     s"insert creates new files for $mode" in new SimpleFixture {
-      val sql: String          = insertSQL(tableName, data)
+      val sql: String           = insertSQL(tableName, data)
+      val original: Set[String] = files.toSet
       Given(s"SQL:\n$sql")
       When("we execute it")
       spark.sqlContext.sql(sql)
       files.addAll(dataFilesIn(tableName))
       assert(files.nonEmpty)
-      thenTheDataFilesAre()
-      val output: Array[Datum] = andTheTableContains(tableName)
+      thenTheDataFilesAre(original)
+      val output: Array[Datum]  = andTheTableContains(tableName)
       assert(output.toSet == data.toSet)
     }
     s"update creates no new files for $mode" in new SimpleFixture {
-      val toUpdate: Datum      = data.head
-      val fileCount: Int       = dataFilesIn(tableName).length
-      val sql: String          = s"UPDATE $tableName SET label='${toUpdate.label}X' WHERE id=${toUpdate.id}"
+      val original: Set[String] = files.toSet
+      val toUpdate: Datum       = data.head
+      val fileCount: Int        = dataFilesIn(tableName).length
+      val sql: String           = s"UPDATE $tableName SET label='${toUpdate.label}X' WHERE id=${toUpdate.id}"
       Given(s"SQL:\n$sql")
       When("we execute it")
       spark.sqlContext.sql(sql)
       files.addAll(dataFilesIn(tableName))
-      thenTheDataFilesAre()
-      val output: Array[Datum] = andTheTableContains(tableName)
+      thenTheDataFilesAre(original)
+      val output: Array[Datum]  = andTheTableContains(tableName)
       assert(output.toSet != data.toSet)
     }
-    def thenTheDataFilesAre(): Unit = {
+    def thenTheDataFilesAre(previous: Set[String]): Unit = {
       val dir: String            = TestUtils.dataDir(tableName)
-      val dataFiles: Seq[String] = files.toList.sorted.map((x: String) => x.substring(dir.length))
+      val dataFiles: Seq[String] =
+        files.toList.sorted.map { (x: String) =>
+          val edited: String = x.substring(dir.length)
+          if (previous.contains(x)) { s"${Console.GREEN}$edited" }
+          else s"${Console.BLUE}$edited"
+        }
       Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}")
     }
   }
