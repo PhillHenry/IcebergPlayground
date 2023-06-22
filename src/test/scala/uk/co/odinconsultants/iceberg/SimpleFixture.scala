@@ -17,7 +17,7 @@ trait SimpleFixture extends Fixture[Datum] {
 
   val tables = new HadoopTables(spark.sparkContext.hadoopConfiguration)
 
-  val data: Seq[Datum] = Seq(Datum(41, "phill"), Datum(42, "henry"), Datum(47, "lincoln"))
+  val data: Seq[Datum] = Seq.range(0, 20).map((i: Int) => Datum(i, s"label_$i"))
 
   def dataFilesIn(tableName: String): List[String] = {
     val dir: String = TestUtils.dataDir(tableName)

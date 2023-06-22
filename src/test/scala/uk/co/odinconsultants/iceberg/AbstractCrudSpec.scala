@@ -90,7 +90,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
   def andTheTableContains(tableName: String): Array[Datum] = {
     val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
     val rows: Array[Datum]    = table.collect()
-    And(s"the table contains:\n${toHumanReadable(rows)}")
+    And(s"the table contains:\n${toHumanReadable(rows.sortBy(_.id))}")
     rows
   }
 
