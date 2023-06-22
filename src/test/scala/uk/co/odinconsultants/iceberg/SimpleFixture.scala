@@ -4,10 +4,8 @@ import org.apache.iceberg.hadoop.HadoopTables
 import uk.co.odinconsultants.SparkForTesting._
 
 import java.lang.reflect.Field
-import java.nio.file.{Files, Path, Paths}
-import java.util.stream.Collectors
+import java.nio.file.{Path, Paths}
 import scala.annotation.tailrec
-import scala.jdk.javaapi.CollectionConverters
 
 case class Datum(id: Int, label: String)
 
@@ -19,7 +17,7 @@ trait SimpleFixture extends Fixture[Datum] {
 
   val tables = new HadoopTables(spark.sparkContext.hadoopConfiguration)
 
-  val data: Seq[Datum] = Seq(Datum(41, "phill"), Datum(42, "henry"))
+  val data: Seq[Datum] = Seq(Datum(41, "phill"), Datum(42, "henry"), Datum(47, "lincoln"))
 
   def dataFilesIn(tableName: String): List[String] = {
     val dir: String = TestUtils.dataDir(tableName)

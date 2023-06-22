@@ -40,7 +40,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     }
     s"update creates no new files for $mode" in new SimpleFixture {
       val original: Set[String] = files.toSet
-      val toUpdate: Datum       = data.head
+      val toUpdate: Datum       = data.tail.head
       val sql: String           = s"UPDATE $tableName SET label='${toUpdate.label}X' WHERE id=${toUpdate.id}"
       Given(s"SQL:\n$sql")
       When("we execute it")
