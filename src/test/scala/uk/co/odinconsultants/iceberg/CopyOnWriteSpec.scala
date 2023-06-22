@@ -7,6 +7,7 @@ class CopyOnWriteSpec extends AbstractCrudSpec {
   override def checkDatafiles(
       previous: Set[String],
       current: Set[String],
+      changes: Set[Datum]
   ): Unit = {
     val newFiles: Set[String] = current -- previous
     newFiles.foreach { file: String =>

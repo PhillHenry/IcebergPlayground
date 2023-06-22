@@ -41,7 +41,8 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     s"update creates no new files for $mode" in new SimpleFixture {
       val original: Set[String] = files.toSet
       val toUpdate: Datum       = data.tail.head
-      val sql: String           = s"UPDATE $tableName SET label='${toUpdate.label}X' WHERE id=${toUpdate.id}"
+      val updated: Datum        = toUpdate.copy(label = s"${toUpdate.label}X")
+      val sql: String           = s"UPDATE $tableName SET label='${updated.label}' WHERE id=${toUpdate.id}"
       Given(s"SQL:\n$sql")
       When("we execute it")
       spark.sqlContext.sql(sql)
@@ -49,7 +50,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       thenTheDataFilesAre(original)
       val output: Array[Datum]  = andTheTableContains(tableName)
       assert(output.toSet != data.toSet)
-      checkDatafiles(original, files.toSet)
+      checkDatafiles(original, files.toSet, Set(updated))
     }
     s"reading an updated table using $mode" in new SimpleFixture {
       Given("a table that has been updated")
@@ -72,7 +73,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     }
   }
 
-  def checkDatafiles(previous: Set[String], current: Set[String]): Unit
+  def checkDatafiles(previous: Set[String], current: Set[String], changes: Set[Datum]): Unit
 
   private def tableDDL(tableName: String, mode: String) = {
     val createSQL: String = s"""${createDatumTable(tableName)} TBLPROPERTIES (
@@ -89,7 +90,9 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
   def andTheTableContains(tableName: String): Array[Datum] = {
     val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
     val rows: Array[Datum]    = table.collect()
-    And(s"the table contains:\n${rows.mkString("\n")}")
+    And(s"the table contains:\n${toHumanReadable(rows)}")
     rows
   }
+
+  def toHumanReadable(rows: Array[Datum]): String = s"${Console.BLUE}${rows.mkString("\n")}"
 }
