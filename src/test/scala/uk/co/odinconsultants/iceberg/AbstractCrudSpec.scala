@@ -41,7 +41,6 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     s"update creates no new files for $mode" in new SimpleFixture {
       val original: Set[String] = files.toSet
       val toUpdate: Datum       = data.head
-      val fileCount: Int        = dataFilesIn(tableName).length
       val sql: String           = s"UPDATE $tableName SET label='${toUpdate.label}X' WHERE id=${toUpdate.id}"
       Given(s"SQL:\n$sql")
       When("we execute it")
@@ -50,6 +49,15 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       thenTheDataFilesAre(original)
       val output: Array[Datum]  = andTheTableContains(tableName)
       assert(output.toSet != data.toSet)
+    }
+    s"reading an updated table using $mode" in new SimpleFixture {
+      Given("a table that has been updated")
+      val original: Set[String] = files.toSet
+      When("we read from it")
+      val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
+      Then(s"the table still contains ${table.count()} records")
+      And("there are no new data files")
+      assert(dataFilesIn(tableName).toSet == original)
     }
     def thenTheDataFilesAre(previous: Set[String]): Unit = {
       val dir: String            = TestUtils.dataDir(tableName)
