@@ -16,8 +16,8 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
   def mode: String
 
   s"A $mode table" should {
-    val files: MSet[String] = MSet.empty[String]
-    val createSQL: String   = tableDDL(tableName, mode)
+    val files: MSet[String]         = MSet.empty[String]
+    val createSQL: String           = tableDDL(tableName, mode)
     s"create no new files for $mode" in new SimpleFixture {
       Given(s"SQL:\n'$createSQL")
       When("we execute it")
@@ -33,7 +33,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       spark.sqlContext.sql(sql)
       files.addAll(dataFilesIn(tableName))
       assert(files.nonEmpty)
-      Then(s"there are ${files.size} data files")
+      thenTheDataFilesAre()
       val output: Array[Datum] = andTheTableContains(tableName)
       assert(output.toSet == data.toSet)
     }
@@ -45,10 +45,14 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       When("we execute it")
       spark.sqlContext.sql(sql)
       files.addAll(dataFilesIn(tableName))
-      assert(files.size == fileCount)
-      Then(s"there are now ${files.size} data files")
+      thenTheDataFilesAre()
       val output: Array[Datum] = andTheTableContains(tableName)
       assert(output.toSet != data.toSet)
+    }
+    def thenTheDataFilesAre(): Unit = {
+      val dir: String            = TestUtils.dataDir(tableName)
+      val dataFiles: Seq[String] = files.toList.sorted.map((x: String) => x.substring(dir.length))
+      Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}")
     }
   }
 
