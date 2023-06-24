@@ -34,7 +34,8 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       spark.sqlContext.sql(sql)
       files.addAll(dataFilesIn(tableName))
       assert(files.nonEmpty)
-      thenTheDataFilesAre(original)
+      val dataFiles: Seq[String] =thenTheDataFilesAre(original)
+      assert(dataFiles.size == num_partitions * 2) // *2 for CRC files
       val output: Array[Datum]  = andTheTableContains(tableName)
       assert(output.toSet == data.toSet)
     }
@@ -61,7 +62,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       And("there are no new data files")
       assert(dataFilesIn(tableName).toSet == original)
     }
-    def thenTheDataFilesAre(previous: Set[String]): Unit = {
+    def thenTheDataFilesAre(previous: Set[String]): Seq[String] = {
       val dir: String            = TestUtils.dataDir(tableName)
       val dataFiles: Seq[String] =
         files.toList.sorted.map { (x: String) =>
@@ -70,6 +71,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
           else s"${Console.BLUE}$edited"
         }
       Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}")
+      dataFiles
     }
   }
 
