@@ -83,7 +83,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
                                |    'write.merge.mode'='$mode'
                                |) PARTITIONED BY (${classOf[
                                 Datum
-                              ].getDeclaredFields.head.getName}); """.stripMargin
+                              ].getDeclaredFields.last.getName}); """.stripMargin
     createSQL
   }
 

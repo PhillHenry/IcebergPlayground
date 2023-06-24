@@ -7,7 +7,7 @@ import java.lang.reflect.Field
 import java.nio.file.{Path, Paths}
 import scala.annotation.tailrec
 
-case class Datum(id: Int, label: String, aLong: Long)
+case class Datum(id: Int, label: String, partitionKey: Long)
 
 trait Fixture[T] {
   def data: Seq[T]
@@ -71,7 +71,7 @@ object SQL {
       }
       .mkString(",\n")
     val fields: String                       = subquery(_.getName)
-    val values: Seq[String]                  = data.map((x: Datum) => s"(${x.id}, '${x.label}', ${x.aLong})")
+    val values: Seq[String]                  = data.map((x: Datum) => s"(${x.id}, '${x.label}', ${x.partitionKey})")
     s"""INSERT INTO TABLE $tableName ($fields) VALUES ${values.mkString(",\n")}""".stripMargin
   }
 }
