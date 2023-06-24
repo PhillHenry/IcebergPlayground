@@ -13,7 +13,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import java.nio.file.Files
 
 object SparkForTesting {
-  val master   : String    = "local[*]"
+  val master   : String    = "local[2]"
   val tmpDir   : String    = Files.createTempDirectory("SparkForTesting").toString
   val sparkConf: SparkConf = {
     println(s"Using temp directory $tmpDir")

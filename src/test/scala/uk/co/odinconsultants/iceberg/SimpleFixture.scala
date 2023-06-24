@@ -7,7 +7,7 @@ import java.lang.reflect.Field
 import java.nio.file.{Path, Paths}
 import scala.annotation.tailrec
 
-case class Datum(id: Int, label: String)
+case class Datum(id: Int, label: String, aLong: Long)
 
 trait Fixture[T] {
   def data: Seq[T]
@@ -17,7 +17,7 @@ trait SimpleFixture extends Fixture[Datum] {
 
   val tables = new HadoopTables(spark.sparkContext.hadoopConfiguration)
 
-  val data: Seq[Datum] = Seq.range(0, 20).map((i: Int) => Datum(i, s"label_$i"))
+  val data: Seq[Datum] = Seq.range(0, 20).map((i: Int) => Datum(i, s"label_$i", i % 5))
 
   def dataFilesIn(tableName: String): List[String] = {
     val dir: String = TestUtils.dataDir(tableName)
@@ -71,7 +71,7 @@ object SQL {
       }
       .mkString(",\n")
     val fields: String                       = subquery(_.getName)
-    val values: Seq[String]                  = data.map((x: Datum) => s"(${x.id}, '${x.label}')")
+    val values: Seq[String]                  = data.map((x: Datum) => s"(${x.id}, '${x.label}', ${x.aLong})")
     s"""INSERT INTO TABLE $tableName ($fields) VALUES ${values.mkString(",\n")}""".stripMargin
   }
 }
