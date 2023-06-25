@@ -36,6 +36,7 @@ class MergeOnReadSpec extends AbstractCrudSpec {
         val file_path: String              = row.getString(0)
         val pos: Long                      = row.getLong(1)
         val persistedChanges: Array[Datum] = spark.read.parquet(file_path).as[Datum].collect()
+        And(s" the '*-deletes.parquet' file ${simpleFileName(file)} contains a reference to ${simpleFileName(file_path)} which contains:\n${toHumanReadable(persistedChanges)}")
         assert(changes.map(_.id).contains(persistedChanges(pos.toInt).id))
       }
     }
@@ -43,7 +44,7 @@ class MergeOnReadSpec extends AbstractCrudSpec {
     assert(nonDeleteFiles.nonEmpty)
     nonDeleteFiles.foreach { file: String =>
       val actual: Array[Datum] = spark.read.parquet(file).as[Datum].collect()
-      And(s"the new parquet file contains:\n${toHumanReadable(actual)}")
+      And(s"the new parquet file (${simpleFileName(file)}) contains:\n${toHumanReadable(actual)}")
       assert(actual.toSet == changes)
     }
   }

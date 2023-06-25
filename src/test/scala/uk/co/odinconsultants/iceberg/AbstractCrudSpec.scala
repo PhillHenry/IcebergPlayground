@@ -63,16 +63,28 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       assert(dataFilesIn(tableName).toSet == original)
     }
     def thenTheDataFilesAre(previous: Set[String]): Seq[String] = {
-      val dir: String            = TestUtils.dataDir(tableName)
       val dataFiles: Seq[String] =
         files.toList.sorted.map { (x: String) =>
-          val edited: String = x.substring(dir.length)
+          val edited: String = simpleFileName(x)
           if (previous.contains(x)) { s"${Console.GREEN}$edited" }
           else s"${Console.BLUE}$edited"
         }
       Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}")
+      val deleted: Seq[String] =
+        previous.toList
+        .filter((x: String) => !files.contains(x))
+        .sorted
+        .map(simpleFileName).map(simpleFileName)
+      if (deleted.nonEmpty) {
+        And(s"the deleted files are:\n${Console.RED}${deleted.mkString("\n")}")
+      }
       dataFiles
     }
+  }
+
+  def simpleFileName(x: String): String = {
+    val dir: String    = TestUtils.dataDir(tableName)
+    x.substring(dir.length)
   }
 
   def checkDatafiles(previous: Set[String], current: Set[String], changes: Set[Datum]): Unit
