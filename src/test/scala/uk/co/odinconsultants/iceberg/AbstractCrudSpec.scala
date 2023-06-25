@@ -72,7 +72,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}")
       val deleted: Seq[String] =
         previous.toList
-        .filter((x: String) => !files.contains(x))
+        .filter(files.contains)
         .sorted
         .map(simpleFileName).map(simpleFileName)
       if (deleted.nonEmpty) {
