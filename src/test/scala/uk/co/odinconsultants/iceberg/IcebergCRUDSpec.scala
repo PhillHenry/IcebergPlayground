@@ -2,7 +2,6 @@ package uk.co.odinconsultants.iceberg
 
 import org.apache.iceberg.Table
 import org.apache.iceberg.expressions.Expressions
-import org.apache.iceberg.hadoop.HadoopTables
 import org.apache.iceberg.spark.actions.SparkActions
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.GivenWhenThen
