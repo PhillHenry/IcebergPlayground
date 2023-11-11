@@ -11,10 +11,9 @@ import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
 
 import scala.collection.mutable.{Set => MSet}
 
-class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
+class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen with TableNameFixture {
   "A dataset to CRUD" should {
     import spark.implicits._
-    val tableName           = "spark_file_test_writeTo"
     val files: MSet[String] = MSet.empty[String]
 
     "create the appropriate Iceberg files" in new SimpleFixture {
@@ -22,8 +21,7 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen {
       When(s"writing to table '$tableName'")
       spark.createDataFrame(data).writeTo(tableName).create()
       Then("reading the table back yields the same data")
-      val output: Dataset[Datum] = spark.read.table(tableName).as[Datum]
-      assert(output.collect().toSet == data.toSet)
+      assertDataIn(tableName)
       files.addAll(dataFilesIn(tableName))
     }
 

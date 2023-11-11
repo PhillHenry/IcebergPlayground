@@ -1,6 +1,7 @@
 package uk.co.odinconsultants.iceberg
 import org.apache.iceberg.Table
 import org.apache.iceberg.hadoop.HadoopTables
+import org.apache.spark.sql.Dataset
 import uk.co.odinconsultants.SparkForTesting._
 
 import java.lang.reflect.Field
@@ -13,6 +14,10 @@ trait Fixture[T] {
   def data: Seq[T]
 }
 
+trait TableNameFixture {
+  val tableName = this.getClass.getSimpleName.replace("$", "_")
+}
+
 trait SimpleFixture extends Fixture[Datum] {
 
   val num_partitions = 5
@@ -22,6 +27,12 @@ trait SimpleFixture extends Fixture[Datum] {
   val tables = new HadoopTables(spark.sparkContext.hadoopConfiguration)
 
   val data: Seq[Datum] = Seq.range(0, num_rows).map((i: Int) => Datum(i, s"label_$i", i % num_partitions))
+
+  def assertDataIn(tableName: String) = {
+    import spark.implicits._
+    val output: Dataset[Datum] = spark.read.table(tableName).as[Datum]
+    assert(output.collect().toSet == data.toSet)
+  }
 
   def dataFilesIn(tableName: String): List[String] = {
     val dir: String = TestUtils.dataDir(tableName)

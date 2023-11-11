@@ -10,15 +10,13 @@ import scala.concurrent.duration.Duration
 import java.util.concurrent.TimeUnit.MINUTES
 import scala.util.{Try, Failure}
 
-class ConcurrentWriteSpec extends AnyWordSpec with GivenWhenThen {
+class ConcurrentWriteSpec extends AnyWordSpec with GivenWhenThen with TableNameFixture {
   "Concurrent writes" should {
-    val tableName = "spark_file_test_writeTo"
-
     "cause one transaction to fail" in new SimpleFixture {
       def writeData(): Future[Unit] = Future {
         spark.createDataFrame(data).writeTo(tableName).create()
       }
-      Given(s"two threads trying to write data\n${prettyPrintSampleOf(data)}")
+      Given(s"two transactions trying to write data\n${prettyPrintSampleOf(data)}")
       When("both run at the same time")
       val first                     = writeData()
       val second                    = writeData()
@@ -32,6 +30,8 @@ class ConcurrentWriteSpec extends AnyWordSpec with GivenWhenThen {
       }).head
       Then(s"one fails with exception ${failure}")
       assert(failures.size == 1)
+      And("one succeeds")
+      assertDataIn(tableName)
     }
   }
 }
