@@ -19,7 +19,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     val files: MSet[String]                              = MSet.empty[String]
     val createSQL: String                                = tableDDL(tableName, mode)
     s"create no new files for $mode" in new SimpleFixture {
-      Given(s"SQL:\n${Console.BLUE}'$createSQL")
+      Given(s"SQL:\n${Console.BLUE}'$createSQL${Console.RESET}")
       When("we execute it")
       spark.sqlContext.sql(createSQL)
       val table: Table = icebergTable(tableName)
@@ -69,14 +69,14 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
           if (previous.contains(x)) { s"${Console.GREEN}$edited" }
           else s"${Console.BLUE}$edited"
         }
-      Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}")
+      Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}${Console.RESET}")
       val deleted: Seq[String] =
         previous.toList
         .filter(files.contains)
         .sorted
         .map(simpleFileName).map(simpleFileName)
       if (deleted.nonEmpty) {
-        And(s"the deleted files are:\n${Console.RED}${deleted.mkString("\n")}")
+        And(s"the deleted files are:\n${Console.RED}${deleted.mkString("\n")}${Console.RESET}")
       }
       dataFiles
     }
@@ -108,5 +108,5 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     rows
   }
 
-  def toHumanReadable(rows: Array[Datum]): String = s"${Console.BLUE}${rows.mkString("\n")}"
+  def toHumanReadable(rows: Array[Datum]): String = s"${Console.BLUE}${rows.mkString("\n")}${Console.RESET}"
 }
