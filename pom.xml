@@ -159,6 +159,40 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>ansi2html</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>ansi2html</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>/bin/bash</executable>
+                            <arguments>
+                                <argument>-c</argument>
+                                <argument>ansi2html &lt; ${project.basedir}/target/surefire-reports/scenarios.txt &gt; ${project.basedir}/docs/scenarios.html</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
