@@ -9,11 +9,13 @@ class OptimizationSpec extends AnyWordSpec with GivenWhenThen with TableNameFixt
   import spark.implicits._
 
   s"A table" should {
-    s"be optimized" ignore new SimpleFixture {
+    s"be optimized" in new SimpleFixture {
       Given(s"data\n${prettyPrintSampleOf(data)}")
       When(s"writing to table '$tableName'")
       spark.createDataFrame(data).writeTo(tableName).create()
-      "CALL catalog_name.system.rewrite_data_files(table => 'db.sample', where => 'id = 3 and name = \"foo\"')"
+      spark.sqlContext.sql(
+      s"CALL system.rewrite_data_files(table => \"$tableName\", where => 'id = ${data.head.id} and label = \"${data.head.label}\"')"
+      )
     }
   }
 

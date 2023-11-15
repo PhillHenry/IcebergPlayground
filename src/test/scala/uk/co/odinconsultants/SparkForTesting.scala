@@ -32,6 +32,9 @@ object SparkForTesting {
       .set(DEFAULT_CATALOG.key, "local")
       .set(WAREHOUSE_PATH.key, tmpDir)
       .set(s"spark.sql.catalog.local.${CatalogProperties.WAREHOUSE_LOCATION}", tmpDir)
+//      .set("spark.sql.catalog.hive_prod", "org.apache.iceberg.spark.SparkCatalog")
+//      .set("spark.sql.catalog.hive_prod.type", "hive")
+//      .set("spark.sql.catalog.hive_prod.uri", "thrift://localhost:10000")
       .setSparkHome(tmpDir)
   }
   sparkConf.set("spark.driver.allowMultipleContexts", "true")
