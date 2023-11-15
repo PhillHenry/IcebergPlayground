@@ -47,8 +47,8 @@ b.BWHI {background-color: #aaaaaa}
 </head>
 <body>
 <pre>Discovery starting.
-Discovery completed in 66 milliseconds.
-Run starting. Expected test count is: 13
+Discovery completed in 65 milliseconds.
+Run starting. Expected test count is: 14
 IcebergCRUDSpec:
 A dataset to CRUD
 - should create the appropriate Iceberg files
@@ -91,7 +91,13 @@ A dataset to CRUD
   + And the old, cached reference still sees the old snapshot of data 
 OptimizationSpec:
 A table
-- should be optimized !!! IGNORED !!!
+- should be optimized
+  + Given data
+			Datum(0,label_0,0)
+			Datum(1,label_1,1)
+			Datum(2,label_2,2)
+			... 
+  + When writing to table 'OptimizationSpec' 
 ConcurrentWriteSpec:
 Concurrent writes
 - should cause one transaction to fail
@@ -101,7 +107,7 @@ Concurrent writes
 			Datum(2,label_2,2)
 			... 
   + When both run at the same time 
-  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting3649112864696740207/ConcurrentWriteSpec/metadata/v1.metadata.json 
+  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting8341238866585557867/ConcurrentWriteSpec/metadata/v1.metadata.json 
   + And one succeeds 
 MergeOnReadSpec:
 A merge-on-read table
@@ -116,7 +122,7 @@ partitionKey long) TBLPROPERTIES (
     'write.merge.mode'='merge-on-read'
 ) PARTITIONED BY (partitionKey); </b> 
   + When we execute it 
-  + Then there is an Iceberg table, /tmp/SparkForTesting3649112864696740207/mor_table 
+  + Then there is an Iceberg table, /tmp/SparkForTesting8341238866585557867/mor_table 
 - should insert creates new files for merge-on-read
   + Given SQL:
 INSERT INTO TABLE mor_table (id,
@@ -143,16 +149,16 @@ partitionKey) VALUES (0, 'label_0', 0),
 (19, 'label_19', 4) 
   + When we execute it 
   + Then there are now 10 data files:
-<b class=BLU>/partitionKey=0/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00001.parquet.crc
-</b><b class=BLU>/partitionKey=0/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00001.parquet
-</b><b class=BLU>/partitionKey=1/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00002.parquet.crc
-</b><b class=BLU>/partitionKey=1/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00002.parquet
-</b><b class=BLU>/partitionKey=2/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00004.parquet.crc
-</b><b class=BLU>/partitionKey=2/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00004.parquet
-</b><b class=BLU>/partitionKey=3/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00003.parquet.crc
-</b><b class=BLU>/partitionKey=3/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00003.parquet
-</b><b class=BLU>/partitionKey=4/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00005.parquet.crc
-</b><b class=BLU>/partitionKey=4/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00005.parquet</b> 
+<b class=BLU>/partitionKey=0/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00001.parquet.crc
+</b><b class=BLU>/partitionKey=0/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00001.parquet
+</b><b class=BLU>/partitionKey=1/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00002.parquet.crc
+</b><b class=BLU>/partitionKey=1/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00002.parquet
+</b><b class=BLU>/partitionKey=2/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00004.parquet.crc
+</b><b class=BLU>/partitionKey=2/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00004.parquet
+</b><b class=BLU>/partitionKey=3/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00003.parquet.crc
+</b><b class=BLU>/partitionKey=3/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00003.parquet
+</b><b class=BLU>/partitionKey=4/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00005.parquet.crc
+</b><b class=BLU>/partitionKey=4/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00005.parquet</b> 
   + And the table contains:
 <b class=BLU>Datum(0,label_0,0)
 Datum(1,label_1,1)
@@ -179,31 +185,31 @@ Datum(19,label_19,4)</b>
 UPDATE mor_table SET label='label_1X' WHERE id=1 
   + When we execute it 
   + Then there are now 14 data files:
-<b class=GRN>/partitionKey=0/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00001.parquet.crc
-</b><b class=GRN>/partitionKey=0/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00001.parquet
-</b><b class=GRN>/partitionKey=1/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00002.parquet.crc
-</b><b class=BLU>/partitionKey=1/.00000-26-f0c9db43-807b-41b9-9e02-40781b8cebfb-00001-deletes.parquet.crc
-</b><b class=BLU>/partitionKey=1/.00000-26-f0c9db43-807b-41b9-9e02-40781b8cebfb-00001.parquet.crc
-</b><b class=GRN>/partitionKey=1/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00002.parquet
-</b><b class=BLU>/partitionKey=1/00000-26-f0c9db43-807b-41b9-9e02-40781b8cebfb-00001-deletes.parquet
-</b><b class=BLU>/partitionKey=1/00000-26-f0c9db43-807b-41b9-9e02-40781b8cebfb-00001.parquet
-</b><b class=GRN>/partitionKey=2/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00004.parquet.crc
-</b><b class=GRN>/partitionKey=2/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00004.parquet
-</b><b class=GRN>/partitionKey=3/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00003.parquet.crc
-</b><b class=GRN>/partitionKey=3/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00003.parquet
-</b><b class=GRN>/partitionKey=4/.00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00005.parquet.crc
-</b><b class=GRN>/partitionKey=4/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00005.parquet</b> 
+<b class=GRN>/partitionKey=0/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00001.parquet.crc
+</b><b class=GRN>/partitionKey=0/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00001.parquet
+</b><b class=GRN>/partitionKey=1/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00002.parquet.crc
+</b><b class=BLU>/partitionKey=1/.00000-28-41d56025-62fe-49db-81d9-1e248e87985e-00001-deletes.parquet.crc
+</b><b class=BLU>/partitionKey=1/.00000-28-41d56025-62fe-49db-81d9-1e248e87985e-00001.parquet.crc
+</b><b class=GRN>/partitionKey=1/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00002.parquet
+</b><b class=BLU>/partitionKey=1/00000-28-41d56025-62fe-49db-81d9-1e248e87985e-00001-deletes.parquet
+</b><b class=BLU>/partitionKey=1/00000-28-41d56025-62fe-49db-81d9-1e248e87985e-00001.parquet
+</b><b class=GRN>/partitionKey=2/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00004.parquet.crc
+</b><b class=GRN>/partitionKey=2/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00004.parquet
+</b><b class=GRN>/partitionKey=3/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00003.parquet.crc
+</b><b class=GRN>/partitionKey=3/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00003.parquet
+</b><b class=GRN>/partitionKey=4/.00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00005.parquet.crc
+</b><b class=GRN>/partitionKey=4/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00005.parquet</b> 
   + And the deleted files are:
-<b class=RED>24146f35-00001.parquet.crc
-4146f35-00001.parquet
-24146f35-00002.parquet.crc
-4146f35-00002.parquet
-24146f35-00004.parquet.crc
-4146f35-00004.parquet
-24146f35-00003.parquet.crc
-4146f35-00003.parquet
-24146f35-00005.parquet.crc
-4146f35-00005.parquet</b> 
+<b class=RED>de51f399-00001.parquet.crc
+e51f399-00001.parquet
+de51f399-00002.parquet.crc
+e51f399-00002.parquet
+de51f399-00004.parquet.crc
+e51f399-00004.parquet
+de51f399-00003.parquet.crc
+e51f399-00003.parquet
+de51f399-00005.parquet.crc
+e51f399-00005.parquet</b> 
   + And the table contains:
 <b class=BLU>Datum(0,label_0,0)
 Datum(1,label_1X,1)
@@ -225,12 +231,12 @@ Datum(16,label_16,1)
 Datum(17,label_17,2)
 Datum(18,label_18,3)
 Datum(19,label_19,4)</b> 
-  + And  the '*-deletes.parquet' file /partitionKey=1/00000-26-f0c9db43-807b-41b9-9e02-40781b8cebfb-00001-deletes.parquet contains a reference to /partitionKey=1/00000-22-9c24a644-b38c-4993-b5c1-008524146f35-00002.parquet which contains:
+  + And  the '*-deletes.parquet' file /partitionKey=1/00000-28-41d56025-62fe-49db-81d9-1e248e87985e-00001-deletes.parquet contains a reference to /partitionKey=1/00000-24-e99bdc59-1736-4eb4-a685-18e6de51f399-00002.parquet which contains:
 <b class=BLU>Datum(1,label_1,1)
 Datum(6,label_6,1)
 Datum(11,label_11,1)
 Datum(16,label_16,1)</b> 
-  + And the new parquet file (/partitionKey=1/00000-26-f0c9db43-807b-41b9-9e02-40781b8cebfb-00001.parquet) contains:
+  + And the new parquet file (/partitionKey=1/00000-28-41d56025-62fe-49db-81d9-1e248e87985e-00001.parquet) contains:
 <b class=BLU>Datum(1,label_1X,1)</b> 
 - should reading an updated table using merge-on-read
   + Given a table that has been updated 
@@ -250,7 +256,7 @@ partitionKey long) TBLPROPERTIES (
     'write.merge.mode'='copy-on-write'
 ) PARTITIONED BY (partitionKey); </b> 
   + When we execute it 
-  + Then there is an Iceberg table, /tmp/SparkForTesting3649112864696740207/cow_table 
+  + Then there is an Iceberg table, /tmp/SparkForTesting8341238866585557867/cow_table 
 - should insert creates new files for copy-on-write
   + Given SQL:
 INSERT INTO TABLE cow_table (id,
@@ -277,16 +283,16 @@ partitionKey) VALUES (0, 'label_0', 0),
 (19, 'label_19', 4) 
   + When we execute it 
   + Then there are now 10 data files:
-<b class=BLU>/partitionKey=0/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00001.parquet.crc
-</b><b class=BLU>/partitionKey=0/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00001.parquet
-</b><b class=BLU>/partitionKey=1/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00002.parquet.crc
-</b><b class=BLU>/partitionKey=1/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00002.parquet
-</b><b class=BLU>/partitionKey=2/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00004.parquet.crc
-</b><b class=BLU>/partitionKey=2/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00004.parquet
-</b><b class=BLU>/partitionKey=3/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00003.parquet.crc
-</b><b class=BLU>/partitionKey=3/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00003.parquet
-</b><b class=BLU>/partitionKey=4/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00005.parquet.crc
-</b><b class=BLU>/partitionKey=4/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00005.parquet</b> 
+<b class=BLU>/partitionKey=0/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00001.parquet.crc
+</b><b class=BLU>/partitionKey=0/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00001.parquet
+</b><b class=BLU>/partitionKey=1/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00002.parquet.crc
+</b><b class=BLU>/partitionKey=1/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00002.parquet
+</b><b class=BLU>/partitionKey=2/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00004.parquet.crc
+</b><b class=BLU>/partitionKey=2/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00004.parquet
+</b><b class=BLU>/partitionKey=3/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00003.parquet.crc
+</b><b class=BLU>/partitionKey=3/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00003.parquet
+</b><b class=BLU>/partitionKey=4/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00005.parquet.crc
+</b><b class=BLU>/partitionKey=4/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00005.parquet</b> 
   + And the table contains:
 <b class=BLU>Datum(0,label_0,0)
 Datum(1,label_1,1)
@@ -313,29 +319,29 @@ Datum(19,label_19,4)</b>
 UPDATE cow_table SET label='label_1X' WHERE id=1 
   + When we execute it 
   + Then there are now 12 data files:
-<b class=GRN>/partitionKey=0/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00001.parquet.crc
-</b><b class=GRN>/partitionKey=0/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00001.parquet
-</b><b class=GRN>/partitionKey=1/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00002.parquet.crc
-</b><b class=BLU>/partitionKey=1/.00000-47-00314c50-0700-4adf-8de3-f5f4699edcc0-00001.parquet.crc
-</b><b class=GRN>/partitionKey=1/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00002.parquet
-</b><b class=BLU>/partitionKey=1/00000-47-00314c50-0700-4adf-8de3-f5f4699edcc0-00001.parquet
-</b><b class=GRN>/partitionKey=2/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00004.parquet.crc
-</b><b class=GRN>/partitionKey=2/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00004.parquet
-</b><b class=GRN>/partitionKey=3/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00003.parquet.crc
-</b><b class=GRN>/partitionKey=3/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00003.parquet
-</b><b class=GRN>/partitionKey=4/.00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00005.parquet.crc
-</b><b class=GRN>/partitionKey=4/00000-41-e2702943-032d-49f3-8bbf-b640cfa72bc4-00005.parquet</b> 
+<b class=GRN>/partitionKey=0/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00001.parquet.crc
+</b><b class=GRN>/partitionKey=0/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00001.parquet
+</b><b class=GRN>/partitionKey=1/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00002.parquet.crc
+</b><b class=BLU>/partitionKey=1/.00000-49-40171aad-b3c4-4112-9d01-4490bb0e6df5-00001.parquet.crc
+</b><b class=GRN>/partitionKey=1/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00002.parquet
+</b><b class=BLU>/partitionKey=1/00000-49-40171aad-b3c4-4112-9d01-4490bb0e6df5-00001.parquet
+</b><b class=GRN>/partitionKey=2/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00004.parquet.crc
+</b><b class=GRN>/partitionKey=2/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00004.parquet
+</b><b class=GRN>/partitionKey=3/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00003.parquet.crc
+</b><b class=GRN>/partitionKey=3/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00003.parquet
+</b><b class=GRN>/partitionKey=4/.00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00005.parquet.crc
+</b><b class=GRN>/partitionKey=4/00000-43-d7172657-40e0-4f0c-bbc3-9e2d0676ab9c-00005.parquet</b> 
   + And the deleted files are:
-<b class=RED>cfa72bc4-00001.parquet.crc
-fa72bc4-00001.parquet
-cfa72bc4-00002.parquet.crc
-fa72bc4-00002.parquet
-cfa72bc4-00004.parquet.crc
-fa72bc4-00004.parquet
-cfa72bc4-00003.parquet.crc
-fa72bc4-00003.parquet
-cfa72bc4-00005.parquet.crc
-fa72bc4-00005.parquet</b> 
+<b class=RED>0676ab9c-00001.parquet.crc
+676ab9c-00001.parquet
+0676ab9c-00002.parquet.crc
+676ab9c-00002.parquet
+0676ab9c-00004.parquet.crc
+676ab9c-00004.parquet
+0676ab9c-00003.parquet.crc
+676ab9c-00003.parquet
+0676ab9c-00005.parquet.crc
+676ab9c-00005.parquet</b> 
   + And the table contains:
 <b class=BLU>Datum(0,label_0,0)
 Datum(1,label_1X,1)
@@ -363,10 +369,10 @@ Datum(19,label_19,4)</b>
   + When we read from it 
   + Then the table still contains 20 records 
   + And there are no new data files 
-Run completed in 10 seconds, 992 milliseconds.
-Total number of tests run: 13
+Run completed in 14 seconds, 813 milliseconds.
+Total number of tests run: 14
 Suites: completed 7, aborted 0
-Tests: succeeded 13, failed 0, canceled 0, ignored 2, pending 0
+Tests: succeeded 14, failed 0, canceled 0, ignored 1, pending 0
 All tests passed.
 </pre>
 </body>
