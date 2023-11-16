@@ -10,7 +10,7 @@ import scala.concurrent.duration.Duration
 import java.util.concurrent.TimeUnit.MINUTES
 import scala.util.{Try, Failure}
 
-class ConcurrentWriteSpec extends AnyWordSpec with GivenWhenThen with TableNameFixture {
+class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
   "Concurrent writes" should {
     "cause one transaction to fail" in new SimpleFixture {
       def writeData(): Future[Unit] = Future {

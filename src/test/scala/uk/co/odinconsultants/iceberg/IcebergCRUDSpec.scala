@@ -7,11 +7,11 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.GivenWhenThen
 import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
+import uk.co.odinconsultants.SpecFormats.{formatSQL, prettyPrintSampleOf}
 
 import scala.collection.mutable.{Set => MSet}
 
-class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen with TableNameFixture {
+class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
   "A dataset to CRUD" should {
     import spark.implicits._
     val files: MSet[String] = MSet.empty[String]
@@ -28,7 +28,7 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen with TableNameFixtu
     val newVal    = "ipse locum"
     val updateSql = s"update $tableName set label='$newVal'"
     s"support updates with '$updateSql'" in new SimpleFixture {
-      Given(s"SQL '$updateSql")
+      Given(s"SQL ${formatSQL(updateSql)}")
       When("we execute it")
       spark.sqlContext.sql(updateSql)
       Then("all rows are updated")
@@ -48,7 +48,7 @@ class IcebergCRUDSpec extends AnyWordSpec with GivenWhenThen with TableNameFixtu
     val alterTable =
       s"ALTER TABLE $tableName ADD COLUMNS ($newColumn string comment '$newColumn docs')"
     s"updates the schema" in {
-      Given(s"SQL '$alterTable")
+      Given(s"SQL ${formatSQL(alterTable)}")
       When("we execute it")
       spark.sqlContext.sql(alterTable)
       Then("all rows are updated")

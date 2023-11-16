@@ -2,13 +2,13 @@ package uk.co.odinconsultants.iceberg
 import org.apache.iceberg.Table
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
-import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
+import uk.co.odinconsultants.SpecFormats.{formatSQL, toHumanReadable}
 import uk.co.odinconsultants.iceberg.SQL.{createDatumTable, insertSQL}
 
 import scala.collection.mutable.{Set => MSet}
 
-abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
+abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen {
 
   import spark.implicits._
 
@@ -19,7 +19,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     val files: MSet[String]                              = MSet.empty[String]
     val createSQL: String                                = tableDDL(tableName, mode)
     s"create no new files for $mode" in new SimpleFixture {
-      Given(s"SQL:\n${Console.BLUE}'$createSQL${Console.RESET}")
+      Given(s"SQL:${formatSQL(createSQL)}")
       When("we execute it")
       spark.sqlContext.sql(createSQL)
       val table: Table = icebergTable(tableName)
@@ -29,7 +29,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     s"insert creates new files for $mode" in new SimpleFixture {
       val sql: String           = insertSQL(tableName, data)
       val original: Set[String] = files.toSet
-      Given(s"SQL:\n$sql")
+      Given(s"SQL:${formatSQL(sql)}")
       When("we execute it")
       spark.sqlContext.sql(sql)
       files.addAll(dataFilesIn(tableName))
@@ -44,7 +44,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
       val toUpdate: Datum       = data.tail.head
       val updated: Datum        = toUpdate.copy(label = s"${toUpdate.label}X")
       val sql: String           = s"UPDATE $tableName SET label='${updated.label}' WHERE id=${toUpdate.id}"
-      Given(s"SQL:\n$sql")
+      Given(s"SQL:${formatSQL(sql)}")
       When("we execute it")
       spark.sqlContext.sql(sql)
       files.addAll(dataFilesIn(tableName))
@@ -67,7 +67,7 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
         files.toList.sorted.map { (x: String) =>
           val edited: String = simpleFileName(x)
           if (previous.contains(x)) { s"${Console.GREEN}$edited" }
-          else s"${Console.BLUE}$edited"
+          else s"${Console.CYAN}$edited"
         }
       Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}${Console.RESET}")
       val deleted: Seq[String] =
@@ -108,5 +108,4 @@ abstract class AbstractCrudSpec extends AnyWordSpec with GivenWhenThen {
     rows
   }
 
-  def toHumanReadable(rows: Array[Datum]): String = s"${Console.BLUE}${rows.mkString("\n")}${Console.RESET}"
 }

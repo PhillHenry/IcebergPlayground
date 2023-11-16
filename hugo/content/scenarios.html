@@ -47,334 +47,387 @@ b.BWHI {background-color: #aaaaaa}
 </head>
 <body>
 <pre>Discovery starting.
-Discovery completed in 82 milliseconds.
+Discovery completed in 67 milliseconds.
 Run starting. Expected test count is: 14
 IcebergCRUDSpec:
 A dataset to CRUD
 - should create the appropriate Iceberg files
   + Given data
-			Datum(0,label_0,0)
-			Datum(1,label_1,1)
-			Datum(2,label_2,2)
+			<b class=YEL>Datum(0,label_0,0)
+			</b><b class=MAG>Datum(1,label_1,1)
+			</b><b class=YEL>Datum(2,label_2,2)
+			</b>
 			... 
   + When writing to table 'IcebergCRUDSpec' 
   + Then reading the table back yields the same data 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should support updates with 'update IcebergCRUDSpec set label='ipse locum''
-  + Given SQL 'update IcebergCRUDSpec set label='ipse locum' 
+  + Given SQL 
+<b class=YEL>update
+  IcebergCRUDSpec
+set
+  label = 'ipse locum'</b> 
   + When we execute it 
   + Then all rows are updated 
   + And look like:
-			Datum(10,ipse locum,0)
-			Datum(11,ipse locum,1)
-			Datum(12,ipse locum,2)
+			<b class=YEL>Datum(10,ipse locum,0)
+			</b><b class=MAG>Datum(11,ipse locum,1)
+			</b><b class=YEL>Datum(12,ipse locum,2)
+			</b>
 			... 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should updates the schema
-  + Given SQL 'ALTER TABLE IcebergCRUDSpec ADD COLUMNS (new_string string comment 'new_string docs') 
+  + Given SQL 
+<b class=YEL>ALTER TABLE
+  IcebergCRUDSpec
+ADD
+  COLUMNS (new_string string comment 'new_string docs')</b> 
   + When we execute it 
   + Then all rows are updated 
   + And look like:
-			[10,ipse locum,0,null]
-			[11,ipse locum,1,null]
-			[12,ipse locum,2,null]
+			<b class=YEL>[10,ipse locum,0,null]
+			</b><b class=MAG>[11,ipse locum,1,null]
+			</b><b class=YEL>[12,ipse locum,2,null]
+			</b>
 			... 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should when vacuumed, have old files removed !!! IGNORED !!!
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 CachingSpec:
 A dataset to CRUD
 - should create the appropriate Iceberg files
   + Given data
-			Datum(0,label_0,0)
-			Datum(1,label_1,1)
-			Datum(2,label_2,2)
+			<b class=YEL>Datum(0,label_0,0)
+			</b><b class=MAG>Datum(1,label_1,1)
+			</b><b class=YEL>Datum(2,label_2,2)
+			</b>
 			... 
   + When we cache one Dataset and then append more data to the same table 
   + Then reading via a new Dataset reference shows the appended data 
   + And the old, cached reference still sees the old snapshot of data 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 OptimizationSpec:
 A table
 - should be optimized
   + Given data
-			Datum(0,label_0,0)
-			Datum(1,label_1,1)
-			Datum(2,label_2,2)
+			<b class=YEL>Datum(0,label_0,0)
+			</b><b class=MAG>Datum(1,label_1,1)
+			</b><b class=YEL>Datum(2,label_2,2)
+			</b>
 			... 
   + When writing 200000 rows to table 'OptimizationSpec' 
-  + And we execute the SQL 'CALL system.rewrite_data_files(table =&gt; "OptimizationSpec", where =&gt; 'partitionKey = 0')' 
+  + And we execute the SQL 
+<b class=YEL>CALL system.rewrite_data_files(
+  table = &gt; "OptimizationSpec",
+  where
+    = &gt; 'partitionKey = 0'
+)</b> 
   + Then the files added are:
  
   + And the files removed are:
  
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 ConcurrentWriteSpec:
 Concurrent writes
 - should cause one transaction to fail
   + Given two transactions trying to write data
-			Datum(0,label_0,0)
-			Datum(1,label_1,1)
-			Datum(2,label_2,2)
+			<b class=YEL>Datum(0,label_0,0)
+			</b><b class=MAG>Datum(1,label_1,1)
+			</b><b class=YEL>Datum(2,label_2,2)
+			</b>
 			... 
   + When both run at the same time 
-  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting2953617198671360166/ConcurrentWriteSpec/metadata/v1.metadata.json 
+  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting7160137248990096/ConcurrentWriteSpec/metadata/v1.metadata.json 
   + And one succeeds 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 MergeOnReadSpec:
 A merge-on-read table
 - should create no new files for merge-on-read
   + Given SQL:
-<b class=BLU>'CREATE TABLE mor_table (id int,
-label String,
-partitionKey long) TBLPROPERTIES (
-    'format-version' = '2',
-    'write.delete.mode'='merge-on-read',
-    'write.update.mode'='merge-on-read',
-    'write.merge.mode'='merge-on-read'
-) PARTITIONED BY (partitionKey); </b> 
+<b class=YEL>CREATE TABLE mor_table (id int, label String, partitionKey long) TBLPROPERTIES (
+  'format-version' = '2',
+  'write.delete.mode' = 'merge-on-read',
+  'write.update.mode' = 'merge-on-read',
+  'write.merge.mode' = 'merge-on-read'
+) PARTITIONED BY (partitionKey);</b> 
   + When we execute it 
-  + Then there is an Iceberg table, /tmp/SparkForTesting2953617198671360166/mor_table 
+  + Then there is an Iceberg table, /tmp/SparkForTesting7160137248990096/mor_table 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should insert creates new files for merge-on-read
   + Given SQL:
-INSERT INTO TABLE mor_table (id,
-label,
-partitionKey) VALUES (0, 'label_0', 0),
-(1, 'label_1', 1),
-(2, 'label_2', 2),
-(3, 'label_3', 3),
-(4, 'label_4', 4),
-(5, 'label_5', 0),
-(6, 'label_6', 1),
-(7, 'label_7', 2),
-(8, 'label_8', 3),
-(9, 'label_9', 4),
-(10, 'label_10', 0),
-(11, 'label_11', 1),
-(12, 'label_12', 2),
-(13, 'label_13', 3),
-(14, 'label_14', 4),
-(15, 'label_15', 0),
-(16, 'label_16', 1),
-(17, 'label_17', 2),
-(18, 'label_18', 3),
-(19, 'label_19', 4) 
+<b class=YEL>INSERT INTO
+  TABLE mor_table (id, label, partitionKey)
+VALUES
+  (0, 'label_0', 0),
+  (1, 'label_1', 1),
+  (2, 'label_2', 2),
+  (3, 'label_3', 3),
+  (4, 'label_4', 4),
+  (5, 'label_5', 0),
+  (6, 'label_6', 1),
+  (7, 'label_7', 2),
+  (8, 'label_8', 3),
+  (9, 'label_9', 4),
+  (10, 'label_10', 0),
+  (11, 'label_11', 1),
+  (12, 'label_12', 2),
+  (13, 'label_13', 3),
+  (14, 'label_14', 4),
+  (15, 'label_15', 0),
+  (16, 'label_16', 1),
+  (17, 'label_17', 2),
+  (18, 'label_18', 3),
+  (19, 'label_19', 4)</b> 
   + When we execute it 
   + Then there are now 10 data files:
-<b class=BLU>/partitionKey=0/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00001.parquet.crc
-</b><b class=BLU>/partitionKey=0/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00001.parquet
-</b><b class=BLU>/partitionKey=1/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00002.parquet.crc
-</b><b class=BLU>/partitionKey=1/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00002.parquet
-</b><b class=BLU>/partitionKey=2/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00004.parquet.crc
-</b><b class=BLU>/partitionKey=2/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00004.parquet
-</b><b class=BLU>/partitionKey=3/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00003.parquet.crc
-</b><b class=BLU>/partitionKey=3/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00003.parquet
-</b><b class=BLU>/partitionKey=4/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00005.parquet.crc
-</b><b class=BLU>/partitionKey=4/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00005.parquet</b> 
+<b class=CYN>/partitionKey=0/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00001.parquet.crc
+</b><b class=CYN>/partitionKey=0/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00001.parquet
+</b><b class=CYN>/partitionKey=1/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet
+</b><b class=CYN>/partitionKey=2/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00004.parquet.crc
+</b><b class=CYN>/partitionKey=2/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00004.parquet
+</b><b class=CYN>/partitionKey=3/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00003.parquet.crc
+</b><b class=CYN>/partitionKey=3/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00003.parquet
+</b><b class=CYN>/partitionKey=4/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00005.parquet.crc
+</b><b class=CYN>/partitionKey=4/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00005.parquet</b> 
   + And the table contains:
-<b class=BLU>Datum(0,label_0,0)
-Datum(1,label_1,1)
-Datum(2,label_2,2)
-Datum(3,label_3,3)
-Datum(4,label_4,4)
-Datum(5,label_5,0)
-Datum(6,label_6,1)
-Datum(7,label_7,2)
-Datum(8,label_8,3)
-Datum(9,label_9,4)
-Datum(10,label_10,0)
-Datum(11,label_11,1)
-Datum(12,label_12,2)
-Datum(13,label_13,3)
-Datum(14,label_14,4)
-Datum(15,label_15,0)
-Datum(16,label_16,1)
-Datum(17,label_17,2)
-Datum(18,label_18,3)
-Datum(19,label_19,4)</b> 
+<b class=YEL>Datum(0,label_0,0)
+</b><b class=MAG>Datum(1,label_1,1)
+</b><b class=YEL>Datum(2,label_2,2)
+</b><b class=MAG>Datum(3,label_3,3)
+</b><b class=YEL>Datum(4,label_4,4)
+</b><b class=MAG>Datum(5,label_5,0)
+</b><b class=YEL>Datum(6,label_6,1)
+</b><b class=MAG>Datum(7,label_7,2)
+</b><b class=YEL>Datum(8,label_8,3)
+</b><b class=MAG>Datum(9,label_9,4)
+</b><b class=YEL>Datum(10,label_10,0)
+</b><b class=MAG>Datum(11,label_11,1)
+</b><b class=YEL>Datum(12,label_12,2)
+</b><b class=MAG>Datum(13,label_13,3)
+</b><b class=YEL>Datum(14,label_14,4)
+</b><b class=MAG>Datum(15,label_15,0)
+</b><b class=YEL>Datum(16,label_16,1)
+</b><b class=MAG>Datum(17,label_17,2)
+</b><b class=YEL>Datum(18,label_18,3)
+</b><b class=MAG>Datum(19,label_19,4)
+</b> 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should update creates no new files for merge-on-read
   + Given SQL:
-UPDATE mor_table SET label='label_1X' WHERE id=1 
+<b class=YEL>UPDATE
+  mor_table
+SET
+  label = 'label_1X'
+WHERE
+  id = 1</b> 
   + When we execute it 
   + Then there are now 14 data files:
-<b class=GRN>/partitionKey=0/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00001.parquet.crc
-</b><b class=GRN>/partitionKey=0/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00001.parquet
-</b><b class=GRN>/partitionKey=1/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00002.parquet.crc
-</b><b class=BLU>/partitionKey=1/.00000-28-b220020b-e3f2-412c-a3bd-b658b18e5023-00001-deletes.parquet.crc
-</b><b class=BLU>/partitionKey=1/.00000-28-b220020b-e3f2-412c-a3bd-b658b18e5023-00001.parquet.crc
-</b><b class=GRN>/partitionKey=1/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00002.parquet
-</b><b class=BLU>/partitionKey=1/00000-28-b220020b-e3f2-412c-a3bd-b658b18e5023-00001-deletes.parquet
-</b><b class=BLU>/partitionKey=1/00000-28-b220020b-e3f2-412c-a3bd-b658b18e5023-00001.parquet
-</b><b class=GRN>/partitionKey=2/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00004.parquet.crc
-</b><b class=GRN>/partitionKey=2/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00004.parquet
-</b><b class=GRN>/partitionKey=3/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00003.parquet.crc
-</b><b class=GRN>/partitionKey=3/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00003.parquet
-</b><b class=GRN>/partitionKey=4/.00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00005.parquet.crc
-</b><b class=GRN>/partitionKey=4/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00005.parquet</b> 
+<b class=GRN>/partitionKey=0/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00001.parquet.crc
+</b><b class=GRN>/partitionKey=0/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00001.parquet
+</b><b class=GRN>/partitionKey=1/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/.00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001-deletes.parquet.crc
+</b><b class=CYN>/partitionKey=1/.00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001.parquet.crc
+</b><b class=GRN>/partitionKey=1/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet
+</b><b class=CYN>/partitionKey=1/00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001-deletes.parquet
+</b><b class=CYN>/partitionKey=1/00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001.parquet
+</b><b class=GRN>/partitionKey=2/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00004.parquet.crc
+</b><b class=GRN>/partitionKey=2/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00004.parquet
+</b><b class=GRN>/partitionKey=3/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00003.parquet.crc
+</b><b class=GRN>/partitionKey=3/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00003.parquet
+</b><b class=GRN>/partitionKey=4/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00005.parquet.crc
+</b><b class=GRN>/partitionKey=4/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00005.parquet</b> 
   + And the deleted files are:
-<b class=RED>360b9e35-00001.parquet.crc
-60b9e35-00001.parquet
-360b9e35-00002.parquet.crc
-60b9e35-00002.parquet
-360b9e35-00004.parquet.crc
-60b9e35-00004.parquet
-360b9e35-00003.parquet.crc
-60b9e35-00003.parquet
-360b9e35-00005.parquet.crc
-60b9e35-00005.parquet</b> 
+<b class=RED>2b19bd0e1cd-00001.parquet.crc
+b19bd0e1cd-00001.parquet
+2b19bd0e1cd-00002.parquet.crc
+b19bd0e1cd-00002.parquet
+2b19bd0e1cd-00004.parquet.crc
+b19bd0e1cd-00004.parquet
+2b19bd0e1cd-00003.parquet.crc
+b19bd0e1cd-00003.parquet
+2b19bd0e1cd-00005.parquet.crc
+b19bd0e1cd-00005.parquet</b> 
   + And the table contains:
-<b class=BLU>Datum(0,label_0,0)
-Datum(1,label_1X,1)
-Datum(2,label_2,2)
-Datum(3,label_3,3)
-Datum(4,label_4,4)
-Datum(5,label_5,0)
-Datum(6,label_6,1)
-Datum(7,label_7,2)
-Datum(8,label_8,3)
-Datum(9,label_9,4)
-Datum(10,label_10,0)
-Datum(11,label_11,1)
-Datum(12,label_12,2)
-Datum(13,label_13,3)
-Datum(14,label_14,4)
-Datum(15,label_15,0)
-Datum(16,label_16,1)
-Datum(17,label_17,2)
-Datum(18,label_18,3)
-Datum(19,label_19,4)</b> 
-  + And  the '*-deletes.parquet' file /partitionKey=1/00000-28-b220020b-e3f2-412c-a3bd-b658b18e5023-00001-deletes.parquet contains a reference to /partitionKey=1/00000-24-d9027298-ff4e-4166-ab03-079f360b9e35-00002.parquet which contains:
-<b class=BLU>Datum(1,label_1,1)
-Datum(6,label_6,1)
-Datum(11,label_11,1)
-Datum(16,label_16,1)</b> 
-  + And the new parquet file (/partitionKey=1/00000-28-b220020b-e3f2-412c-a3bd-b658b18e5023-00001.parquet) contains:
-<b class=BLU>Datum(1,label_1X,1)</b> 
+<b class=YEL>Datum(0,label_0,0)
+</b><b class=MAG>Datum(1,label_1X,1)
+</b><b class=YEL>Datum(2,label_2,2)
+</b><b class=MAG>Datum(3,label_3,3)
+</b><b class=YEL>Datum(4,label_4,4)
+</b><b class=MAG>Datum(5,label_5,0)
+</b><b class=YEL>Datum(6,label_6,1)
+</b><b class=MAG>Datum(7,label_7,2)
+</b><b class=YEL>Datum(8,label_8,3)
+</b><b class=MAG>Datum(9,label_9,4)
+</b><b class=YEL>Datum(10,label_10,0)
+</b><b class=MAG>Datum(11,label_11,1)
+</b><b class=YEL>Datum(12,label_12,2)
+</b><b class=MAG>Datum(13,label_13,3)
+</b><b class=YEL>Datum(14,label_14,4)
+</b><b class=MAG>Datum(15,label_15,0)
+</b><b class=YEL>Datum(16,label_16,1)
+</b><b class=MAG>Datum(17,label_17,2)
+</b><b class=YEL>Datum(18,label_18,3)
+</b><b class=MAG>Datum(19,label_19,4)
+</b> 
+  + And  the '*-deletes.parquet' file /partitionKey=1/00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001-deletes.parquet contains a reference to /partitionKey=1/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet which contains:
+<b class=YEL>Datum(1,label_1,1)
+</b><b class=MAG>Datum(6,label_6,1)
+</b><b class=YEL>Datum(11,label_11,1)
+</b><b class=MAG>Datum(16,label_16,1)
+</b> 
+  + And the new parquet file (/partitionKey=1/00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001.parquet) contains:
+<b class=YEL>Datum(1,label_1X,1)
+</b> 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should reading an updated table using merge-on-read
   + Given a table that has been updated 
   + When we read from it 
   + Then the table still contains 20 records 
   + And there are no new data files 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 CopyOnWriteSpec:
 A copy-on-write table
 - should create no new files for copy-on-write
   + Given SQL:
-<b class=BLU>'CREATE TABLE cow_table (id int,
-label String,
-partitionKey long) TBLPROPERTIES (
-    'format-version' = '2',
-    'write.delete.mode'='copy-on-write',
-    'write.update.mode'='copy-on-write',
-    'write.merge.mode'='copy-on-write'
-) PARTITIONED BY (partitionKey); </b> 
+<b class=YEL>CREATE TABLE cow_table (id int, label String, partitionKey long) TBLPROPERTIES (
+  'format-version' = '2',
+  'write.delete.mode' = 'copy-on-write',
+  'write.update.mode' = 'copy-on-write',
+  'write.merge.mode' = 'copy-on-write'
+) PARTITIONED BY (partitionKey);</b> 
   + When we execute it 
-  + Then there is an Iceberg table, /tmp/SparkForTesting2953617198671360166/cow_table 
+  + Then there is an Iceberg table, /tmp/SparkForTesting7160137248990096/cow_table 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should insert creates new files for copy-on-write
   + Given SQL:
-INSERT INTO TABLE cow_table (id,
-label,
-partitionKey) VALUES (0, 'label_0', 0),
-(1, 'label_1', 1),
-(2, 'label_2', 2),
-(3, 'label_3', 3),
-(4, 'label_4', 4),
-(5, 'label_5', 0),
-(6, 'label_6', 1),
-(7, 'label_7', 2),
-(8, 'label_8', 3),
-(9, 'label_9', 4),
-(10, 'label_10', 0),
-(11, 'label_11', 1),
-(12, 'label_12', 2),
-(13, 'label_13', 3),
-(14, 'label_14', 4),
-(15, 'label_15', 0),
-(16, 'label_16', 1),
-(17, 'label_17', 2),
-(18, 'label_18', 3),
-(19, 'label_19', 4) 
+<b class=YEL>INSERT INTO
+  TABLE cow_table (id, label, partitionKey)
+VALUES
+  (0, 'label_0', 0),
+  (1, 'label_1', 1),
+  (2, 'label_2', 2),
+  (3, 'label_3', 3),
+  (4, 'label_4', 4),
+  (5, 'label_5', 0),
+  (6, 'label_6', 1),
+  (7, 'label_7', 2),
+  (8, 'label_8', 3),
+  (9, 'label_9', 4),
+  (10, 'label_10', 0),
+  (11, 'label_11', 1),
+  (12, 'label_12', 2),
+  (13, 'label_13', 3),
+  (14, 'label_14', 4),
+  (15, 'label_15', 0),
+  (16, 'label_16', 1),
+  (17, 'label_17', 2),
+  (18, 'label_18', 3),
+  (19, 'label_19', 4)</b> 
   + When we execute it 
   + Then there are now 10 data files:
-<b class=BLU>/partitionKey=0/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00001.parquet.crc
-</b><b class=BLU>/partitionKey=0/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00001.parquet
-</b><b class=BLU>/partitionKey=1/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00002.parquet.crc
-</b><b class=BLU>/partitionKey=1/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00002.parquet
-</b><b class=BLU>/partitionKey=2/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00004.parquet.crc
-</b><b class=BLU>/partitionKey=2/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00004.parquet
-</b><b class=BLU>/partitionKey=3/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00003.parquet.crc
-</b><b class=BLU>/partitionKey=3/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00003.parquet
-</b><b class=BLU>/partitionKey=4/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00005.parquet.crc
-</b><b class=BLU>/partitionKey=4/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00005.parquet</b> 
+<b class=CYN>/partitionKey=0/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00001.parquet.crc
+</b><b class=CYN>/partitionKey=0/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00001.parquet
+</b><b class=CYN>/partitionKey=1/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00002.parquet
+</b><b class=CYN>/partitionKey=2/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00004.parquet.crc
+</b><b class=CYN>/partitionKey=2/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00004.parquet
+</b><b class=CYN>/partitionKey=3/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00003.parquet.crc
+</b><b class=CYN>/partitionKey=3/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00003.parquet
+</b><b class=CYN>/partitionKey=4/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00005.parquet.crc
+</b><b class=CYN>/partitionKey=4/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00005.parquet</b> 
   + And the table contains:
-<b class=BLU>Datum(0,label_0,0)
-Datum(1,label_1,1)
-Datum(2,label_2,2)
-Datum(3,label_3,3)
-Datum(4,label_4,4)
-Datum(5,label_5,0)
-Datum(6,label_6,1)
-Datum(7,label_7,2)
-Datum(8,label_8,3)
-Datum(9,label_9,4)
-Datum(10,label_10,0)
-Datum(11,label_11,1)
-Datum(12,label_12,2)
-Datum(13,label_13,3)
-Datum(14,label_14,4)
-Datum(15,label_15,0)
-Datum(16,label_16,1)
-Datum(17,label_17,2)
-Datum(18,label_18,3)
-Datum(19,label_19,4)</b> 
+<b class=YEL>Datum(0,label_0,0)
+</b><b class=MAG>Datum(1,label_1,1)
+</b><b class=YEL>Datum(2,label_2,2)
+</b><b class=MAG>Datum(3,label_3,3)
+</b><b class=YEL>Datum(4,label_4,4)
+</b><b class=MAG>Datum(5,label_5,0)
+</b><b class=YEL>Datum(6,label_6,1)
+</b><b class=MAG>Datum(7,label_7,2)
+</b><b class=YEL>Datum(8,label_8,3)
+</b><b class=MAG>Datum(9,label_9,4)
+</b><b class=YEL>Datum(10,label_10,0)
+</b><b class=MAG>Datum(11,label_11,1)
+</b><b class=YEL>Datum(12,label_12,2)
+</b><b class=MAG>Datum(13,label_13,3)
+</b><b class=YEL>Datum(14,label_14,4)
+</b><b class=MAG>Datum(15,label_15,0)
+</b><b class=YEL>Datum(16,label_16,1)
+</b><b class=MAG>Datum(17,label_17,2)
+</b><b class=YEL>Datum(18,label_18,3)
+</b><b class=MAG>Datum(19,label_19,4)
+</b> 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should update creates no new files for copy-on-write
   + Given SQL:
-UPDATE cow_table SET label='label_1X' WHERE id=1 
+<b class=YEL>UPDATE
+  cow_table
+SET
+  label = 'label_1X'
+WHERE
+  id = 1</b> 
   + When we execute it 
   + Then there are now 12 data files:
-<b class=GRN>/partitionKey=0/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00001.parquet.crc
-</b><b class=GRN>/partitionKey=0/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00001.parquet
-</b><b class=GRN>/partitionKey=1/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00002.parquet.crc
-</b><b class=BLU>/partitionKey=1/.00000-49-30d97ee9-c024-4dd7-b17e-a4be5fc0de70-00001.parquet.crc
-</b><b class=GRN>/partitionKey=1/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00002.parquet
-</b><b class=BLU>/partitionKey=1/00000-49-30d97ee9-c024-4dd7-b17e-a4be5fc0de70-00001.parquet
-</b><b class=GRN>/partitionKey=2/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00004.parquet.crc
-</b><b class=GRN>/partitionKey=2/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00004.parquet
-</b><b class=GRN>/partitionKey=3/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00003.parquet.crc
-</b><b class=GRN>/partitionKey=3/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00003.parquet
-</b><b class=GRN>/partitionKey=4/.00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00005.parquet.crc
-</b><b class=GRN>/partitionKey=4/00000-43-27e78ebf-30c5-4884-8eca-e1ca1c34534e-00005.parquet</b> 
+<b class=GRN>/partitionKey=0/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00001.parquet.crc
+</b><b class=GRN>/partitionKey=0/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00001.parquet
+</b><b class=GRN>/partitionKey=1/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/.00000-49-91450c60-4562-472a-b5b6-52bb6aeb54bc-00001.parquet.crc
+</b><b class=GRN>/partitionKey=1/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00002.parquet
+</b><b class=CYN>/partitionKey=1/00000-49-91450c60-4562-472a-b5b6-52bb6aeb54bc-00001.parquet
+</b><b class=GRN>/partitionKey=2/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00004.parquet.crc
+</b><b class=GRN>/partitionKey=2/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00004.parquet
+</b><b class=GRN>/partitionKey=3/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00003.parquet.crc
+</b><b class=GRN>/partitionKey=3/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00003.parquet
+</b><b class=GRN>/partitionKey=4/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00005.parquet.crc
+</b><b class=GRN>/partitionKey=4/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00005.parquet</b> 
   + And the deleted files are:
-<b class=RED>1c34534e-00001.parquet.crc
-c34534e-00001.parquet
-1c34534e-00002.parquet.crc
-c34534e-00002.parquet
-1c34534e-00004.parquet.crc
-c34534e-00004.parquet
-1c34534e-00003.parquet.crc
-c34534e-00003.parquet
-1c34534e-00005.parquet.crc
-c34534e-00005.parquet</b> 
+<b class=RED>445241c7140-00001.parquet.crc
+45241c7140-00001.parquet
+445241c7140-00002.parquet.crc
+45241c7140-00002.parquet
+445241c7140-00004.parquet.crc
+45241c7140-00004.parquet
+445241c7140-00003.parquet.crc
+45241c7140-00003.parquet
+445241c7140-00005.parquet.crc
+45241c7140-00005.parquet</b> 
   + And the table contains:
-<b class=BLU>Datum(0,label_0,0)
-Datum(1,label_1X,1)
-Datum(2,label_2,2)
-Datum(3,label_3,3)
-Datum(4,label_4,4)
-Datum(5,label_5,0)
-Datum(6,label_6,1)
-Datum(7,label_7,2)
-Datum(8,label_8,3)
-Datum(9,label_9,4)
-Datum(10,label_10,0)
-Datum(11,label_11,1)
-Datum(12,label_12,2)
-Datum(13,label_13,3)
-Datum(14,label_14,4)
-Datum(15,label_15,0)
-Datum(16,label_16,1)
-Datum(17,label_17,2)
-Datum(18,label_18,3)
-Datum(19,label_19,4)</b> 
+<b class=YEL>Datum(0,label_0,0)
+</b><b class=MAG>Datum(1,label_1X,1)
+</b><b class=YEL>Datum(2,label_2,2)
+</b><b class=MAG>Datum(3,label_3,3)
+</b><b class=YEL>Datum(4,label_4,4)
+</b><b class=MAG>Datum(5,label_5,0)
+</b><b class=YEL>Datum(6,label_6,1)
+</b><b class=MAG>Datum(7,label_7,2)
+</b><b class=YEL>Datum(8,label_8,3)
+</b><b class=MAG>Datum(9,label_9,4)
+</b><b class=YEL>Datum(10,label_10,0)
+</b><b class=MAG>Datum(11,label_11,1)
+</b><b class=YEL>Datum(12,label_12,2)
+</b><b class=MAG>Datum(13,label_13,3)
+</b><b class=YEL>Datum(14,label_14,4)
+</b><b class=MAG>Datum(15,label_15,0)
+</b><b class=YEL>Datum(16,label_16,1)
+</b><b class=MAG>Datum(17,label_17,2)
+</b><b class=YEL>Datum(18,label_18,3)
+</b><b class=MAG>Datum(19,label_19,4)
+</b> 
   + And the new data file contains just the updated row(s) 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should reading an updated table using copy-on-write
   + Given a table that has been updated 
   + When we read from it 
   + Then the table still contains 20 records 
   + And there are no new data files 
-Run completed in 15 seconds, 38 milliseconds.
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
++ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
+Run completed in 13 seconds, 806 milliseconds.
 Total number of tests run: 14
 Suites: completed 7, aborted 0
 Tests: succeeded 14, failed 0, canceled 0, ignored 1, pending 0

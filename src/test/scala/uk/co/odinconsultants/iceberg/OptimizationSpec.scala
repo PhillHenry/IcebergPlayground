@@ -2,9 +2,9 @@ package uk.co.odinconsultants.iceberg
 import org.scalatest.GivenWhenThen
 import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
+import uk.co.odinconsultants.SpecFormats.{formatSQL, prettyPrintSampleOf}
 
-class OptimizationSpec extends AnyWordSpec with GivenWhenThen with TableNameFixture {
+class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
 
   import spark.implicits._
 
@@ -18,7 +18,7 @@ class OptimizationSpec extends AnyWordSpec with GivenWhenThen with TableNameFixt
       val filesBefore = Set(dataFilesIn(tableName))
       val sql =
         s"CALL system.rewrite_data_files(table => \"$tableName\", where => 'partitionKey = ${data.head.partitionKey}')"
-      And(s"we execute the SQL '$sql'")
+      And(s"we execute the SQL ${formatSQL(sql)}")
       spark.sqlContext.sql(sql)
       val filesAfter = Set(dataFilesIn(tableName))
       Then(s"the files added are:\n${(filesBefore -- filesAfter).mkString("\n")}")

@@ -5,7 +5,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
 
-class CachingSpec extends AnyWordSpec with GivenWhenThen {
+class CachingSpec extends SpecPretifier with GivenWhenThen {
   "A dataset to CRUD" should {
     import spark.implicits._
     val tableName           = "spark_file_test_writeTo"
