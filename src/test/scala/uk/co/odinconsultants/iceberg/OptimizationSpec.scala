@@ -10,12 +10,19 @@ class OptimizationSpec extends AnyWordSpec with GivenWhenThen with TableNameFixt
 
   s"A table" should {
     s"be optimized" in new SimpleFixture {
+      override def num_rows: Int = 200000
+
       Given(s"data\n${prettyPrintSampleOf(data)}")
-      When(s"writing to table '$tableName'")
+      When(s"writing $num_rows rows to table '$tableName'")
       spark.createDataFrame(data).writeTo(tableName).create()
-      spark.sqlContext.sql(
-      s"CALL system.rewrite_data_files(table => \"$tableName\", where => 'id = ${data.head.id} and label = \"${data.head.label}\"')"
-      )
+      val filesBefore = Set(dataFilesIn(tableName))
+      val sql =
+        s"CALL system.rewrite_data_files(table => \"$tableName\", where => 'partitionKey = ${data.head.partitionKey}')"
+      And(s"we execute the SQL '$sql'")
+      spark.sqlContext.sql(sql)
+      val filesAfter = Set(dataFilesIn(tableName))
+      Then(s"the files added are:\n${(filesBefore -- filesAfter).mkString("\n")}")
+      And(s"the files removed are:\n${(filesAfter -- filesBefore).mkString("\n")}")
     }
   }
 

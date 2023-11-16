@@ -22,7 +22,7 @@ trait SimpleFixture extends Fixture[Datum] {
 
   val num_partitions = 5
 
-  val num_rows = 20
+  def num_rows: Int = 20
 
   val tables = new HadoopTables(spark.sparkContext.hadoopConfiguration)
 
