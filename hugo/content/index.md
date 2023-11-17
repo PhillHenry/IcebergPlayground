@@ -14,7 +14,3 @@ the code and generate human readable documentation.
 [MergeOnReadSpec](MergeOnReadSpec.html)
 
 [OptimizationSpec](OptimizationSpec.html)
-
-[SplitScenarioMainSpec](SplitScenarioMainSpec.html)
-
-[The line IcebergCRUDSpec](The line IcebergCRUDSpec.html)

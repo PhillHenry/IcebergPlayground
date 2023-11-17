@@ -42,7 +42,6 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.scala-lang.modules</groupId>
@@ -166,7 +165,7 @@
 
     <profiles>
         <profile>
-            <id>ansi2html</id>
+            <id>scenario_docs</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -186,10 +185,13 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <executable>/bin/bash</executable>
+                            <executable>java</executable>
+                            <includePluginDependencies>true</includePluginDependencies>
+                            <includeProjectDependencies>true</includeProjectDependencies>
                             <arguments>
-                                <argument>-c</argument>
-                                <argument>ansi2html &lt; ${project.basedir}/target/surefire-reports/scenarios.txt &gt; ${project.basedir}/hugo/content/scenarios.html</argument>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>uk.co.odinconsultants.SplitScenariosMain</argument>
                             </arguments>
                         </configuration>
                     </plugin>
