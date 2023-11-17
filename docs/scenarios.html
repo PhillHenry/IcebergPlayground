@@ -47,7 +47,7 @@ b.BWHI {background-color: #aaaaaa}
 </head>
 <body>
 <pre>Discovery starting.
-Discovery completed in 67 milliseconds.
+Discovery completed in 70 milliseconds.
 Run starting. Expected test count is: 14
 IcebergCRUDSpec:
 A dataset to CRUD
@@ -116,17 +116,17 @@ A table
 			</b><b class=YEL>Datum(2,label_2,2)
 			</b>
 			... 
-  + When writing 200000 rows to table 'OptimizationSpec' 
-  + And we execute the SQL 
+  + And 20000 rows are initially written to table 'OptimizationSpec' 
+  + When we execute the SQL 
 <b class=YEL>CALL system.rewrite_data_files(
   table = &gt; "OptimizationSpec",
-  where
-    = &gt; 'partitionKey = 0'
+  options = &gt; map('min-input-files', '2')
 )</b> 
-  + Then the files added are:
- 
-  + And the files removed are:
- 
+  + Then the files added to the original 4 are:
+<b class=MAG>/tmp/SparkForTesting3619297251383596344/OptimizationSpec/data/00000-17-96d43613-a275-4cf6-b110-29c8a619f37f-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting3619297251383596344/OptimizationSpec/data/.00000-17-96d43613-a275-4cf6-b110-29c8a619f37f-00001.parquet.crc
+</b> 
+  + And there are no files deleted from the subsequent 6 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 ConcurrentWriteSpec:
@@ -139,7 +139,7 @@ Concurrent writes
 			</b>
 			... 
   + When both run at the same time 
-  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting7160137248990096/ConcurrentWriteSpec/metadata/v1.metadata.json 
+  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting3619297251383596344/ConcurrentWriteSpec/metadata/v1.metadata.json 
   + And one succeeds 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
@@ -154,7 +154,7 @@ A merge-on-read table
   'write.merge.mode' = 'merge-on-read'
 ) PARTITIONED BY (partitionKey);</b> 
   + When we execute it 
-  + Then there is an Iceberg table, /tmp/SparkForTesting7160137248990096/mor_table 
+  + Then there is an Iceberg table, /tmp/SparkForTesting3619297251383596344/mor_table 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should insert creates new files for merge-on-read
   + Given SQL:
@@ -183,16 +183,16 @@ VALUES
   (19, 'label_19', 4)</b> 
   + When we execute it 
   + Then there are now 10 data files:
-<b class=CYN>/partitionKey=0/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00001.parquet.crc
-</b><b class=CYN>/partitionKey=0/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00001.parquet
-</b><b class=CYN>/partitionKey=1/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet.crc
-</b><b class=CYN>/partitionKey=1/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet
-</b><b class=CYN>/partitionKey=2/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00004.parquet.crc
-</b><b class=CYN>/partitionKey=2/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00004.parquet
-</b><b class=CYN>/partitionKey=3/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00003.parquet.crc
-</b><b class=CYN>/partitionKey=3/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00003.parquet
-</b><b class=CYN>/partitionKey=4/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00005.parquet.crc
-</b><b class=CYN>/partitionKey=4/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00005.parquet</b> 
+<b class=CYN>/partitionKey=0/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00001.parquet.crc
+</b><b class=CYN>/partitionKey=0/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00001.parquet
+</b><b class=CYN>/partitionKey=1/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00002.parquet
+</b><b class=CYN>/partitionKey=2/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00004.parquet.crc
+</b><b class=CYN>/partitionKey=2/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00004.parquet
+</b><b class=CYN>/partitionKey=3/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00003.parquet.crc
+</b><b class=CYN>/partitionKey=3/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00003.parquet
+</b><b class=CYN>/partitionKey=4/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00005.parquet.crc
+</b><b class=CYN>/partitionKey=4/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00005.parquet</b> 
   + And the table contains:
 <b class=YEL>Datum(0,label_0,0)
 </b><b class=MAG>Datum(1,label_1,1)
@@ -226,31 +226,31 @@ WHERE
   id = 1</b> 
   + When we execute it 
   + Then there are now 14 data files:
-<b class=GRN>/partitionKey=0/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00001.parquet.crc
-</b><b class=GRN>/partitionKey=0/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00001.parquet
-</b><b class=GRN>/partitionKey=1/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet.crc
-</b><b class=CYN>/partitionKey=1/.00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001-deletes.parquet.crc
-</b><b class=CYN>/partitionKey=1/.00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001.parquet.crc
-</b><b class=GRN>/partitionKey=1/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet
-</b><b class=CYN>/partitionKey=1/00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001-deletes.parquet
-</b><b class=CYN>/partitionKey=1/00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001.parquet
-</b><b class=GRN>/partitionKey=2/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00004.parquet.crc
-</b><b class=GRN>/partitionKey=2/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00004.parquet
-</b><b class=GRN>/partitionKey=3/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00003.parquet.crc
-</b><b class=GRN>/partitionKey=3/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00003.parquet
-</b><b class=GRN>/partitionKey=4/.00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00005.parquet.crc
-</b><b class=GRN>/partitionKey=4/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00005.parquet</b> 
+<b class=GRN>/partitionKey=0/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00001.parquet.crc
+</b><b class=GRN>/partitionKey=0/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00001.parquet
+</b><b class=GRN>/partitionKey=1/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/.00000-29-f4e13ce2-4004-4ba4-8b9f-5a0bfcbe5b95-00001-deletes.parquet.crc
+</b><b class=CYN>/partitionKey=1/.00000-29-f4e13ce2-4004-4ba4-8b9f-5a0bfcbe5b95-00001.parquet.crc
+</b><b class=GRN>/partitionKey=1/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00002.parquet
+</b><b class=CYN>/partitionKey=1/00000-29-f4e13ce2-4004-4ba4-8b9f-5a0bfcbe5b95-00001-deletes.parquet
+</b><b class=CYN>/partitionKey=1/00000-29-f4e13ce2-4004-4ba4-8b9f-5a0bfcbe5b95-00001.parquet
+</b><b class=GRN>/partitionKey=2/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00004.parquet.crc
+</b><b class=GRN>/partitionKey=2/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00004.parquet
+</b><b class=GRN>/partitionKey=3/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00003.parquet.crc
+</b><b class=GRN>/partitionKey=3/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00003.parquet
+</b><b class=GRN>/partitionKey=4/.00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00005.parquet.crc
+</b><b class=GRN>/partitionKey=4/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00005.parquet</b> 
   + And the deleted files are:
-<b class=RED>2b19bd0e1cd-00001.parquet.crc
-b19bd0e1cd-00001.parquet
-2b19bd0e1cd-00002.parquet.crc
-b19bd0e1cd-00002.parquet
-2b19bd0e1cd-00004.parquet.crc
-b19bd0e1cd-00004.parquet
-2b19bd0e1cd-00003.parquet.crc
-b19bd0e1cd-00003.parquet
-2b19bd0e1cd-00005.parquet.crc
-b19bd0e1cd-00005.parquet</b> 
+<b class=RED>d4aed369-00001.parquet.crc
+4aed369-00001.parquet
+d4aed369-00002.parquet.crc
+4aed369-00002.parquet
+d4aed369-00004.parquet.crc
+4aed369-00004.parquet
+d4aed369-00003.parquet.crc
+4aed369-00003.parquet
+d4aed369-00005.parquet.crc
+4aed369-00005.parquet</b> 
   + And the table contains:
 <b class=YEL>Datum(0,label_0,0)
 </b><b class=MAG>Datum(1,label_1X,1)
@@ -273,13 +273,13 @@ b19bd0e1cd-00005.parquet</b>
 </b><b class=YEL>Datum(18,label_18,3)
 </b><b class=MAG>Datum(19,label_19,4)
 </b> 
-  + And  the '*-deletes.parquet' file /partitionKey=1/00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001-deletes.parquet contains a reference to /partitionKey=1/00000-24-d4057e2f-7167-4d15-a3fd-62b19bd0e1cd-00002.parquet which contains:
+  + And  the '*-deletes.parquet' file /partitionKey=1/00000-29-f4e13ce2-4004-4ba4-8b9f-5a0bfcbe5b95-00001-deletes.parquet contains a reference to /partitionKey=1/00000-25-28ca5a1f-1fac-48fe-9e96-0e76d4aed369-00002.parquet which contains:
 <b class=YEL>Datum(1,label_1,1)
 </b><b class=MAG>Datum(6,label_6,1)
 </b><b class=YEL>Datum(11,label_11,1)
 </b><b class=MAG>Datum(16,label_16,1)
 </b> 
-  + And the new parquet file (/partitionKey=1/00000-28-066d46b0-b6c3-4513-99ac-d96ffbe784c0-00001.parquet) contains:
+  + And the new parquet file (/partitionKey=1/00000-29-f4e13ce2-4004-4ba4-8b9f-5a0bfcbe5b95-00001.parquet) contains:
 <b class=YEL>Datum(1,label_1X,1)
 </b> 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
@@ -301,7 +301,7 @@ A copy-on-write table
   'write.merge.mode' = 'copy-on-write'
 ) PARTITIONED BY (partitionKey);</b> 
   + When we execute it 
-  + Then there is an Iceberg table, /tmp/SparkForTesting7160137248990096/cow_table 
+  + Then there is an Iceberg table, /tmp/SparkForTesting3619297251383596344/cow_table 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 - should insert creates new files for copy-on-write
   + Given SQL:
@@ -330,16 +330,16 @@ VALUES
   (19, 'label_19', 4)</b> 
   + When we execute it 
   + Then there are now 10 data files:
-<b class=CYN>/partitionKey=0/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00001.parquet.crc
-</b><b class=CYN>/partitionKey=0/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00001.parquet
-</b><b class=CYN>/partitionKey=1/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00002.parquet.crc
-</b><b class=CYN>/partitionKey=1/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00002.parquet
-</b><b class=CYN>/partitionKey=2/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00004.parquet.crc
-</b><b class=CYN>/partitionKey=2/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00004.parquet
-</b><b class=CYN>/partitionKey=3/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00003.parquet.crc
-</b><b class=CYN>/partitionKey=3/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00003.parquet
-</b><b class=CYN>/partitionKey=4/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00005.parquet.crc
-</b><b class=CYN>/partitionKey=4/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00005.parquet</b> 
+<b class=CYN>/partitionKey=0/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00001.parquet.crc
+</b><b class=CYN>/partitionKey=0/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00001.parquet
+</b><b class=CYN>/partitionKey=1/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00002.parquet
+</b><b class=CYN>/partitionKey=2/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00004.parquet.crc
+</b><b class=CYN>/partitionKey=2/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00004.parquet
+</b><b class=CYN>/partitionKey=3/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00003.parquet.crc
+</b><b class=CYN>/partitionKey=3/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00003.parquet
+</b><b class=CYN>/partitionKey=4/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00005.parquet.crc
+</b><b class=CYN>/partitionKey=4/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00005.parquet</b> 
   + And the table contains:
 <b class=YEL>Datum(0,label_0,0)
 </b><b class=MAG>Datum(1,label_1,1)
@@ -373,29 +373,29 @@ WHERE
   id = 1</b> 
   + When we execute it 
   + Then there are now 12 data files:
-<b class=GRN>/partitionKey=0/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00001.parquet.crc
-</b><b class=GRN>/partitionKey=0/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00001.parquet
-</b><b class=GRN>/partitionKey=1/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00002.parquet.crc
-</b><b class=CYN>/partitionKey=1/.00000-49-91450c60-4562-472a-b5b6-52bb6aeb54bc-00001.parquet.crc
-</b><b class=GRN>/partitionKey=1/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00002.parquet
-</b><b class=CYN>/partitionKey=1/00000-49-91450c60-4562-472a-b5b6-52bb6aeb54bc-00001.parquet
-</b><b class=GRN>/partitionKey=2/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00004.parquet.crc
-</b><b class=GRN>/partitionKey=2/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00004.parquet
-</b><b class=GRN>/partitionKey=3/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00003.parquet.crc
-</b><b class=GRN>/partitionKey=3/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00003.parquet
-</b><b class=GRN>/partitionKey=4/.00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00005.parquet.crc
-</b><b class=GRN>/partitionKey=4/00000-43-28cc43e5-c24a-45e9-b8a8-8445241c7140-00005.parquet</b> 
+<b class=GRN>/partitionKey=0/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00001.parquet.crc
+</b><b class=GRN>/partitionKey=0/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00001.parquet
+</b><b class=GRN>/partitionKey=1/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/.00000-50-9671fea5-7ba1-4f63-b276-d9dcc727fa2f-00001.parquet.crc
+</b><b class=GRN>/partitionKey=1/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00002.parquet
+</b><b class=CYN>/partitionKey=1/00000-50-9671fea5-7ba1-4f63-b276-d9dcc727fa2f-00001.parquet
+</b><b class=GRN>/partitionKey=2/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00004.parquet.crc
+</b><b class=GRN>/partitionKey=2/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00004.parquet
+</b><b class=GRN>/partitionKey=3/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00003.parquet.crc
+</b><b class=GRN>/partitionKey=3/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00003.parquet
+</b><b class=GRN>/partitionKey=4/.00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00005.parquet.crc
+</b><b class=GRN>/partitionKey=4/00000-44-78ad93e8-e34c-4325-939e-4a89163ee3ef-00005.parquet</b> 
   + And the deleted files are:
-<b class=RED>445241c7140-00001.parquet.crc
-45241c7140-00001.parquet
-445241c7140-00002.parquet.crc
-45241c7140-00002.parquet
-445241c7140-00004.parquet.crc
-45241c7140-00004.parquet
-445241c7140-00003.parquet.crc
-45241c7140-00003.parquet
-445241c7140-00005.parquet.crc
-45241c7140-00005.parquet</b> 
+<b class=RED>163ee3ef-00001.parquet.crc
+63ee3ef-00001.parquet
+163ee3ef-00002.parquet.crc
+63ee3ef-00002.parquet
+163ee3ef-00004.parquet.crc
+63ee3ef-00004.parquet
+163ee3ef-00003.parquet.crc
+63ee3ef-00003.parquet
+163ee3ef-00005.parquet.crc
+63ee3ef-00005.parquet</b> 
   + And the table contains:
 <b class=YEL>Datum(0,label_0,0)
 </b><b class=MAG>Datum(1,label_1X,1)
@@ -427,7 +427,7 @@ WHERE
   + And there are no new data files 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
 + <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
-Run completed in 13 seconds, 806 milliseconds.
+Run completed in 10 seconds, 19 milliseconds.
 Total number of tests run: 14
 Suites: completed 7, aborted 0
 Tests: succeeded 14, failed 0, canceled 0, ignored 1, pending 0
