@@ -7,7 +7,7 @@ import scala.sys.process.Process
 
 object SplitScenariosMain {
 
-  val DEFAULT_SPEC_DELIMITER_REGEX = "^(.*Spec):"
+  val DEFAULT_SPEC_DELIMITER_REGEX = "^(.*)Spec:"
   val HUGO_CONTENT                 = "hugo/content"
 
   def parse(pattern: String, filename: String): List[String] = {

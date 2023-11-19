@@ -3,14 +3,14 @@
 These are BDD (Behaviour Driven Design) tests that both test
 the code and generate human readable documentation.
 
-[CachingSpec](CachingSpec.html)
+[Caching](Caching.html)
 
-[ConcurrentWriteSpec](ConcurrentWriteSpec.html)
+[ConcurrentWrite](ConcurrentWrite.html)
 
-[CopyOnWriteSpec](CopyOnWriteSpec.html)
+[CopyOnWrite](CopyOnWrite.html)
 
-[IcebergCRUDSpec](IcebergCRUDSpec.html)
+[IcebergCRUD](IcebergCRUD.html)
 
-[MergeOnReadSpec](MergeOnReadSpec.html)
+[MergeOnRead](MergeOnRead.html)
 
-[OptimizationSpec](OptimizationSpec.html)
+[Optimization](Optimization.html)
