@@ -2,7 +2,6 @@ package uk.co.odinconsultants.iceberg
 
 import org.apache.spark.sql.{DataFrame, Row}
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.SpecFormats.toHumanReadable
 
 class MergeOnReadSpec extends AbstractCrudSpec {
 

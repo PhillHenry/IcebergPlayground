@@ -1,14 +1,12 @@
 package uk.co.odinconsultants.iceberg
 import org.scalatest.GivenWhenThen
-import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.SpecFormats.prettyPrintSampleOf
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.Duration
 import java.util.concurrent.TimeUnit.MINUTES
-import scala.util.{Try, Failure}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import scala.util.{Failure, Try}
 
 class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
   "Concurrent writes" should {

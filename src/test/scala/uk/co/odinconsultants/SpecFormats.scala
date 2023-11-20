@@ -1,7 +1,7 @@
 package uk.co.odinconsultants
 import com.github.vertical_blank.sqlformatter.SqlFormatter.format
 
-object SpecFormats {
+trait SpecFormats {
 
   def classNameOf(all: Seq[_]): String = all.head.getClass.getSimpleName
 
@@ -46,3 +46,4 @@ object SpecFormats {
       .mkString("") + Console.RESET
   }
 }
+

@@ -5,9 +5,7 @@ import org.apache.iceberg.expressions.Expressions
 import org.apache.iceberg.spark.actions.SparkActions
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.GivenWhenThen
-import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.SpecFormats.{formatSQL, prettyPrintSampleOf}
 
 import scala.collection.mutable.{Set => MSet}
 
