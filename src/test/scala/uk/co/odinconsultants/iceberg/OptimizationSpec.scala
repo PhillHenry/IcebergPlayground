@@ -1,13 +1,10 @@
 package uk.co.odinconsultants.iceberg
+import org.apache.spark.sql.DataFrame
 import org.scalatest.GivenWhenThen
-import org.scalatest.wordspec.AnyWordSpec
 import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.SpecFormats.{formatSQL, prettyPrintSampleOf, toHumanReadable}
-import uk.co.odinconsultants.iceberg.SQL.insertSQL
 
 class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
-
-  import spark.implicits._
 
   s"A table" should {
     s"be optimized" in new SimpleFixture {
@@ -28,6 +25,9 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
       val deleted: Set[String] = filesBefore -- filesAfter
       And(s"there are no files deleted from the subsequent ${filesAfter.size}")
       assert(deleted.size == 0)
+      And("these new files contain all the data")
+      val addedDf: DataFrame = spark.read.parquet(added.toArray.map(_.toString): _*)
+      assert(addedDf.count == num_rows)
     }
   }
 

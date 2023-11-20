@@ -1,5 +1,6 @@
 package uk.co.odinconsultants
 import com.github.vertical_blank.sqlformatter.SqlFormatter.format
+
 object SpecFormats {
 
   def classNameOf(all: Seq[_]): String = all.head.getClass.getSimpleName
@@ -15,7 +16,7 @@ object SpecFormats {
 
   def indent[A](xs: Iterable[A]): Iterable[String] = xs.map((x: A) => s"\t\t\t$x")
 
-  val scenarioDelimiter = s"\n${"+ " * 40}\n+\n"
+  val scenarioDelimiter = s"\n${"+ " * 20}\n+\n"
 
   def formatSQL(sql: String): String = s"\n${Console.YELLOW}${format(sql)}${Console.RESET}"
 
@@ -40,7 +41,7 @@ object SpecFormats {
     )
     (0 to n)
       .map { n =>
-        s"${colours(n % colours.length)}*"
+        s" ${colours(n % colours.length)}+"
       }
       .mkString("") + Console.RESET
   }
