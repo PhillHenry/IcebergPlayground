@@ -10,7 +10,7 @@ object SpecFormats {
   def prettyPrintSampleOf[T](xs: Iterable[T]): String = {
     val sampleSize = 3
     val sample: List[String] = alternativeColours(xs.take(sampleSize))
-    val footer: String = if (xs.size > sampleSize) s"\n${indent(Seq("...")).mkString("\n")}" else ""
+    val footer: String = if (xs.size > sampleSize) "..." else ""
     s"${indent(sample).mkString("\n")}$footer"
   }
 
@@ -41,7 +41,7 @@ object SpecFormats {
     )
     (0 to n)
       .map { n =>
-        s" ${colours(n % colours.length)}+"
+        s"${colours(n % colours.length)}+ "
       }
       .mkString("") + Console.RESET
   }
