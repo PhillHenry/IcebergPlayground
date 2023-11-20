@@ -53,8 +53,7 @@ A table
 			<b class=YEL>Datum(0,label_0,0)
 			</b><b class=MAG>Datum(1,label_1,1)
 			</b><b class=YEL>Datum(2,label_2,2)
-			</b>
-			... 
+			</b>			... 
   + And 20000 rows are initially written to table 'OptimizationSpec' 
   + When we execute the SQL 
 <b class=YEL>CALL system.rewrite_data_files(
@@ -62,11 +61,12 @@ A table
   options = &gt; map('min-input-files', '2')
 )</b> 
   + Then the files added to the original 4 are:
-<b class=YEL>/tmp/SparkForTesting1663398061617751094/OptimizationSpec/data/00000-17-170f3d6f-197c-4d4c-910b-82f87048e960-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting1663398061617751094/OptimizationSpec/data/.00000-17-170f3d6f-197c-4d4c-910b-82f87048e960-00001.parquet.crc
+<b class=YEL>/tmp/SparkForTesting6963323902495699546/OptimizationSpec/data/00000-17-1d505f37-1b34-49c2-aba6-6d17307ec956-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting6963323902495699546/OptimizationSpec/data/.00000-17-1d505f37-1b34-49c2-aba6-6d17307ec956-00001.parquet.crc
 </b> 
   + And there are no files deleted from the subsequent 6 
-+ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
-+ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> </pre>
+  + And these new files contain all the data 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>
 </html>

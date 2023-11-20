@@ -57,8 +57,8 @@ A copy-on-write table
   'write.merge.mode' = 'copy-on-write'
 ) PARTITIONED BY (partitionKey);</b> 
   + When we execute it 
-  + Then there is an Iceberg table, /tmp/SparkForTesting1663398061617751094/cow_table 
-+ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
+  + Then there is an Iceberg table, /tmp/SparkForTesting6963323902495699546/cow_table 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should insert creates new files for copy-on-write
   + Given SQL:
 <b class=YEL>INSERT INTO
@@ -86,16 +86,16 @@ VALUES
   (19, 'label_19', 4)</b> 
   + When we execute it 
   + Then there are now 10 data files:
-<b class=CYN>/partitionKey=0/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00001.parquet.crc
-</b><b class=CYN>/partitionKey=0/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00001.parquet
-</b><b class=CYN>/partitionKey=1/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00002.parquet.crc
-</b><b class=CYN>/partitionKey=1/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00002.parquet
-</b><b class=CYN>/partitionKey=2/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00004.parquet.crc
-</b><b class=CYN>/partitionKey=2/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00004.parquet
-</b><b class=CYN>/partitionKey=3/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00003.parquet.crc
-</b><b class=CYN>/partitionKey=3/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00003.parquet
-</b><b class=CYN>/partitionKey=4/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00005.parquet.crc
-</b><b class=CYN>/partitionKey=4/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00005.parquet</b> 
+<b class=CYN>/partitionKey=0/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00001.parquet.crc
+</b><b class=CYN>/partitionKey=0/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00001.parquet
+</b><b class=CYN>/partitionKey=1/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00002.parquet
+</b><b class=CYN>/partitionKey=2/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00004.parquet.crc
+</b><b class=CYN>/partitionKey=2/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00004.parquet
+</b><b class=CYN>/partitionKey=3/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00003.parquet.crc
+</b><b class=CYN>/partitionKey=3/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00003.parquet
+</b><b class=CYN>/partitionKey=4/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00005.parquet.crc
+</b><b class=CYN>/partitionKey=4/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00005.parquet</b> 
   + And the table contains:
 <b class=YEL>Datum(0,label_0,0)
 </b><b class=MAG>Datum(1,label_1,1)
@@ -118,7 +118,7 @@ VALUES
 </b><b class=YEL>Datum(18,label_18,3)
 </b><b class=MAG>Datum(19,label_19,4)
 </b> 
-+ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should update creates no new files for copy-on-write
   + Given SQL:
 <b class=YEL>UPDATE
@@ -129,29 +129,29 @@ WHERE
   id = 1</b> 
   + When we execute it 
   + Then there are now 12 data files:
-<b class=GRN>/partitionKey=0/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00001.parquet.crc
-</b><b class=GRN>/partitionKey=0/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00001.parquet
-</b><b class=GRN>/partitionKey=1/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00002.parquet.crc
-</b><b class=CYN>/partitionKey=1/.00000-50-f46f7a91-62f7-4bb6-950e-b2a416fc1724-00001.parquet.crc
-</b><b class=GRN>/partitionKey=1/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00002.parquet
-</b><b class=CYN>/partitionKey=1/00000-50-f46f7a91-62f7-4bb6-950e-b2a416fc1724-00001.parquet
-</b><b class=GRN>/partitionKey=2/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00004.parquet.crc
-</b><b class=GRN>/partitionKey=2/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00004.parquet
-</b><b class=GRN>/partitionKey=3/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00003.parquet.crc
-</b><b class=GRN>/partitionKey=3/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00003.parquet
-</b><b class=GRN>/partitionKey=4/.00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00005.parquet.crc
-</b><b class=GRN>/partitionKey=4/00000-44-1f2724f9-b6a1-451d-9daa-b66654f963ec-00005.parquet</b> 
+<b class=GRN>/partitionKey=0/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00001.parquet.crc
+</b><b class=GRN>/partitionKey=0/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00001.parquet
+</b><b class=GRN>/partitionKey=1/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/.00000-53-6fd80276-1add-4256-9c89-614b8afa63fb-00001.parquet.crc
+</b><b class=GRN>/partitionKey=1/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00002.parquet
+</b><b class=CYN>/partitionKey=1/00000-53-6fd80276-1add-4256-9c89-614b8afa63fb-00001.parquet
+</b><b class=GRN>/partitionKey=2/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00004.parquet.crc
+</b><b class=GRN>/partitionKey=2/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00004.parquet
+</b><b class=GRN>/partitionKey=3/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00003.parquet.crc
+</b><b class=GRN>/partitionKey=3/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00003.parquet
+</b><b class=GRN>/partitionKey=4/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00005.parquet.crc
+</b><b class=GRN>/partitionKey=4/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00005.parquet</b> 
   + And the deleted files are:
-<b class=RED>54f963ec-00001.parquet.crc
-4f963ec-00001.parquet
-54f963ec-00002.parquet.crc
-4f963ec-00002.parquet
-54f963ec-00004.parquet.crc
-4f963ec-00004.parquet
-54f963ec-00003.parquet.crc
-4f963ec-00003.parquet
-54f963ec-00005.parquet.crc
-4f963ec-00005.parquet</b> 
+<b class=RED>742706fc-00001.parquet.crc
+42706fc-00001.parquet
+742706fc-00002.parquet.crc
+42706fc-00002.parquet
+742706fc-00004.parquet.crc
+42706fc-00004.parquet
+742706fc-00003.parquet.crc
+42706fc-00003.parquet
+742706fc-00005.parquet.crc
+42706fc-00005.parquet</b> 
   + And the table contains:
 <b class=YEL>Datum(0,label_0,0)
 </b><b class=MAG>Datum(1,label_1X,1)
@@ -175,15 +175,15 @@ WHERE
 </b><b class=MAG>Datum(19,label_19,4)
 </b> 
   + And the new data file contains just the updated row(s) 
-+ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should reading an updated table using copy-on-write
   + Given a table that has been updated 
   + When we read from it 
   + Then the table still contains 20 records 
   + And there are no new data files 
-+ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
-+ <b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b><b class=WHI>*</b><b class=CYN>*</b><b class=BLU>*</b><b class=RED>*</b><b class=GRN>*</b><b class=MAG>*</b><b class=YEL>*</b> 
-Run completed in 10 seconds, 349 milliseconds.
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
+Run completed in 10 seconds, 159 milliseconds.
 Total number of tests run: 14
 Suites: completed 7, aborted 0
 Tests: succeeded 14, failed 0, canceled 0, ignored 1, pending 0
