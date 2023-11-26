@@ -2,6 +2,7 @@ package uk.co.odinconsultants.iceberg
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
+import uk.co.odinconsultants.documentation_utils.SpecPretifier
 
 class CachingSpec extends SpecPretifier with GivenWhenThen {
   "A dataset to CRUD" should {

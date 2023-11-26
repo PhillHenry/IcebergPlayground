@@ -6,6 +6,7 @@ import org.apache.iceberg.spark.actions.SparkActions
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
+import uk.co.odinconsultants.documentation_utils.SpecPretifier
 
 import scala.collection.mutable.{Set => MSet}
 

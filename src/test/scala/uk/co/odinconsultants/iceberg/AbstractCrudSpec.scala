@@ -3,6 +3,7 @@ import org.apache.iceberg.Table
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
+import uk.co.odinconsultants.documentation_utils.SpecPretifier
 import uk.co.odinconsultants.iceberg.SQL.{createDatumTable, insertSQL}
 
 import scala.collection.mutable.{Set => MSet}
