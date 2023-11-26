@@ -1,5 +1,5 @@
 package uk.co.odinconsultants.iceberg
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
 
@@ -7,8 +7,8 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
 
   import spark.implicits._
 
-  s"A table" should {
-    s"be optimized" in new SimpleFixture {
+  s"A table that has many files" should {
+    s"have those files aggregated" in new SimpleFixture {
       override def num_rows: Int = 20000
 
       Given(s"data\n${prettyPrintSampleOf(data)}")
