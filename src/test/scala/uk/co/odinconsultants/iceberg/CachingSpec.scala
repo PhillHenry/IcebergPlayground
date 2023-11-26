@@ -2,14 +2,14 @@ package uk.co.odinconsultants.iceberg
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.documentation_utils.SpecPretifier
+import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 class CachingSpec extends SpecPretifier with GivenWhenThen {
   "A dataset to CRUD" should {
     import spark.implicits._
     val tableName           = "spark_file_test_writeTo"
 
-    "create the appropriate Iceberg files" in new SimpleFixture {
+    "create the appropriate Iceberg files" in new SimpleSparkFixture {
       Given(s"data\n${prettyPrintSampleOf(data)}")
       spark.createDataFrame(data).writeTo(tableName).create()
       val output: Dataset[Datum] = spark.read.table(tableName).as[Datum]

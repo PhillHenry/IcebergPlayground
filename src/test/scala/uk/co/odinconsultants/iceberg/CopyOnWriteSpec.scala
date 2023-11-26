@@ -1,5 +1,6 @@
 package uk.co.odinconsultants.iceberg
 import uk.co.odinconsultants.SparkForTesting.spark
+import uk.co.odinconsultants.documentation_utils.Datum
 
 class CopyOnWriteSpec extends AbstractCrudSpec {
 

@@ -35,6 +35,7 @@
         <spark.version>${spark.compat.version}.0</spark.version>
         <hive.version>3.1.1</hive.version>
         <iceberg.version>1.4.2</iceberg.version>
+        <documentation_utils.version>0.3</documentation_utils.version>
     </properties>
 
     <dependencies>
@@ -112,7 +113,12 @@
         <dependency>
             <groupId>uk.co.odinconsultants.documentation_utils</groupId>
             <artifactId>scalatest_utils</artifactId>
-            <version>0.2</version>
+            <version>${documentation_utils.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.co.odinconsultants.documentation_utils</groupId>
+            <artifactId>spark</artifactId>
+            <version>${documentation_utils.version}</version>
         </dependency>
 
     </dependencies>

@@ -6,7 +6,7 @@ import org.apache.iceberg.spark.actions.SparkActions
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.documentation_utils.SpecPretifier
+import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier, TableNameFixture}
 
 import scala.collection.mutable.{Set => MSet}
 
@@ -15,7 +15,7 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
     import spark.implicits._
     val files: MSet[String] = MSet.empty[String]
 
-    "create the appropriate Iceberg files" in new SimpleFixture {
+    "create the appropriate Iceberg files" in new SimpleSparkFixture {
       Given(s"data\n${prettyPrintSampleOf(data)}")
       When(s"writing to table '$tableName'")
       spark.createDataFrame(data).writeTo(tableName).create()
@@ -26,7 +26,7 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
 
     val newVal    = "ipse locum"
     val updateSql = s"update $tableName set label='$newVal'"
-    s"support updates with '$updateSql'" in new SimpleFixture {
+    s"support updates with '$updateSql'" in new SimpleSparkFixture {
       Given(s"SQL ${formatSQL(updateSql)}")
       When("we execute it")
       spark.sqlContext.sql(updateSql)
@@ -59,7 +59,7 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       } yield assert(row.getAs[String](newColumn) == null)
     }
 
-    "when vacuumed, have old files removed" ignore new SimpleFixture {
+    "when vacuumed, have old files removed" ignore new SimpleSparkFixture {
       val table: Table = icebergTable(tableName)
       table
         .expireSnapshots()

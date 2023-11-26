@@ -1,7 +1,7 @@
 package uk.co.odinconsultants.iceberg
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.documentation_utils.SpecPretifier
+import uk.co.odinconsultants.documentation_utils.{SpecPretifier, TableNameFixture}
 
 import java.util.concurrent.TimeUnit.MINUTES
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -11,7 +11,7 @@ import scala.util.{Failure, Try}
 
 class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
   "Concurrent writes" should {
-    "cause one transaction to fail" in new SimpleFixture {
+    "cause one transaction to fail" in new SimpleSparkFixture {
       def writeData(): Future[Unit] = Future {
         spark.createDataFrame(data).writeTo(tableName).create()
       }

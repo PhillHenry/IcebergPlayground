@@ -3,7 +3,7 @@ import org.apache.iceberg.Table
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.documentation_utils.SpecPretifier
+import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.SQL.{createDatumTable, insertSQL}
 
 import scala.collection.mutable.{Set => MSet}
@@ -18,7 +18,7 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen {
   s"A $mode table" should {
     val files: MSet[String]                              = MSet.empty[String]
     val createSQL: String                                = tableDDL(tableName, mode)
-    s"create no new files for $mode" in new SimpleFixture {
+    s"create no new files for $mode" in new SimpleSparkFixture {
       Given(s"SQL:${formatSQL(createSQL)}")
       When("we execute it")
       spark.sqlContext.sql(createSQL)
@@ -26,7 +26,7 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen {
       assert(table != null)
       Then(s"there is an Iceberg table, $table")
     }
-    s"insert creates new files for $mode" in new SimpleFixture {
+    s"insert creates new files for $mode" in new SimpleSparkFixture {
       val sql: String           = insertSQL(tableName, data)
       val original: Set[String] = files.toSet
       Given(s"SQL:${formatSQL(sql)}")
@@ -39,7 +39,7 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen {
       val output: Array[Datum]  = andTheTableContains(tableName)
       assert(output.toSet == data.toSet)
     }
-    s"update creates no new files for $mode" in new SimpleFixture {
+    s"update creates no new files for $mode" in new SimpleSparkFixture {
       val original: Set[String] = files.toSet
       val toUpdate: Datum       = data.tail.head
       val updated: Datum        = toUpdate.copy(label = s"${toUpdate.label}X")
@@ -53,7 +53,7 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen {
       assert(output.toSet != data.toSet)
       checkDatafiles(original, files.toSet, Set(updated))
     }
-    s"reading an updated table using $mode" in new SimpleFixture {
+    s"reading an updated table using $mode" in new SimpleSparkFixture {
       Given("a table that has been updated")
       val original: Set[String] = files.toSet
       When("we read from it")
