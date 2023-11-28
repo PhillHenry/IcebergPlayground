@@ -89,7 +89,7 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen {
 
   def checkDatafiles(previous: Set[String], current: Set[String], changes: Set[Datum]): Unit
 
-  private def tableDDL(tableName: String, mode: String) = {
+  private def tableDDL(tableName: String, mode: String): String = {
     val createSQL: String = s"""${createDatumTable(tableName)} TBLPROPERTIES (
                                |    'format-version' = '2',
                                |    'write.delete.mode'='$mode',
