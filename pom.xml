@@ -34,7 +34,7 @@
         <spark.compat.version>3.5</spark.compat.version>
         <spark.version>${spark.compat.version}.0</spark.version>
         <iceberg.version>1.4.2</iceberg.version>
-        <documentation_utils.version>0.6</documentation_utils.version>
+        <documentation_utils.version>0.7</documentation_utils.version>
     </properties>
 
     <dependencies>

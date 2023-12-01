@@ -97,7 +97,7 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen {
                                |    'write.merge.mode'='$mode'
                                |) PARTITIONED BY (${classOf[
                                 Datum
-                              ].getDeclaredFields.last.getName}); """.stripMargin
+                              ].getDeclaredFields.filter(_.getName.toLowerCase.contains("partition")).head.getName}); """.stripMargin
     createSQL
   }
 

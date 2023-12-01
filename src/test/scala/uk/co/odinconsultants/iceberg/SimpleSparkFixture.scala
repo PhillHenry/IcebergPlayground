@@ -50,7 +50,7 @@ object SQL {
       }
       .mkString(",\n")
     val fields: String                       = subquery(_.getName)
-    val values: Seq[String]                  = data.map((x: Datum) => s"(${x.id}, '${x.label}', ${x.partitionKey})")
+    val values: Seq[String]                  = data.map(_.toInsertSubclause)
     s"""INSERT INTO TABLE $tableName ($fields) VALUES ${values.mkString(",\n")}""".stripMargin
   }
 }
