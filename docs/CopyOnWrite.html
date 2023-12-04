@@ -50,73 +50,299 @@ b.BWHI {background-color: #aaaaaa}
 A copy-on-write table
 - should create no new files for copy-on-write
   + Given SQL:
-<b class=YEL>CREATE TABLE cow_table (id int, label String, partitionKey long) TBLPROPERTIES (
+<b class=YEL>CREATE TABLE cow_table (
+  id int,
+  label String,
+  partitionKey long,
+  date Date,
+  timestamp Timestamp
+) TBLPROPERTIES (
   'format-version' = '2',
   'write.delete.mode' = 'copy-on-write',
   'write.update.mode' = 'copy-on-write',
   'write.merge.mode' = 'copy-on-write'
 ) PARTITIONED BY (partitionKey);</b> 
   + When we execute it 
-  + Then there is an Iceberg table, /tmp/SparkForTesting6963323902495699546/cow_table 
+  + Then there is an Iceberg table, /tmp/SparkForTesting4213164265007142821/cow_table 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should insert creates new files for copy-on-write
   + Given SQL:
 <b class=YEL>INSERT INTO
-  TABLE cow_table (id, label, partitionKey)
+  TABLE cow_table (id, label, partitionKey, date, timestamp)
 VALUES
-  (0, 'label_0', 0),
-  (1, 'label_1', 1),
-  (2, 'label_2', 2),
-  (3, 'label_3', 3),
-  (4, 'label_4', 4),
-  (5, 'label_5', 0),
-  (6, 'label_6', 1),
-  (7, 'label_7', 2),
-  (8, 'label_8', 3),
-  (9, 'label_9', 4),
-  (10, 'label_10', 0),
-  (11, 'label_11', 1),
-  (12, 'label_12', 2),
-  (13, 'label_13', 3),
-  (14, 'label_14', 4),
-  (15, 'label_15', 0),
-  (16, 'label_16', 1),
-  (17, 'label_17', 2),
-  (18, 'label_18', 3),
-  (19, 'label_19', 4)</b> 
+  (
+    0,
+    'label_0',
+    0,
+    cast(date_format('2023-12-01', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:53.682',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    1,
+    'label_1',
+    1,
+    cast(date_format('2023-11-30', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:53.882',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    2,
+    'label_2',
+    2,
+    cast(date_format('2023-11-29', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:54.082',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    3,
+    'label_3',
+    3,
+    cast(date_format('2023-11-28', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:54.282',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    4,
+    'label_4',
+    4,
+    cast(date_format('2023-11-27', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:54.482',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    5,
+    'label_5',
+    0,
+    cast(date_format('2023-11-26', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:54.682',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    6,
+    'label_6',
+    1,
+    cast(date_format('2023-11-25', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:54.882',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    7,
+    'label_7',
+    2,
+    cast(date_format('2023-11-24', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:55.082',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    8,
+    'label_8',
+    3,
+    cast(date_format('2023-11-23', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:55.282',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    9,
+    'label_9',
+    4,
+    cast(date_format('2023-11-22', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:55.482',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    10,
+    'label_10',
+    0,
+    cast(date_format('2023-11-21', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:55.682',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    11,
+    'label_11',
+    1,
+    cast(date_format('2023-11-20', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:55.882',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    12,
+    'label_12',
+    2,
+    cast(date_format('2023-11-19', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:56.082',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    13,
+    'label_13',
+    3,
+    cast(date_format('2023-11-18', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:56.282',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    14,
+    'label_14',
+    4,
+    cast(date_format('2023-11-17', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:56.482',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    15,
+    'label_15',
+    0,
+    cast(date_format('2023-11-16', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:56.682',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    16,
+    'label_16',
+    1,
+    cast(date_format('2023-11-15', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:56.882',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    17,
+    'label_17',
+    2,
+    cast(date_format('2023-11-14', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:57.082',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    18,
+    'label_18',
+    3,
+    cast(date_format('2023-11-13', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:57.282',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  ),
+  (
+    19,
+    'label_19',
+    4,
+    cast(date_format('2023-11-12', 'yyyy-MM-dd') as date),
+    cast(
+      date_format(
+        '2023-12-01 17:51:57.482',
+        'yyyy-MM-dd HH:mm:ss.SSS'
+      ) as timestamp
+    )
+  )</b> 
   + When we execute it 
   + Then there are now 10 data files:
-<b class=CYN>/partitionKey=0/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00001.parquet.crc
-</b><b class=CYN>/partitionKey=0/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00001.parquet
-</b><b class=CYN>/partitionKey=1/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00002.parquet.crc
-</b><b class=CYN>/partitionKey=1/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00002.parquet
-</b><b class=CYN>/partitionKey=2/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00004.parquet.crc
-</b><b class=CYN>/partitionKey=2/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00004.parquet
-</b><b class=CYN>/partitionKey=3/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00003.parquet.crc
-</b><b class=CYN>/partitionKey=3/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00003.parquet
-</b><b class=CYN>/partitionKey=4/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00005.parquet.crc
-</b><b class=CYN>/partitionKey=4/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00005.parquet</b> 
+<b class=CYN>/partitionKey=0/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00001.parquet.crc
+</b><b class=CYN>/partitionKey=0/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00001.parquet
+</b><b class=CYN>/partitionKey=1/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00002.parquet
+</b><b class=CYN>/partitionKey=2/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00004.parquet.crc
+</b><b class=CYN>/partitionKey=2/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00004.parquet
+</b><b class=CYN>/partitionKey=3/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00003.parquet.crc
+</b><b class=CYN>/partitionKey=3/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00003.parquet
+</b><b class=CYN>/partitionKey=4/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00005.parquet.crc
+</b><b class=CYN>/partitionKey=4/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00005.parquet</b> 
   + And the table contains:
-<b class=YEL>Datum(0,label_0,0)
-</b><b class=MAG>Datum(1,label_1,1)
-</b><b class=YEL>Datum(2,label_2,2)
-</b><b class=MAG>Datum(3,label_3,3)
-</b><b class=YEL>Datum(4,label_4,4)
-</b><b class=MAG>Datum(5,label_5,0)
-</b><b class=YEL>Datum(6,label_6,1)
-</b><b class=MAG>Datum(7,label_7,2)
-</b><b class=YEL>Datum(8,label_8,3)
-</b><b class=MAG>Datum(9,label_9,4)
-</b><b class=YEL>Datum(10,label_10,0)
-</b><b class=MAG>Datum(11,label_11,1)
-</b><b class=YEL>Datum(12,label_12,2)
-</b><b class=MAG>Datum(13,label_13,3)
-</b><b class=YEL>Datum(14,label_14,4)
-</b><b class=MAG>Datum(15,label_15,0)
-</b><b class=YEL>Datum(16,label_16,1)
-</b><b class=MAG>Datum(17,label_17,2)
-</b><b class=YEL>Datum(18,label_18,3)
-</b><b class=MAG>Datum(19,label_19,4)
+<b class=YEL>Datum(0,label_0,0,2023-12-01,2023-12-01 17:51:53.682)
+</b><b class=MAG>Datum(1,label_1,1,2023-11-30,2023-12-01 17:51:53.882)
+</b><b class=YEL>Datum(2,label_2,2,2023-11-29,2023-12-01 17:51:54.082)
+</b><b class=MAG>Datum(3,label_3,3,2023-11-28,2023-12-01 17:51:54.282)
+</b><b class=YEL>Datum(4,label_4,4,2023-11-27,2023-12-01 17:51:54.482)
+</b><b class=MAG>Datum(5,label_5,0,2023-11-26,2023-12-01 17:51:54.682)
+</b><b class=YEL>Datum(6,label_6,1,2023-11-25,2023-12-01 17:51:54.882)
+</b><b class=MAG>Datum(7,label_7,2,2023-11-24,2023-12-01 17:51:55.082)
+</b><b class=YEL>Datum(8,label_8,3,2023-11-23,2023-12-01 17:51:55.282)
+</b><b class=MAG>Datum(9,label_9,4,2023-11-22,2023-12-01 17:51:55.482)
+</b><b class=YEL>Datum(10,label_10,0,2023-11-21,2023-12-01 17:51:55.682)
+</b><b class=MAG>Datum(11,label_11,1,2023-11-20,2023-12-01 17:51:55.882)
+</b><b class=YEL>Datum(12,label_12,2,2023-11-19,2023-12-01 17:51:56.082)
+</b><b class=MAG>Datum(13,label_13,3,2023-11-18,2023-12-01 17:51:56.282)
+</b><b class=YEL>Datum(14,label_14,4,2023-11-17,2023-12-01 17:51:56.482)
+</b><b class=MAG>Datum(15,label_15,0,2023-11-16,2023-12-01 17:51:56.682)
+</b><b class=YEL>Datum(16,label_16,1,2023-11-15,2023-12-01 17:51:56.882)
+</b><b class=MAG>Datum(17,label_17,2,2023-11-14,2023-12-01 17:51:57.082)
+</b><b class=YEL>Datum(18,label_18,3,2023-11-13,2023-12-01 17:51:57.282)
+</b><b class=MAG>Datum(19,label_19,4,2023-11-12,2023-12-01 17:51:57.482)
 </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should update creates no new files for copy-on-write
@@ -129,50 +355,50 @@ WHERE
   id = 1</b> 
   + When we execute it 
   + Then there are now 12 data files:
-<b class=GRN>/partitionKey=0/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00001.parquet.crc
-</b><b class=GRN>/partitionKey=0/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00001.parquet
-</b><b class=GRN>/partitionKey=1/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00002.parquet.crc
-</b><b class=CYN>/partitionKey=1/.00000-53-6fd80276-1add-4256-9c89-614b8afa63fb-00001.parquet.crc
-</b><b class=GRN>/partitionKey=1/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00002.parquet
-</b><b class=CYN>/partitionKey=1/00000-53-6fd80276-1add-4256-9c89-614b8afa63fb-00001.parquet
-</b><b class=GRN>/partitionKey=2/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00004.parquet.crc
-</b><b class=GRN>/partitionKey=2/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00004.parquet
-</b><b class=GRN>/partitionKey=3/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00003.parquet.crc
-</b><b class=GRN>/partitionKey=3/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00003.parquet
-</b><b class=GRN>/partitionKey=4/.00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00005.parquet.crc
-</b><b class=GRN>/partitionKey=4/00000-47-dd5cc778-0fda-4204-b508-beab742706fc-00005.parquet</b> 
+<b class=GRN>/partitionKey=0/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00001.parquet.crc
+</b><b class=GRN>/partitionKey=0/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00001.parquet
+</b><b class=GRN>/partitionKey=1/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00002.parquet.crc
+</b><b class=CYN>/partitionKey=1/.00000-52-9c235a53-b648-457b-ba50-a5ea0ec2cd0d-00001.parquet.crc
+</b><b class=GRN>/partitionKey=1/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00002.parquet
+</b><b class=CYN>/partitionKey=1/00000-52-9c235a53-b648-457b-ba50-a5ea0ec2cd0d-00001.parquet
+</b><b class=GRN>/partitionKey=2/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00004.parquet.crc
+</b><b class=GRN>/partitionKey=2/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00004.parquet
+</b><b class=GRN>/partitionKey=3/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00003.parquet.crc
+</b><b class=GRN>/partitionKey=3/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00003.parquet
+</b><b class=GRN>/partitionKey=4/.00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00005.parquet.crc
+</b><b class=GRN>/partitionKey=4/00000-46-e02fd9e3-b603-49c9-a52f-c7329dc4b1c3-00005.parquet</b> 
   + And the deleted files are:
-<b class=RED>742706fc-00001.parquet.crc
-42706fc-00001.parquet
-742706fc-00002.parquet.crc
-42706fc-00002.parquet
-742706fc-00004.parquet.crc
-42706fc-00004.parquet
-742706fc-00003.parquet.crc
-42706fc-00003.parquet
-742706fc-00005.parquet.crc
-42706fc-00005.parquet</b> 
+<b class=RED>9dc4b1c3-00001.parquet.crc
+dc4b1c3-00001.parquet
+9dc4b1c3-00002.parquet.crc
+dc4b1c3-00002.parquet
+9dc4b1c3-00004.parquet.crc
+dc4b1c3-00004.parquet
+9dc4b1c3-00003.parquet.crc
+dc4b1c3-00003.parquet
+9dc4b1c3-00005.parquet.crc
+dc4b1c3-00005.parquet</b> 
   + And the table contains:
-<b class=YEL>Datum(0,label_0,0)
-</b><b class=MAG>Datum(1,label_1X,1)
-</b><b class=YEL>Datum(2,label_2,2)
-</b><b class=MAG>Datum(3,label_3,3)
-</b><b class=YEL>Datum(4,label_4,4)
-</b><b class=MAG>Datum(5,label_5,0)
-</b><b class=YEL>Datum(6,label_6,1)
-</b><b class=MAG>Datum(7,label_7,2)
-</b><b class=YEL>Datum(8,label_8,3)
-</b><b class=MAG>Datum(9,label_9,4)
-</b><b class=YEL>Datum(10,label_10,0)
-</b><b class=MAG>Datum(11,label_11,1)
-</b><b class=YEL>Datum(12,label_12,2)
-</b><b class=MAG>Datum(13,label_13,3)
-</b><b class=YEL>Datum(14,label_14,4)
-</b><b class=MAG>Datum(15,label_15,0)
-</b><b class=YEL>Datum(16,label_16,1)
-</b><b class=MAG>Datum(17,label_17,2)
-</b><b class=YEL>Datum(18,label_18,3)
-</b><b class=MAG>Datum(19,label_19,4)
+<b class=YEL>Datum(0,label_0,0,2023-12-01,2023-12-01 17:51:53.682)
+</b><b class=MAG>Datum(1,label_1X,1,2023-11-30,2023-12-01 17:51:53.882)
+</b><b class=YEL>Datum(2,label_2,2,2023-11-29,2023-12-01 17:51:54.082)
+</b><b class=MAG>Datum(3,label_3,3,2023-11-28,2023-12-01 17:51:54.282)
+</b><b class=YEL>Datum(4,label_4,4,2023-11-27,2023-12-01 17:51:54.482)
+</b><b class=MAG>Datum(5,label_5,0,2023-11-26,2023-12-01 17:51:54.682)
+</b><b class=YEL>Datum(6,label_6,1,2023-11-25,2023-12-01 17:51:54.882)
+</b><b class=MAG>Datum(7,label_7,2,2023-11-24,2023-12-01 17:51:55.082)
+</b><b class=YEL>Datum(8,label_8,3,2023-11-23,2023-12-01 17:51:55.282)
+</b><b class=MAG>Datum(9,label_9,4,2023-11-22,2023-12-01 17:51:55.482)
+</b><b class=YEL>Datum(10,label_10,0,2023-11-21,2023-12-01 17:51:55.682)
+</b><b class=MAG>Datum(11,label_11,1,2023-11-20,2023-12-01 17:51:55.882)
+</b><b class=YEL>Datum(12,label_12,2,2023-11-19,2023-12-01 17:51:56.082)
+</b><b class=MAG>Datum(13,label_13,3,2023-11-18,2023-12-01 17:51:56.282)
+</b><b class=YEL>Datum(14,label_14,4,2023-11-17,2023-12-01 17:51:56.482)
+</b><b class=MAG>Datum(15,label_15,0,2023-11-16,2023-12-01 17:51:56.682)
+</b><b class=YEL>Datum(16,label_16,1,2023-11-15,2023-12-01 17:51:56.882)
+</b><b class=MAG>Datum(17,label_17,2,2023-11-14,2023-12-01 17:51:57.082)
+</b><b class=YEL>Datum(18,label_18,3,2023-11-13,2023-12-01 17:51:57.282)
+</b><b class=MAG>Datum(19,label_19,4,2023-11-12,2023-12-01 17:51:57.482)
 </b> 
   + And the new data file contains just the updated row(s) 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
@@ -183,7 +409,7 @@ WHERE
   + And there are no new data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-Run completed in 10 seconds, 159 milliseconds.
+Run completed in 14 seconds, 891 milliseconds.
 Total number of tests run: 14
 Suites: completed 7, aborted 0
 Tests: succeeded 14, failed 0, canceled 0, ignored 1, pending 0

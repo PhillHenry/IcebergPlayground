@@ -50,10 +50,10 @@ b.BWHI {background-color: #aaaaaa}
 A dataset to CRUD
 - should create the appropriate Iceberg files
   + Given data
-			<b class=YEL>Datum(0,label_0,0)
-			</b><b class=MAG>Datum(1,label_1,1)
-			</b><b class=YEL>Datum(2,label_2,2)
-			</b>			... 
+			<b class=YEL>Datum(0,label_0,0,2023-12-01,2023-12-01 17:51:53.682)
+			</b><b class=MAG>Datum(1,label_1,1,2023-11-30,2023-12-01 17:51:53.882)
+			</b><b class=YEL>Datum(2,label_2,2,2023-11-29,2023-12-01 17:51:54.082)
+			</b>... 
   + When we cache one Dataset and then append more data to the same table 
   + Then reading via a new Dataset reference shows the appended data 
   + And the old, cached reference still sees the old snapshot of data 

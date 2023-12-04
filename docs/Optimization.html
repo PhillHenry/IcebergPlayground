@@ -47,13 +47,13 @@ b.BWHI {background-color: #aaaaaa}
 </head>
 <body>
 <pre>OptimizationSpec:
-A table
-- should be optimized
+A table that has many files
+- should have those files aggregated
   + Given data
-			<b class=YEL>Datum(0,label_0,0)
-			</b><b class=MAG>Datum(1,label_1,1)
-			</b><b class=YEL>Datum(2,label_2,2)
-			</b>			... 
+			<b class=YEL>Datum(0,label_0,0,2023-12-01,2023-12-01 17:51:53.682)
+			</b><b class=MAG>Datum(1,label_1,1,2023-11-30,2023-12-01 17:51:53.882)
+			</b><b class=YEL>Datum(2,label_2,2,2023-11-29,2023-12-01 17:51:54.082)
+			</b>... 
   + And 20000 rows are initially written to table 'OptimizationSpec' 
   + When we execute the SQL 
 <b class=YEL>CALL system.rewrite_data_files(
@@ -61,8 +61,8 @@ A table
   options = &gt; map('min-input-files', '2')
 )</b> 
   + Then the files added to the original 4 are:
-<b class=YEL>/tmp/SparkForTesting6963323902495699546/OptimizationSpec/data/00000-17-1d505f37-1b34-49c2-aba6-6d17307ec956-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting6963323902495699546/OptimizationSpec/data/.00000-17-1d505f37-1b34-49c2-aba6-6d17307ec956-00001.parquet.crc
+<b class=YEL>/tmp/SparkForTesting4213164265007142821/OptimizationSpec/data/.00000-17-791e3751-ca98-4251-9839-146b2348088c-00001.parquet.crc
+</b><b class=MAG>/tmp/SparkForTesting4213164265007142821/OptimizationSpec/data/00000-17-791e3751-ca98-4251-9839-146b2348088c-00001.parquet
 </b> 
   + And there are no files deleted from the subsequent 6 
   + And these new files contain all the data 
