@@ -200,8 +200,12 @@
                                 <argument>uk.co.odinconsultants.documentation_utils.SplitScenariosMain</argument>
                                 <argument>## Iceberg Playground
 
-                                    These are BDD (Behaviour Driven Design) tests that both test
-                                    the code and generate human readable documentation.</argument>
+These are BDD (Behaviour Driven Design) tests that both test
+the code and generate human readable documentation.
+The code for these tests can be found in [GitHub](${url}}
+
+
+                                </argument>
                             </arguments>
                         </configuration>
                     </plugin>
