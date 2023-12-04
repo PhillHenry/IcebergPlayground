@@ -47,15 +47,15 @@ b.BWHI {background-color: #aaaaaa}
 </head>
 <body>
 <pre>Discovery starting.
-Discovery completed in 68 milliseconds.
+Discovery completed in 65 milliseconds.
 Run starting. Expected test count is: 14
 IcebergCRUDSpec:
 A dataset to CRUD
 - should create the appropriate Iceberg files
   + Given data
-			<b class=YEL>Datum(0,label_0,0,2023-12-04,2023-12-04 12:34:59.486)
-			</b><b class=MAG>Datum(1,label_1,1,2023-12-03,2023-12-04 12:34:59.686)
-			</b><b class=YEL>Datum(2,label_2,2,2023-12-02,2023-12-04 12:34:59.886)
+			<b class=YEL>Datum(0,label_0,0,2023-12-04,2023-12-04 13:44:47.006)
+			</b><b class=MAG>Datum(1,label_1,1,2023-12-03,2023-12-04 13:44:47.206)
+			</b><b class=YEL>Datum(2,label_2,2,2023-12-02,2023-12-04 13:44:47.406)
 			</b>... 
   + When writing to table 'IcebergCRUDSpec' 
   + Then reading the table back yields the same data 
@@ -69,9 +69,9 @@ set
   + When we execute it 
   + Then all rows are updated 
   + And look like:
-			<b class=YEL>Datum(0,ipse locum,0,2023-12-04,2023-12-04 12:34:59.486)
-			</b><b class=MAG>Datum(1,ipse locum,1,2023-12-03,2023-12-04 12:34:59.686)
-			</b><b class=YEL>Datum(2,ipse locum,2,2023-12-02,2023-12-04 12:34:59.886)
+			<b class=YEL>Datum(10,ipse locum,0,2023-11-24,2023-12-04 13:44:49.006)
+			</b><b class=MAG>Datum(11,ipse locum,1,2023-11-23,2023-12-04 13:44:49.206)
+			</b><b class=YEL>Datum(12,ipse locum,2,2023-11-22,2023-12-04 13:44:49.406)
 			</b>... 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should updates the schema
@@ -83,9 +83,9 @@ ADD
   + When we execute it 
   + Then all rows are updated 
   + And look like:
-			<b class=YEL>[0,ipse locum,0,2023-12-04,2023-12-04 12:34:59.486,null]
-			</b><b class=MAG>[1,ipse locum,1,2023-12-03,2023-12-04 12:34:59.686,null]
-			</b><b class=YEL>[2,ipse locum,2,2023-12-02,2023-12-04 12:34:59.886,null]
+			<b class=YEL>[10,ipse locum,0,2023-11-24,2023-12-04 13:44:49.006,null]
+			</b><b class=MAG>[11,ipse locum,1,2023-11-23,2023-12-04 13:44:49.206,null]
+			</b><b class=YEL>[12,ipse locum,2,2023-11-22,2023-12-04 13:44:49.406,null]
 			</b>... 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should when vacuumed, have old files removed !!! IGNORED !!!

@@ -50,9 +50,9 @@ b.BWHI {background-color: #aaaaaa}
 A table that has many files
 - should have those files aggregated
   + Given data
-			<b class=YEL>Datum(0,label_0,0,2023-12-04,2023-12-04 12:34:59.486)
-			</b><b class=MAG>Datum(1,label_1,1,2023-12-03,2023-12-04 12:34:59.686)
-			</b><b class=YEL>Datum(2,label_2,2,2023-12-02,2023-12-04 12:34:59.886)
+			<b class=YEL>Datum(0,label_0,0,2023-12-04,2023-12-04 13:44:47.006)
+			</b><b class=MAG>Datum(1,label_1,1,2023-12-03,2023-12-04 13:44:47.206)
+			</b><b class=YEL>Datum(2,label_2,2,2023-12-02,2023-12-04 13:44:47.406)
 			</b>... 
   + And 20000 rows are initially written to table 'OptimizationSpec' 
   + When we execute the SQL 
@@ -61,8 +61,8 @@ A table that has many files
   options = &gt; map('min-input-files', '2')
 )</b> 
   + Then the files added to the original 4 are:
-<b class=YEL>/tmp/SparkForTesting5057471438201401229/OptimizationSpec/data/00000-17-1cf72fc4-a3e1-4df5-8205-64284cb50b01-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting5057471438201401229/OptimizationSpec/data/.00000-17-1cf72fc4-a3e1-4df5-8205-64284cb50b01-00001.parquet.crc
+<b class=YEL>/tmp/SparkForTesting948059751434010807/OptimizationSpec/data/.00000-17-199e9821-176a-4ba9-9d8d-1546b28e885c-00001.parquet.crc
+</b><b class=MAG>/tmp/SparkForTesting948059751434010807/OptimizationSpec/data/00000-17-199e9821-176a-4ba9-9d8d-1546b28e885c-00001.parquet
 </b> 
   + And there are no files deleted from the subsequent 6 
   + And these new files contain all the data 
