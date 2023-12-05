@@ -3,6 +3,7 @@ package uk.co.odinconsultants.iceberg
 import org.apache.iceberg.Table
 import org.apache.iceberg.expressions.Expressions
 import org.apache.iceberg.spark.actions.SparkActions
+import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
@@ -63,10 +64,19 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       private val minID: Int = num_rows / 2
       val deleteSql = s"DELETE FROM $tableName where id < $minID"
       Given(s"SQL ${formatSQL(deleteSql)}")
+      val before: Set[String] = dataFilesIn(tableName).toSet
+      And(s"the parquet files:\n${toHumanReadable(before)}")
       When("we execute it")
       spark.sqlContext.sql(deleteSql)
-      Then("the rows really have gone")
+      Then(s"there are no longer an rows with ID < $minID")
       assert(spark.sqlContext.sql(s"SELECT COUNT(*) FROM $tableName where id < $minID").collect()(0).getLong(0) == 0)
+      val after: Set[String] = dataFilesIn(tableName).toSet
+      val deltaFiles: Set[String] = after -- before
+      And(s"no files are deleted but there are the following new parquet files:\n${toHumanReadable(deltaFiles)}")
+      assert((before -- after).size == 0)
+      val newDFs: DataFrame = spark.read.parquet(deltaFiles.toArray: _*)
+      And(s"those new files contain just the data with id >= $minID")
+      assert(newDFs.select(col("id") >= minID).count() == newDFs.count())
     }
 
     "when vacuumed, have old files removed" in new SimpleSparkFixture {
