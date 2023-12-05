@@ -50,12 +50,12 @@ b.BWHI {background-color: #aaaaaa}
 Concurrent writes
 - should cause one transaction to fail
   + Given two transactions trying to write data
-			<b class=YEL>Datum(0,label_0,0,2023-12-05,2023-12-05 11:15:09.123)
-			</b><b class=MAG>Datum(1,label_1,1,2023-12-04,2023-12-05 11:15:09.323)
-			</b><b class=YEL>Datum(2,label_2,2,2023-12-03,2023-12-05 11:15:09.523)
+			<b class=YEL>Datum(0,label_0,0,2023-12-05,2023-12-05 15:14:30.951)
+			</b><b class=MAG>Datum(1,label_1,1,2023-12-04,2023-12-05 15:14:31.151)
+			</b><b class=YEL>Datum(2,label_2,2,2023-12-03,2023-12-05 15:14:31.351)
 			</b>... 
   + When both run at the same time 
-  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting5023956749319917506/ConcurrentWriteSpec/metadata/v1.metadata.json 
+  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting7375082714727918925/ConcurrentWriteSpec/metadata/v1.metadata.json 
   + And one succeeds 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
