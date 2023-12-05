@@ -11,7 +11,7 @@ import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier, TableNam
 import scala.collection.mutable.{Set => MSet}
 
 class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
-  "A dataset to CRUD" should {
+  "A dataset we CRUD" should {
     import spark.implicits._
     val files: MSet[String] = MSet.empty[String]
 
@@ -46,7 +46,7 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
     val newColumn  = "new_string"
     val alterTable =
       s"ALTER TABLE $tableName ADD COLUMNS ($newColumn string comment '$newColumn docs')"
-    s"updates the schema" in {
+    s"be able to have its schema updated" in {
       Given(s"SQL ${formatSQL(alterTable)}")
       When("we execute it")
       spark.sqlContext.sql(alterTable)
@@ -59,12 +59,25 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       } yield assert(row.getAs[String](newColumn) == null)
     }
 
-    "when vacuumed, have old files removed" ignore new SimpleSparkFixture {
+    "be able to have rows removed" in new SimpleSparkFixture {
+      private val minID: Int = num_rows / 2
+      val deleteSql = s"DELETE FROM $tableName where id < $minID"
+      Given(s"SQL ${formatSQL(deleteSql)}")
+      When("we execute it")
+      spark.sqlContext.sql(deleteSql)
+      Then("the rows really have gone")
+      assert(spark.sqlContext.sql(s"SELECT COUNT(*) FROM $tableName where id < $minID").collect()(0).getLong(0) == 0)
+    }
+
+    "when vacuumed, have old files removed" in new SimpleSparkFixture {
       val table: Table = icebergTable(tableName)
+      val filesBefore = dataFilesIn(tableName).toSet
+      Given(s"the ${filesBefore.size} files are:\n${toHumanReadable(filesBefore)}")
       table
         .expireSnapshots()
         .expireOlderThan(System.currentTimeMillis())
         .commit()
+      When("we call expireSnapshot")
       table.expireSnapshots()
       SparkActions
         .get()
@@ -72,6 +85,9 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
         .filter(Expressions.equal("label", newVal))
         .option("target-file-size-bytes", (500 * 1024 * 1024L).toString) // 500 MB
         .execute()
+      val afterBefore = dataFilesIn(tableName).toSet
+      Then(s"the original ${filesBefore.size} files now look like:\n${toHumanReadable(afterBefore)}")
+      And(s"there are ${(filesBefore -- afterBefore).size} new files")
       assert(dataFilesIn(tableName).length < files.size)
     }
   }
