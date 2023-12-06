@@ -100,5 +100,16 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       And(s"there are ${(filesBefore -- afterBefore).size} new files")
       assert(dataFilesIn(tableName).length < files.size)
     }
+
+    "should delete all files when dropped" in new SimpleSparkFixture {
+      val sqlDrop = s"DROP TABLE $tableName PURGE"
+      private val nFiles: Int = dataFilesIn(tableName).length
+      Given(s"$tableName has $nFiles")
+      assert(nFiles > 0) // sanity test
+      When(s"we execute:\n${formatSQL(sqlDrop)}")
+      spark.sqlContext.sql(sqlDrop)
+      Then("there are no files:\n")
+      assert(dataFilesIn(tableName).length == 1) // 1 is the directory name
+    }
   }
 }
