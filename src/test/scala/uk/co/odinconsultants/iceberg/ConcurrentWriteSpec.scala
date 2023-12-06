@@ -1,6 +1,5 @@
 package uk.co.odinconsultants.iceberg
 import org.scalatest.GivenWhenThen
-import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.documentation_utils.{SpecPretifier, TableNameFixture}
 
 import java.util.concurrent.TimeUnit.MINUTES
