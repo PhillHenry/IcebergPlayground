@@ -1,4 +1,4 @@
-baseURL = "https://iceberg.thebigdata.space//"
+baseURL = "https://iceberg.thebigdata.space/"
 languageCode = "en-us"
 title = "Iceberg BDDs"
 theme        = "holy"
