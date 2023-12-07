@@ -9,6 +9,9 @@ import scala.concurrent.{Await, Future}
 import scala.util.{Failure, Try}
 
 class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
+
+  info("https://iceberg.apache.org/docs/latest/reliability/")
+
   "Concurrent writes" should {
     "cause one transaction to fail" in new SimpleSparkFixture {
       def writeData(): Future[Unit] = Future {

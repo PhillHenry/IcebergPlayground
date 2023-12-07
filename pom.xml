@@ -34,7 +34,7 @@
         <spark.compat.version>3.5</spark.compat.version>
         <spark.version>${spark.compat.version}.0</spark.version>
         <iceberg.version>1.4.2</iceberg.version>
-        <documentation_utils.version>0.8</documentation_utils.version>
+        <documentation_utils.version>0.9</documentation_utils.version>
     </properties>
 
     <dependencies>
@@ -202,7 +202,7 @@
 
 These are BDD (Behaviour Driven Design) tests that both test
 the code and generate human readable documentation.
-The code for these tests can be found in [GitHub](${url}}
+The code for these tests can be found in [GitHub](${url})
 
 
                                 </argument>
