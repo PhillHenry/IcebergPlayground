@@ -6,11 +6,12 @@ import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 class CachingSpec extends SpecPretifier with GivenWhenThen {
   "A dataset to CRUD" should {
+    info("Unlike DeltaLake, Iceberg does not freeze data in time after a call to .cache()")
     import spark.implicits._
     val tableName           = "spark_file_test_writeTo"
 
     "create the appropriate Iceberg files" in new SimpleSparkFixture {
-      Given(s"data\n${prettyPrintSampleOf(data)}")
+      Given(s"data files\n${prettyPrintSampleOf(data)}")
       spark.createDataFrame(data).writeTo(tableName).create()
       val output: Dataset[Datum] = spark.read.table(tableName).as[Datum]
       assert(output.collect().size == data.length)

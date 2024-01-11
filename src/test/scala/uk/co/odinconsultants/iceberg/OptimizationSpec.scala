@@ -8,6 +8,8 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
 
   import spark.implicits._
 
+  info("https://iceberg.apache.org/docs/1.4.2/spark-procedures/")
+
   s"A table that has many files" should {
     s"have those files aggregated" in new SimpleSparkFixture {
       override def num_rows: Int = 20000
