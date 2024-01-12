@@ -46,18 +46,37 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>ConcurrentWriteSpec:
-+ https://iceberg.apache.org/docs/latest/reliability/ 
-Concurrent writes
-- should cause one transaction to fail
-  + Given two transactions trying to write data
-			<b class=YEL>Datum(0,label_0,0,2024-01-12,2024-01-12 11:13:22.214)
-			</b><b class=MAG>Datum(1,label_1,1,2024-01-11,2024-01-12 11:13:22.414)
-			</b><b class=YEL>Datum(2,label_2,2,2024-01-10,2024-01-12 11:13:22.614)
-			</b>... 
-  + When both run at the same time 
-  + Then one fails with exception org.apache.iceberg.exceptions.CommitFailedException: Version 1 already exists: /tmp/SparkForTesting1227703974052960583/ConcurrentWriteSpec/metadata/v1.metadata.json 
-  + And one succeeds 
+<pre>ZOrderingSpec:
++ https://iceberg.apache.org/docs/1.4.2/spark-procedures/ 
+A table that has many files
+- should have those files aggregated
+  + Given 20000 rows of data that look like
+			<b class=YEL>Datum(19240,label_19240,0,1971-05-10,2024-01-12 12:17:30.214)
+			</b><b class=MAG>Datum(7551,label_7551,1,2003-05-11,2024-01-12 11:38:32.414)
+			</b><b class=YEL>Datum(18251,label_18251,1,1974-01-23,2024-01-12 12:14:12.414)
+			</b>...
+are initially written to table 'ZOrderingSpec' 
+  + When we execute the SQL:
+<b class=GRN>CALL system.rewrite_data_files(table =&gt; "ZOrderingSpec",
+strategy =&gt; 'sort',
+sort_order =&gt; 'zorder(id, date)',
+options =&gt; map('min-input-files','2', 'target-file-size-bytes','49152')
+)</b> 
+  + Then added to the original 2 files are:
+<b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00001-30-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00000-29-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00003.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00002-31-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00000-29-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00004-33-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00003-32-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00003.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00001-30-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00003-32-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00000-29-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00002-31-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00004-33-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00003-32-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
+</b> 
+  + And there is no overlap in the `id` dimension 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>

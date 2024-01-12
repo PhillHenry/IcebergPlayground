@@ -47,15 +47,15 @@ b.BWHI {background-color: #aaaaaa}
 </head>
 <body>
 <pre>Discovery starting.
-Discovery completed in 73 milliseconds.
-Run starting. Expected test count is: 17
+Discovery completed in 103 milliseconds.
+Run starting. Expected test count is: 18
 IcebergCRUDSpec:
 A dataset we CRUD
 - should create the appropriate Iceberg files
   + Given data
-			<b class=YEL>Datum(0,label_0,0,2023-12-11,2023-12-11 16:43:44.656)
-			</b><b class=MAG>Datum(1,label_1,1,2023-12-10,2023-12-11 16:43:44.856)
-			</b><b class=YEL>Datum(2,label_2,2,2023-12-09,2023-12-11 16:43:45.056)
+			<b class=YEL>Datum(0,label_0,0,2024-01-12,2024-01-12 11:13:22.214)
+			</b><b class=MAG>Datum(1,label_1,1,2024-01-11,2024-01-12 11:13:22.414)
+			</b><b class=YEL>Datum(2,label_2,2,2024-01-10,2024-01-12 11:13:22.614)
 			</b>... 
   + When writing to table 'IcebergCRUDSpec' 
   + Then reading the table back yields the same data 
@@ -70,9 +70,9 @@ set
   + When we execute it 
   + Then all rows are updated 
   + And look like:
-			<b class=YEL>Datum(0,ipse locum,0,2023-12-11,2023-12-11 16:43:44.656)
-			</b><b class=MAG>Datum(1,ipse locum,1,2023-12-10,2023-12-11 16:43:44.856)
-			</b><b class=YEL>Datum(2,ipse locum,2,2023-12-09,2023-12-11 16:43:45.056)
+			<b class=YEL>Datum(10,ipse locum,0,2024-01-02,2024-01-12 11:13:24.214)
+			</b><b class=MAG>Datum(11,ipse locum,1,2024-01-01,2024-01-12 11:13:24.414)
+			</b><b class=YEL>Datum(12,ipse locum,2,2023-12-31,2024-01-12 11:13:24.614)
 			</b>... 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should be able to have its schema updated
@@ -84,9 +84,9 @@ ADD
   + When we execute it 
   + Then all rows are updated 
   + And look like:
-			<b class=YEL>[0,ipse locum,0,2023-12-11,2023-12-11 16:43:44.656,null]
-			</b><b class=MAG>[1,ipse locum,1,2023-12-10,2023-12-11 16:43:44.856,null]
-			</b><b class=YEL>[2,ipse locum,2,2023-12-09,2023-12-11 16:43:45.056,null]
+			<b class=YEL>[10,ipse locum,0,2024-01-02,2024-01-12 11:13:24.214,null]
+			</b><b class=MAG>[11,ipse locum,1,2024-01-01,2024-01-12 11:13:24.414,null]
+			</b><b class=YEL>[12,ipse locum,2,2023-12-31,2024-01-12 11:13:24.614,null]
 			</b>... 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should be able to have rows removed
@@ -96,38 +96,38 @@ ADD
 where
   id &lt; 10</b> 
   + And the parquet files:
-<b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00001-1-4865094f-074b-42ca-8da5-4bc4178d3ecb-00001.parquet
-</b><b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00000-4-66e9ce3b-4bec-4984-8255-8e1531d4a1c4-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00000-0-4865094f-074b-42ca-8da5-4bc4178d3ecb-00001.parquet.crc
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00000-4-66e9ce3b-4bec-4984-8255-8e1531d4a1c4-00001.parquet.crc
-</b><b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00000-0-4865094f-074b-42ca-8da5-4bc4178d3ecb-00001.parquet
-</b><b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00001-1-4865094f-074b-42ca-8da5-4bc4178d3ecb-00001.parquet.crc
+<b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00000-0-c4d9d075-3bf9-4d49-bd03-7af972256fb9-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00000-0-c4d9d075-3bf9-4d49-bd03-7af972256fb9-00001.parquet.crc
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00001-1-c4d9d075-3bf9-4d49-bd03-7af972256fb9-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00001-1-c4d9d075-3bf9-4d49-bd03-7af972256fb9-00001.parquet.crc
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00000-4-45e723a7-b73c-41fc-bdfa-e8f0cfbae03e-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00000-4-45e723a7-b73c-41fc-bdfa-e8f0cfbae03e-00001.parquet.crc
 </b> 
   + When we execute it 
   + Then there are no longer an rows with ID &lt; 10 
   + And no files are deleted but there are the following new parquet files:
-<b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00000-10-9e2e68fa-20a2-420c-add3-c95994bb3cb4-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00000-10-9e2e68fa-20a2-420c-add3-c95994bb3cb4-00001.parquet.crc
+<b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00000-10-7e979617-bc22-4dad-862b-2a5b05276cb7-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00000-10-7e979617-bc22-4dad-862b-2a5b05276cb7-00001.parquet.crc
 </b> 
   + And those new files contain just the data with id &gt;= 10 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should when vacuumed, have old files removed
   + Given the 8 files are:
-<b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00000-0-4865094f-074b-42ca-8da5-4bc4178d3ecb-00001.parquet.crc
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00000-0-4865094f-074b-42ca-8da5-4bc4178d3ecb-00001.parquet
-</b><b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00000-4-66e9ce3b-4bec-4984-8255-8e1531d4a1c4-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00000-10-9e2e68fa-20a2-420c-add3-c95994bb3cb4-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00000-10-9e2e68fa-20a2-420c-add3-c95994bb3cb4-00001.parquet.crc
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00000-4-66e9ce3b-4bec-4984-8255-8e1531d4a1c4-00001.parquet.crc
-</b><b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00001-1-4865094f-074b-42ca-8da5-4bc4178d3ecb-00001.parquet
-</b><b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00001-1-4865094f-074b-42ca-8da5-4bc4178d3ecb-00001.parquet.crc
+<b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00000-0-c4d9d075-3bf9-4d49-bd03-7af972256fb9-00001.parquet.crc
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00001-1-c4d9d075-3bf9-4d49-bd03-7af972256fb9-00001.parquet.crc
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00000-4-45e723a7-b73c-41fc-bdfa-e8f0cfbae03e-00001.parquet.crc
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00000-10-7e979617-bc22-4dad-862b-2a5b05276cb7-00001.parquet.crc
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00001-1-c4d9d075-3bf9-4d49-bd03-7af972256fb9-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00000-0-c4d9d075-3bf9-4d49-bd03-7af972256fb9-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00000-4-45e723a7-b73c-41fc-bdfa-e8f0cfbae03e-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00000-10-7e979617-bc22-4dad-862b-2a5b05276cb7-00001.parquet
 </b> 
   + When we call expireSnapshot 
   + Then the original 8 files now look like:
-<b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00000-10-9e2e68fa-20a2-420c-add3-c95994bb3cb4-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00000-4-66e9ce3b-4bec-4984-8255-8e1531d4a1c4-00001.parquet.crc
-</b><b class=YEL>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/.00000-10-9e2e68fa-20a2-420c-add3-c95994bb3cb4-00001.parquet.crc
-</b><b class=MAG>/tmp/SparkForTesting2484759591162160392/IcebergCRUDSpec/data/00000-4-66e9ce3b-4bec-4984-8255-8e1531d4a1c4-00001.parquet
+<b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00000-4-45e723a7-b73c-41fc-bdfa-e8f0cfbae03e-00001.parquet.crc
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00000-4-45e723a7-b73c-41fc-bdfa-e8f0cfbae03e-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/00000-10-7e979617-bc22-4dad-862b-2a5b05276cb7-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/IcebergCRUDSpec/data/.00000-10-7e979617-bc22-4dad-862b-2a5b05276cb7-00001.parquet.crc
 </b> 
   + And there are 4 new files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
