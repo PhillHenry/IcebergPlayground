@@ -51,9 +51,9 @@ b.BWHI {background-color: #aaaaaa}
 A table that has many files
 - should have those files aggregated
   + Given 20000 rows of data that look like
-			<b class=YEL>Datum(19240,label_19240,0,1971-05-10,2024-01-12 12:17:30.214)
-			</b><b class=MAG>Datum(7551,label_7551,1,2003-05-11,2024-01-12 11:38:32.414)
-			</b><b class=YEL>Datum(18251,label_18251,1,1974-01-23,2024-01-12 12:14:12.414)
+			<b class=YEL>Datum(5019,label_5019,4,2010-04-16,2024-01-12 12:34:34.111)
+			</b><b class=MAG>Datum(7705,label_7705,0,2002-12-08,2024-01-12 12:43:31.311)
+			</b><b class=YEL>Datum(7793,label_7793,3,2002-09-11,2024-01-12 12:43:48.911)
 			</b>...
 are initially written to table 'ZOrderingSpec' 
   + When we execute the SQL:
@@ -63,20 +63,35 @@ sort_order =&gt; 'zorder(id, date)',
 options =&gt; map('min-input-files','2', 'target-file-size-bytes','49152')
 )</b> 
   + Then added to the original 2 files are:
-<b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00001-30-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
-</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00000-29-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00003.parquet
-</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00002-31-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
-</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00000-29-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
-</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00004-33-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00003-32-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00003.parquet
-</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00001-30-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
-</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00003-32-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
-</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00000-29-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
-</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00002-31-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00004-33-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00002.parquet
-</b><b class=YEL>/tmp/SparkForTesting1227703974052960583/ZOrderingSpec/data/00003-32-fe288e03-ff92-43b0-b075-0ff7df0a09ab-00001.parquet
+<b class=YEL>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00001-30-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00002.parquet
+</b><b class=MAG>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00003-32-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00003.parquet
+</b><b class=YEL>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00001-30-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00003.parquet
+</b><b class=MAG>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00000-29-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00003-32-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00002-31-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00003.parquet
+</b><b class=YEL>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00004-33-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00000-29-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00002-31-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00002.parquet
+</b><b class=MAG>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00003-32-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00001-30-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00004-33-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting15638814799121896304/ZOrderingSpec/data/00002-31-f1c80339-c54a-4923-9b42-f2c6b6828d7b-00001.parquet
 </b> 
-  + And there is no overlap in the `id` dimension 
+  + And there is no overlap in the `id` dimension. The ranges of the id look like:
+<b class=YEL>0 to 1999
+</b><b class=MAG>2000 to 3901
+</b><b class=YEL>3902 to 5901
+</b><b class=MAG>5902 to 7901
+</b><b class=YEL>7902 to 7977
+</b><b class=MAG>7978 to 9977
+</b><b class=YEL>9978 to 11977
+</b><b class=MAG>11978 to 12357
+</b><b class=YEL>12358 to 14357
+</b><b class=MAG>14358 to 16357
+</b><b class=YEL>16358 to 16500
+</b><b class=MAG>16501 to 18500
+</b><b class=YEL>18501 to 19999
+</b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>
