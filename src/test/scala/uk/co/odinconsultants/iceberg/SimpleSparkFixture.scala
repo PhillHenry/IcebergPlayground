@@ -19,6 +19,8 @@ trait SimpleSparkFixture extends SimpleFixture {
   def icebergTable(tableName: String): Table =
     tables.load(s"$tmpDir/$tableName")
 
+  def parquetFiles(tableName: String): Seq[String] = dataFilesIn(tableName).filter(_.endsWith(".parquet"))
+
 }
 
 object TestUtils {
