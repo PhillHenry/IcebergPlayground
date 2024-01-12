@@ -32,7 +32,7 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
       spark.sqlContext.sql(sql)
 
       val filesAfter = parquetFiles()
-      val newFiles = filesAfter.toSet -- filesBefore.toSet
+      val newFiles = (filesAfter.toSet -- filesBefore.toSet).toList
       Then(s"added to the original ${filesBefore.length} files are:\n${alternativeColours(newFiles).mkString("\n")}")
       assert(newFiles.size > 0)
 
@@ -42,13 +42,14 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
         val df = spark.read.format("parquet").load(file).as[Datum].collect()
         (df.map(_.id).min, df.map(_.id).max, df.map(_.date.getTime).min, df.map(_.date.getTime).max)
       }
-      println(coords.toList.sortBy(_._1).mkString("\n"))
-      val xs = coords.toList.flatMap { case (x_min: Int, x_max: Int, _: Long, _: Long) =>
+      val ids       = coords.flatMap { case (x_min: Int, x_max: Int, _: Long, _: Long) =>
         (x_min to x_max).toList
       }
       val totalArea = (shuffled.map(_.id).max - shuffled.map(_.id).min) * (shuffled.map(_.date.getTime).max - shuffled.map(_.date.getTime).min)
-      And("there is no overlap in the `id` dimension")
-      assert(xs.size == num_rows)
+      private val ranges: List[String] =
+        coords.sortBy(_._1).map { case (min, max, _, _) => s"$min to $max" }
+      And(s"there is no overlap in the `id` dimension. The ranges of the id look like:\n${alternativeColours(ranges).mkString("\n")}")
+      assert(ids.size == num_rows)
     }
   }
 

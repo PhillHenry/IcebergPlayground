@@ -16,3 +16,5 @@ The code for these tests can be found in [GitHub](https://github.com/PhillHenry/
 [Merge On Read](MergeOnRead.html)
 
 [Optimization](Optimization.html)
+
+[Z Ordering](ZOrdering.html)
