@@ -25,7 +25,7 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
       val sql =
         s"""CALL system.rewrite_data_files(table => \"$tableName\",
            |strategy => 'sort',
-           |sort_order => 'zorder(id, partitionKey)',
+           |sort_order => 'zorder(id, date)',
            |options => map('min-input-files','${filesBefore.length}', 'target-file-size-bytes','49152')
            |)""".stripMargin
       When(s"we execute the SQL:\n${Console.GREEN + sql + Console.RESET}")
@@ -36,19 +36,19 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
       Then(s"added to the original ${filesBefore.length} files are:\n${alternativeColours(newFiles).mkString("\n")}")
       assert(newFiles.size > 0)
 
-      And("the data in the new files is in order")
       val coords = for {
         file <- newFiles
       } yield {
         val df = spark.read.format("parquet").load(file).as[Datum].collect()
-        (df.map(_.id).min, df.map(_.id).max, df.map(_.partitionKey).min, df.map(_.partitionKey).max)
+        (df.map(_.id).min, df.map(_.id).max, df.map(_.date.getTime).min, df.map(_.date.getTime).max)
       }
-      print(coords.mkString("\n"))
-      val areas = coords.map { case (x_min: Int, x_max: Int, y_min: Long, y_max: Long) =>
-        (x_max - x_min) * (y_max - y_min)
+      println(coords.toList.sortBy(_._1).mkString("\n"))
+      val xs = coords.toList.flatMap { case (x_min: Int, x_max: Int, _: Long, _: Long) =>
+        (x_min to x_max).toList
       }
-      val totalArea = (shuffled.map(_.id).max - shuffled.map(_.id).min) * (shuffled.map(_.partitionKey).max - shuffled.map(_.partitionKey).min)
-      Then(s"the overlap is ${areas.sum} out of ${totalArea}")
+      val totalArea = (shuffled.map(_.id).max - shuffled.map(_.id).min) * (shuffled.map(_.date.getTime).max - shuffled.map(_.date.getTime).min)
+      And("there is no overlap in the `id` dimension")
+      assert(xs.size == num_rows)
     }
   }
 
