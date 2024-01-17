@@ -19,10 +19,9 @@ object MetaUtils {
       if (snapshots.isEmpty) acc
       else {
         val snapshot                    = snapshots.head
-        val removedDeleted: Set[String] = pathsOf(snapshot.removedDeleteFiles(io))
-        val addedDeleted: Set[String]   = pathsOf(snapshot.addedDeleteFiles(io))
+        val removedDeleted: Set[String] = pathsOf(snapshot.removedDataFiles(io))
         val addedData: Set[String]      = pathsOf(snapshot.addedDataFiles(io))
-        files(((acc -- removedDeleted) -- addedDeleted) ++ addedData, snapshots.tail)
+        files((acc -- removedDeleted) ++ addedData, snapshots.tail)
       }
     files(Set.empty[String], snapshots)
   }

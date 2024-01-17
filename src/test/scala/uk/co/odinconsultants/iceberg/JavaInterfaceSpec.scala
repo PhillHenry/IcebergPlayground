@@ -6,7 +6,7 @@ import uk.co.odinconsultants.documentation_utils.{SpecPretifier, TableNameFixtur
 
 class JavaInterfaceSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
   "Iceberg tables" should {
-    "have its history queried" in new SimpleSparkFixture {
+    "have its history queried via the Java APIs" in new SimpleSparkFixture {
       Given("a table that has seen changes")
       spark.createDataFrame(data).writeTo(tableName).create()
       val updateSql = s"update $tableName set label='newVal'"
@@ -18,6 +18,8 @@ class JavaInterfaceSpec extends SpecPretifier with GivenWhenThen with TableNameF
       val filenames    = MetaUtils.allFilesThatmake(table, new HadoopFileIO(hadoopConfig))
 
       Then(s"the filenames are:\n${filenames.mkString("\n")}")
+
+      assert(spark.read.format("parquet").load(filenames.toArray: _*).count() == num_rows)
     }
   }
 }
