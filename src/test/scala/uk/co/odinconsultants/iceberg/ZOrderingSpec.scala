@@ -78,7 +78,7 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
       val newFiles                         = (parquetFiles(tableName).toSet -- filesBefore.toSet).toList
       private val ranges: List[(Int, Int)] = idRanges(newFiles)
       Then(
-        s"the ranges of the ids overlap and look like:\n${alternativeColours(sortedHumanReadable(ranges)).mkString("\n")}"
+        s"the ranges of the ids overlap in the ${newFiles.length} new files and look like:\n${alternativeColours(sortedHumanReadable(ranges)).mkString("\n")}"
       )
       assert(explode(ranges).length > num_rows)
     }

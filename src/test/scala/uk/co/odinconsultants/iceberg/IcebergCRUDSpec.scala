@@ -108,6 +108,16 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       assert(dataFilesIn(tableName).length < files.size)
     }
 
+    "can have its history queried"  in new SimpleSparkFixture {
+      val sql = s"select * from ${tableName}" + ".history"
+      Given("a table that has seen changes")
+      When(s"we execute:${formatSQL(sql)}")
+
+      val history: DataFrame = spark.sqlContext.sql(sql)
+      Then(s"we see:\n${captureOutputOf(history.show(truncate = false))}")
+      assert(history.count() > 0)
+    }
+
     "should delete all files when dropped" in new SimpleSparkFixture {
       val sqlDrop = s"DROP TABLE $tableName PURGE"
       private val nFiles: Int = dataFilesIn(tableName).length
