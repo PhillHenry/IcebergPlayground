@@ -20,21 +20,21 @@ class JavaInterfaceSpec extends SpecPretifier with GivenWhenThen with TableNameF
       val updateSql = s"update $tableName set $colToChange='$newVal'"
       spark.sqlContext.sql(updateSql)
 
-      When(s"we query the table")
+      When(s"we query the table via the Java API")
 
       val table: Table = icebergTable(tableName)
       val filenames    = MetaUtils.allFilesThatmake(table)
 
       Then(
-        s"the filenames are:\n${filenames.mkString("\n")}\nand they contain the most recent data"
+        s"the data file names are:\n${prettyPrintSampleOf(filenames)}"
       )
-
+      And("and they contain the most recent data")
       val rows = spark.read.format("parquet").load(filenames.toArray: _*).as[Datum].collect()
       assert(rows.length == num_rows)
       rows.foreach(x => assert(x.label == newVal))
     }
     "be queried with the Java API" in new SimpleSparkFixture {
-      Given(s"a table that has been changed to have column $colToChange set to '$newVal'")
+      Given(s"a table that has been changed to have column '$colToChange' set to '$newVal'")
       val table: Table = icebergTable(tableName)
       assert(valuesOfChangedColumn(IcebergGenerics.read(table).build()).toSet.head == newVal)
 
@@ -42,7 +42,7 @@ class JavaInterfaceSpec extends SpecPretifier with GivenWhenThen with TableNameF
       When(s"we select an old version of the table with snapshot ID $firstSnaphotId")
       val records        = IcebergGenerics.read(table).useSnapshot(firstSnaphotId).build()
       val vals           = valuesOfChangedColumn(records)
-      Then(s"no values in $colToChange are equal $newVal")
+      Then(s"no values in $colToChange are equal to '$newVal' but look like:\n${prettyPrintSampleOf(vals)}")
       assert(!vals.contains(newVal))
     }
   }
