@@ -72,9 +72,9 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen {
       Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}${Console.RESET}")
       val deleted: Seq[String] =
         previous.toList
-        .filter(files.contains)
+        .filterNot(files.contains)
         .sorted
-        .map(simpleFileName).map(simpleFileName)
+        .map(simpleFileName)
       if (deleted.nonEmpty) {
         And(s"the deleted files are:\n${Console.RED}${deleted.mkString("\n")}${Console.RESET}")
       }
