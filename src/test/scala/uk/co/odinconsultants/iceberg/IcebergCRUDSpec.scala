@@ -86,6 +86,23 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       assert(newDFs.select(col("id") >= minID).count() == newDFs.count())
     }
 
+    "can have its history queried" in new SimpleSparkFixture {
+      val historySql = s"select * from ${tableName}" + ".history"
+      Given("a table that has seen changes")
+      When(s"we execute:${formatSQL(historySql)}")
+
+      val history: DataFrame = spark.sqlContext.sql(historySql)
+      Then(s"we see entries in the history table thus:\n${captureOutputOf(history.show(truncate = false))}")
+      val rows               = history.as[History].collect().sortBy(_.made_current_at)
+      assert(rows.length > 0)
+
+      val snapshotSql = s"select * from ${tableName} VERSION AS OF ${rows(0).snapshot_id}"
+      And(
+        s"""we can view a snapshot image with SQL:${formatSQL(snapshotSql)}
+        |${captureOutputOf(spark.sqlContext.sql(snapshotSql).show(truncate = false))}""".stripMargin
+      )
+    }
+
     "when vacuumed, have old files removed" in new SimpleSparkFixture {
       val table: Table = icebergTable(tableName)
       val filesBefore = dataFilesIn(tableName).toSet
@@ -108,16 +125,6 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       assert(dataFilesIn(tableName).length < files.size)
     }
 
-    "can have its history queried"  in new SimpleSparkFixture {
-      val sql = s"select * from ${tableName}" + ".history"
-      Given("a table that has seen changes")
-      When(s"we execute:${formatSQL(sql)}")
-
-      val history: DataFrame = spark.sqlContext.sql(sql)
-      Then(s"we see:\n${captureOutputOf(history.show(truncate = false))}")
-      assert(history.count() > 0)
-    }
-
     "should delete all files when dropped" in new SimpleSparkFixture {
       val sqlDrop = s"DROP TABLE $tableName PURGE"
       private val nFiles: Int = dataFilesIn(tableName).length
@@ -130,3 +137,5 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
     }
   }
 }
+
+case class History(made_current_at: java.sql.Timestamp, snapshot_id: Long, parent_id: Option[Long], is_current_ancestor: Boolean)
