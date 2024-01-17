@@ -1,15 +1,15 @@
 package uk.co.odinconsultants.iceberg
 import org.apache.iceberg.Table
-import org.apache.iceberg.hadoop.HadoopFileIO
+import org.apache.iceberg.data.{IcebergGenerics, Record}
+import org.apache.iceberg.io.CloseableIterable
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier, TableNameFixture}
 import uk.co.odinconsultants.iceberg.MetaUtils.timeOrderedSnapshots
-import org.apache.iceberg.io.CloseableIterable
-import org.apache.iceberg.data.Record
-import org.apache.iceberg.data.IcebergGenerics
+
 import scala.jdk.CollectionConverters._
 
 class JavaInterfaceSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
+  info("see https://tabular.io/blog/java-api-part-3/")
   val colToChange = "label"
   val newVal      = System.currentTimeMillis().toString
   "Iceberg tables" should {
