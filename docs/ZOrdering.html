@@ -51,9 +51,9 @@ b.BWHI {background-color: #aaaaaa}
 A table with no particular order
 - should have z-ordered files after rewriting the data
   + Given 20000 rows of data that look like
-			<b class=YEL>Datum(6687,label_6687,2,2005-09-26,2024-01-17 10:55:07.527)
-			</b><b class=MAG>Datum(11845,label_11845,0,1991-08-13,2024-01-17 11:12:19.127)
-			</b><b class=YEL>Datum(18766,label_18766,1,1972-08-31,2024-01-17 11:35:23.327)
+			<b class=YEL>Datum(6529,label_6529,4,2006-03-03,2024-01-17 11:17:32.817)
+			</b><b class=MAG>Datum(3426,label_3426,1,2014-08-31,2024-01-17 11:07:12.217)
+			</b><b class=YEL>Datum(14295,label_14295,0,1984-11-27,2024-01-17 11:43:26.017)
 			</b>...
 are initially written to table 'ZOrderingSpec' 
   + When we execute the SQL:
@@ -63,45 +63,47 @@ sort_order =&gt; 'zorder(id, date)',
 options =&gt; map('min-input-files','2', 'target-file-size-bytes','49152')
 )</b> 
   + Then added to the original 2 files are:
-<b class=YEL>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00003-35-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00002.parquet
-</b><b class=MAG>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00000-32-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00002.parquet
-</b><b class=YEL>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00004-36-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00002.parquet
-</b><b class=MAG>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00002-34-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00003.parquet
-</b><b class=YEL>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00000-32-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00001-33-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00001.parquet
-</b><b class=YEL>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00004-36-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00002-34-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00001.parquet
-</b><b class=YEL>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00002-34-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00002.parquet
-</b><b class=MAG>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00004-36-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00003.parquet
-</b><b class=YEL>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00003-35-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting4487218651591143042/ZOrderingSpec/data/00001-33-32d5a035-6650-4c6f-a646-ae0c9c80e8c5-00002.parquet
+<b class=YEL>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00003-35-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00002-34-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00004-36-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00002.parquet
+</b><b class=MAG>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00000-32-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00003-35-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00002.parquet
+</b><b class=MAG>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00004-36-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00003.parquet
+</b><b class=YEL>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00003-35-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00003.parquet
+</b><b class=MAG>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00001-33-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00002-34-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00003.parquet
+</b><b class=MAG>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00004-36-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00001.parquet
+</b><b class=YEL>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00001-33-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00002.parquet
+</b><b class=MAG>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00000-32-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00002.parquet
+</b><b class=YEL>/tmp/SparkForTesting841522251897308229/ZOrderingSpec/data/00002-34-f710befb-edd8-4bb9-ac9d-617dc9da41d3-00001.parquet
 </b> 
   + And there is no overlap in the `id` dimension. The ranges of the id look like:
 <b class=YEL>0 to 1999
-</b><b class=MAG>2000 to 3979
-</b><b class=YEL>3980 to 5979
-</b><b class=MAG>5980 to 7756
-</b><b class=YEL>7757 to 9756
-</b><b class=MAG>9757 to 11756
-</b><b class=YEL>11757 to 12007
-</b><b class=MAG>12008 to 14007
-</b><b class=YEL>14008 to 15817
-</b><b class=MAG>15818 to 17817
-</b><b class=YEL>17818 to 19817
-</b><b class=MAG>19818 to 19999
+</b><b class=MAG>2000 to 3772
+</b><b class=YEL>3773 to 5772
+</b><b class=MAG>5773 to 7630
+</b><b class=YEL>7631 to 9630
+</b><b class=MAG>9631 to 11630
+</b><b class=YEL>11631 to 11753
+</b><b class=MAG>11754 to 13753
+</b><b class=YEL>13754 to 15753
+</b><b class=MAG>15754 to 15874
+</b><b class=YEL>15875 to 17874
+</b><b class=MAG>17875 to 19874
+</b><b class=YEL>19875 to 19999
 </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should needs its data rewritten to maintain its z-order
   + Given a z-ordered table called 'ZOrderingSpec' 
   + When 20000 rows of new data that look like
-			<b class=YEL>Datum(26473,label_6473,3,2006-04-28,2024-01-17 10:54:24.727)
-			</b><b class=MAG>Datum(37933,label_17933,3,1974-12-12,2024-01-17 11:32:36.727)
-			</b><b class=YEL>Datum(27729,label_7729,4,2002-11-19,2024-01-17 10:58:35.927)
+			<b class=YEL>Datum(26716,label_6716,1,2005-08-28,2024-01-17 11:18:10.217)
+			</b><b class=MAG>Datum(23779,label_3779,4,2013-09-12,2024-01-17 11:08:22.817)
+			</b><b class=YEL>Datum(37170,label_17170,0,1977-01-13,2024-01-17 11:53:01.017)
 			</b>...
 are appended to table 'ZOrderingSpec' 
   + Then the ranges of the ids overlap in the 2 new files and look like:
 <b class=YEL>20000 to 39999
-</b><b class=MAG>20001 to 39998
+</b><b class=MAG>20004 to 39995
 </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
