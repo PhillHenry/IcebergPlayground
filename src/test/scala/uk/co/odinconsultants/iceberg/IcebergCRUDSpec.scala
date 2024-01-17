@@ -1,7 +1,8 @@
 package uk.co.odinconsultants.iceberg
 
-import org.apache.iceberg.Table
+import org.apache.iceberg.{Files, ManifestFiles, Table}
 import org.apache.iceberg.expressions.Expressions
+import org.apache.iceberg.hadoop.HadoopFileIO
 import org.apache.iceberg.spark.actions.SparkActions
 import org.apache.spark.sql.catalyst.TableIdentifier
 import org.apache.spark.sql.catalyst.analysis.NoSuchTableException
@@ -96,7 +97,8 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       val rows               = history.as[History].collect().sortBy(_.made_current_at)
       assert(rows.length > 0)
 
-      val snapshotSql = s"select * from ${tableName} VERSION AS OF ${rows(0).snapshot_id}"
+      val firstSnapshotID: Long = rows(0).snapshot_id
+      val snapshotSql = s"select * from ${tableName} VERSION AS OF $firstSnapshotID"
       And(
         s"""we can view a snapshot image with SQL:${formatSQL(snapshotSql)}
         |${captureOutputOf(spark.sqlContext.sql(snapshotSql).show(truncate = false))}""".stripMargin
