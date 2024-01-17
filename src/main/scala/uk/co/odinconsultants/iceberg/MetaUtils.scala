@@ -1,5 +1,4 @@
 package uk.co.odinconsultants.iceberg
-import org.apache.iceberg.io.FileIO
 import org.apache.iceberg.{ContentFile, Snapshot, Table}
 
 import scala.annotation.tailrec
@@ -12,8 +11,9 @@ object MetaUtils {
   def pathsOf(xs: java.lang.Iterable[_ <: ContentFile[_]]): Set[String] =
     xs.asScala.toSet.map(toFile)
 
-  def allFilesThatmake(table: Table, io: FileIO): Set[String] = {
-    val snapshots                                                       = table.snapshots().asScala.toList.sortBy(_.timestampMillis())
+  def allFilesThatmake(table: Table): Set[String] = {
+    val snapshots                                                       = timeOrderedSnapshots(table)
+    val io                                                              = table.io()
     @tailrec
     def files(acc: Set[String], snapshots: List[Snapshot]): Set[String] =
       if (snapshots.isEmpty) acc
@@ -26,4 +26,6 @@ object MetaUtils {
     files(Set.empty[String], snapshots)
   }
 
+  def timeOrderedSnapshots(table: Table) =
+    table.snapshots().asScala.toList.sortBy(_.timestampMillis())
 }

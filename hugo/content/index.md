@@ -13,6 +13,8 @@ The code for these tests can be found in [GitHub](https://github.com/PhillHenry/
 
 [Iceberg CRUD](IcebergCRUD.html)
 
+[Java Interface](JavaInterface.html)
+
 [Merge On Read](MergeOnRead.html)
 
 [Optimization](Optimization.html)
