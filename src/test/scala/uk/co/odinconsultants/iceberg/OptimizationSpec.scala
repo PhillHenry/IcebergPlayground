@@ -4,6 +4,13 @@ import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier, TableNameFixture}
 
+/**
+ * Amogh Jahagirdar
+Expires snapshots does do a file cleanup as well, it's specifically cleaning up files which are no longer referenced after the snapshots are removed.
+Remove orphan files is requires a file listing to determine which files are currently in the table location and not in the table state. Since FileIO's don't have a notion of listing, the Spark procedure uses the hadoop fs configuration for setting up a HDFS style file system and perform the listing. Although my information on the FileIO listing maybe dated, there was a SupportsPrefixListing mixin interface added, but I'd need to double check the integration into the procedure. But based on what you're seeing this should still apply.
+ Expires snapshots does not perform a listing.
+
+ */
 class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
 
   import spark.implicits._
