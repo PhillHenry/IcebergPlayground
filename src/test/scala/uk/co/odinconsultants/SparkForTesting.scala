@@ -16,8 +16,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import java.nio.file.Files
 
 object SparkForTesting {
-  val defaultCatalog: String = "spark_catalog" // spark_catalog is the default in Spark code
-  val catalog: String        = "hive_catalog"
+  val catalog: String        = "spark_catalog"
   val database: String       = "database"
   val namespace: String      = s"${catalog}.$database"
   val master: String         = "local[2]"
@@ -34,7 +33,6 @@ object SparkForTesting {
         SPARK_SESSION_EXTENSIONS.key,
         "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",
       )
-      .set(s"spark.sql.catalog.$defaultCatalog", catalog_class)
       .set(s"spark.sql.catalog.${namespace}", catalog_class)
       .set(CATALOG_IMPLEMENTATION.key, "hive")
       .set("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog")
@@ -55,7 +53,7 @@ object SparkForTesting {
     .config("spark.sql.catalogImplementation", "hive")
     .enableHiveSupport()
     .getOrCreate()
-  spark.sql(s"create database $database")
+  spark.sql(s"create database $namespace")
   val sqlContext: SQLContext = spark.sqlContext
 
 }

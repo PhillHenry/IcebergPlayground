@@ -15,7 +15,7 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
 
   "Concurrent writes" should {
     "cause one transaction to fail" in new SimpleSparkFixture {
-      val fqn: String = /*s"${SparkForTesting.catalog}." +*/ tableName
+      val fqn: String = s"${SparkForTesting.namespace}." + tableName
       def writeData(): Future[Unit] = Future {
         spark.createDataFrame(data).writeTo(fqn).create()
       }
