@@ -1,5 +1,6 @@
 package uk.co.odinconsultants.iceberg
 import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.hive.conf.HiveConf
 import org.apache.iceberg.Table
 import org.apache.iceberg.hadoop.HadoopTables
 import org.apache.spark.sql.SparkSession
@@ -12,6 +13,7 @@ import java.lang.reflect.Field
 trait SimpleSparkFixture extends SimpleFixture {
 
   val hadoopConfig: Configuration = testSpark.sparkContext.hadoopConfiguration
+  hadoopConfig.set(HiveConf.ConfVars.METASTORE_SCHEMA_VERIFICATION.toString, "false")
   val tables = new HadoopTables(hadoopConfig)
 
   val spark: SparkSession = testSpark

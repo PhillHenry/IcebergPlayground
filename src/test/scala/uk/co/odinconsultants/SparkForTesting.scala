@@ -1,5 +1,8 @@
 package uk.co.odinconsultants
 
+import org.apache.hadoop.hive.conf.HiveConf
+import org.apache.spark.sql.hive.{HiveGenericUDF, UnsafeSpark}
+import org.apache.hadoop.hive.ql.metadata.HiveUtils
 import org.apache.iceberg.CatalogProperties
 import org.apache.spark.sql.internal.SQLConf.DEFAULT_CATALOG
 import org.apache.spark.sql.internal.StaticSQLConf.{
@@ -13,11 +16,17 @@ import org.apache.spark.{SparkConf, SparkContext}
 import java.nio.file.Files
 
 object SparkForTesting {
-  val master   : String    = "local[2]"
-  val tmpDir   : String    = Files.createTempDirectory("SparkForTesting").toString
-  val sparkConf: SparkConf = {
+  val defaultCatalog: String = "spark_catalog" // spark_catalog is the default in Spark code
+  val catalog: String        = "hive_catalog"
+  val database: String       = "database"
+  val namespace: String      = s"${catalog}.$database"
+  val master: String         = "local[2]"
+  val tmpDir: String         = Files.createTempDirectory("SparkForTesting").toString
+  val catalog_class: String  =
+    "org.apache.iceberg.spark.SparkSessionCatalog" // not "org.apache.iceberg.spark.SparkCatalog" ?
+  val sparkConf: SparkConf   = {
     println(s"Using temp directory $tmpDir")
-    System.setProperty("derby.system.home", tmpDir)
+//    System.setProperty("derby.system.home", tmpDir + "/derby/")
     new SparkConf()
       .setMaster(master)
       .setAppName("Tests")
@@ -25,21 +34,28 @@ object SparkForTesting {
         SPARK_SESSION_EXTENSIONS.key,
         "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",
       )
-      .set("spark.sql.catalog.spark_catalog", "org.apache.iceberg.spark.SparkSessionCatalog")
+      .set(s"spark.sql.catalog.$defaultCatalog", catalog_class)
+      .set(s"spark.sql.catalog.${namespace}", catalog_class)
       .set(CATALOG_IMPLEMENTATION.key, "hive")
       .set("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog")
       .set("spark.sql.catalog.local.type", "hadoop")
       .set(DEFAULT_CATALOG.key, "local")
       .set(WAREHOUSE_PATH.key, tmpDir)
       .set(s"spark.sql.catalog.local.${CatalogProperties.WAREHOUSE_LOCATION}", tmpDir)
-//      .set("spark.sql.catalog.hive_prod", "org.apache.iceberg.spark.SparkCatalog")
-//      .set("spark.sql.catalog.hive_prod.type", "hive")
-//      .set("spark.sql.catalog.hive_prod.uri", "thrift://localhost:10000")
+      .set(s"spark.sql.catalog.${catalog}", catalog_class)
+      .set(s"spark.sql.catalog.${catalog}.type", "hive")
+      .set(s"spark.sql.catalog.${catalog}.warehouse", Files.createTempDirectory("hive").toString)
       .setSparkHome(tmpDir)
   }
   sparkConf.set("spark.driver.allowMultipleContexts", "true")
+  UnsafeSpark.getHiveConfig().foreach(kv => sparkConf.set(kv._1, kv._2))
   val sc: SparkContext       = SparkContext.getOrCreate(sparkConf)
-  val spark: SparkSession    = SparkSession.builder().getOrCreate()
+  val spark: SparkSession    = SparkSession
+    .builder()
+    .config("spark.sql.catalogImplementation", "hive")
+    .enableHiveSupport()
+    .getOrCreate()
+  spark.sql(s"create database $database")
   val sqlContext: SQLContext = spark.sqlContext
 
 }
