@@ -1,15 +1,9 @@
 package uk.co.odinconsultants
 
-import org.apache.hadoop.hive.conf.HiveConf
-import org.apache.spark.sql.hive.{HiveGenericUDF, UnsafeSpark}
-import org.apache.hadoop.hive.ql.metadata.HiveUtils
 import org.apache.iceberg.CatalogProperties
+import org.apache.spark.sql.hive.UnsafeSpark
 import org.apache.spark.sql.internal.SQLConf.DEFAULT_CATALOG
-import org.apache.spark.sql.internal.StaticSQLConf.{
-  CATALOG_IMPLEMENTATION,
-  SPARK_SESSION_EXTENSIONS,
-  WAREHOUSE_PATH,
-}
+import org.apache.spark.sql.internal.StaticSQLConf.{CATALOG_IMPLEMENTATION, SPARK_SESSION_EXTENSIONS, WAREHOUSE_PATH}
 import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -25,7 +19,6 @@ object SparkForTesting {
     "org.apache.iceberg.spark.SparkSessionCatalog" // not "org.apache.iceberg.spark.SparkCatalog" ?
   val sparkConf: SparkConf   = {
     println(s"Using temp directory $tmpDir")
-//    System.setProperty("derby.system.home", tmpDir + "/derby/")
     new SparkConf()
       .setMaster(master)
       .setAppName("Tests")
@@ -35,7 +28,7 @@ object SparkForTesting {
       )
       .set(s"spark.sql.catalog.${namespace}", catalog_class)
       .set(CATALOG_IMPLEMENTATION.key, "hive")
-      .set("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog")
+      .set("spark.sql.catalog.local", catalog_class)
       .set("spark.sql.catalog.local.type", "hadoop")
       .set(DEFAULT_CATALOG.key, "local")
       .set(WAREHOUSE_PATH.key, tmpDir)
