@@ -52,13 +52,15 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
       Given(s"there are already ${filesBefore.size} files for table $tableName")
       val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
       val sql =
-        s"""CALL iceberg.system.expire_snapshots(table => $tableName,
+        s"""CALL system.expire_snapshots(table => \"$tableName\",
            |older_than => TIMESTAMP '${dateFormat.format(new java.util.Date())}',
-           |retain_last => 5,
-           |stream_results => true);""".stripMargin
+           |retain_last => 1,
+           |stream_results => true)""".stripMargin
       When(s"we execute the SQL:${formatSQL(sql)}")
+      spark.sqlContext.sql(sql)
       val filesAfter = dataFilesIn(tableName).toSet
       Then(s"old files have been removed and only ${filesAfter.size} remain")
+      assert(filesAfter.size < filesBefore.size)
     }
   }
 
