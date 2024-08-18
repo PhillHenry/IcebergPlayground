@@ -54,7 +54,6 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
       val sql =
         s"""CALL system.expire_snapshots(table => \"$tableName\",
            |older_than => TIMESTAMP '${dateFormat.format(new java.util.Date())}',
-           |retain_last => 1,
            |stream_results => true)""".stripMargin
       When(s"we execute the SQL:${formatSQL(sql)}")
       spark.sqlContext.sql(sql)
