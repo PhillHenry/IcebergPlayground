@@ -28,7 +28,7 @@ object SparkForTesting {
       )
       .set(s"spark.sql.catalog.${namespace}", catalog_class)
       .set(CATALOG_IMPLEMENTATION.key, "hive")
-      .set("spark.sql.catalog.local", catalog_class)
+      .set("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog")
       .set("spark.sql.catalog.local.type", "hadoop")
       .set(DEFAULT_CATALOG.key, "local")
       .set(WAREHOUSE_PATH.key, tmpDir)
