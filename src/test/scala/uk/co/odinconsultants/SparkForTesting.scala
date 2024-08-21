@@ -10,6 +10,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import java.nio.file.Files
 
 object SparkForTesting {
+  val sparkCatalog: String = "spark_catalog"
   val catalog: String        = "my_spark_catalog"
   val database: String       = "my_database"
   val namespace: String      = s"${catalog}.$database"
@@ -33,6 +34,9 @@ object SparkForTesting {
       .set(DEFAULT_CATALOG.key, "local")
       .set(WAREHOUSE_PATH.key, tmpDir)
       .set(s"spark.sql.catalog.local.${CatalogProperties.WAREHOUSE_LOCATION}", tmpDir)
+      .set(s"spark.sql.catalog.${sparkCatalog}", "org.apache.iceberg.spark.SparkCatalog")
+      .set(s"spark.sql.catalog.${sparkCatalog}.type", "hive")
+      .set(s"spark.sql.catalog.${sparkCatalog}.warehouse", Files.createTempDirectory(s"hive_$sparkCatalog").toString)
       .set(s"spark.sql.catalog.${catalog}", catalog_class)
       .set(s"spark.sql.catalog.${catalog}.type", "hive")
       .set(s"spark.sql.catalog.${catalog}.warehouse", Files.createTempDirectory("hive").toString)
@@ -46,7 +50,7 @@ object SparkForTesting {
     .config("spark.sql.catalogImplementation", "hive")
     .enableHiveSupport()
     .getOrCreate()
-//  spark.sql(s"create database $namespace")
+//  spark.sql(s"create database $namespace") // Delegated SessionCatalog is missing. Please make sure your are replacing Spark's default catalog, named 'spark_catalog'.
   val sqlContext: SQLContext = spark.sqlContext
 
 }
