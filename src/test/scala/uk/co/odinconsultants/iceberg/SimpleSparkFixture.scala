@@ -46,7 +46,7 @@ object SQL {
         s"${field.getName} ${field.getType.getSimpleName}"
       }
       .mkString(",\n")
-    s"""CREATE TABLE $tableName ($fields)""".stripMargin
+    s"""CREATE TABLE $tableName ($fields) USING iceberg""".stripMargin
   }
 
   def insertSQL(tableName: String, data: Seq[Datum]): String = {
