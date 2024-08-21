@@ -10,8 +10,8 @@ import org.apache.spark.{SparkConf, SparkContext}
 import java.nio.file.Files
 
 object SparkForTesting {
-  val catalog: String        = "spark_catalog"
-  val database: String       = "database"
+  val catalog: String        = "my_spark_catalog"
+  val database: String       = "my_database"
   val namespace: String      = s"${catalog}.$database"
   val master: String         = "local[2]"
   val tmpDir: String         = Files.createTempDirectory("SparkForTesting").toString
@@ -46,7 +46,7 @@ object SparkForTesting {
     .config("spark.sql.catalogImplementation", "hive")
     .enableHiveSupport()
     .getOrCreate()
-  spark.sql(s"create database $namespace")
+//  spark.sql(s"create database $namespace")
   val sqlContext: SQLContext = spark.sqlContext
 
 }
