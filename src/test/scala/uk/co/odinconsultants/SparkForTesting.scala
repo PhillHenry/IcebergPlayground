@@ -16,7 +16,7 @@ object SparkForTesting {
   val namespace: String      = s"${catalog}.$database"
   val master: String         = "local[2]"
   val tmpDir: String         = Files.createTempDirectory("SparkForTesting").toString
-  val catalog_class: String  =
+  val catalog_class: String  = // "adds support for Iceberg tables to Spark's built-in catalog, and delegates to the built-in catalog for non-Iceberg tables"
     "org.apache.iceberg.spark.SparkSessionCatalog" // not "org.apache.iceberg.spark.SparkCatalog" ?
   val sparkConf: SparkConf   = {
     println(s"Using temp directory $tmpDir")
@@ -34,7 +34,7 @@ object SparkForTesting {
       .set(DEFAULT_CATALOG.key, "local")
       .set(WAREHOUSE_PATH.key, tmpDir)
       .set(s"spark.sql.catalog.local.${CatalogProperties.WAREHOUSE_LOCATION}", tmpDir)
-      .set(s"spark.sql.catalog.${sparkCatalog}", "org.apache.iceberg.spark.SparkCatalog")
+      .set(s"spark.sql.catalog.${sparkCatalog}", "org.apache.iceberg.spark.SparkCatalog") // "supports a Hive Metastore or a Hadoop warehouse as a catalog"
       .set(s"spark.sql.catalog.${sparkCatalog}.type", "hive")
       .set(s"spark.sql.catalog.${sparkCatalog}.warehouse", Files.createTempDirectory(s"hive_$sparkCatalog").toString)
       .set(s"spark.sql.catalog.${catalog}", catalog_class)
