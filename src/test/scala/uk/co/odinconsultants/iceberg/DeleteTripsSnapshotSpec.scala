@@ -12,7 +12,7 @@ class DeleteTripsSnapshotSpec extends SpecPretifier with GivenWhenThen with Tabl
 
   "A snapshot" should {
     val db = "my_db"
-    val catalog = "local"
+    val catalog = "spark_catalog"
     val spark_ns = s"$catalog.$db"
     val dst_table = s"$spark_ns.${tableName}_dst".toLowerCase()
     val src_table = s"$spark_ns.$tableName".toLowerCase()
@@ -40,6 +40,7 @@ class DeleteTripsSnapshotSpec extends SpecPretifier with GivenWhenThen with Tabl
     val mode = "copy-on-write"
     val createSQL: String                                = tableDDL(src_table, mode)
     s"create no new files for $mode" ignore new SimpleSparkFixture {
+      spark.sql(s"create database $spark_ns")
       spark.sql(s"DROP TABLE IF EXISTS $src_table")
       spark.sql(s"DROP TABLE IF EXISTS $db.$tableName")
       Given(s"SQL:${formatSQL(createSQL)}")
@@ -74,7 +75,7 @@ class DeleteTripsSnapshotSpec extends SpecPretifier with GivenWhenThen with Tabl
   }
   private def tableDDL(tableName: String, mode: String): String = {
     val createSQL: String = s"""${createDatumTable(tableName)} TBLPROPERTIES (
-                               |    'format-version' = '2',
+                               |    'format-version' = '1',
                                |    'write.delete.mode'='$mode',
                                |    'write.update.mode'='$mode',
                                |    'write.merge.mode'='$mode'
