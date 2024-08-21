@@ -11,6 +11,8 @@ The code for these tests can be found in [GitHub](https://github.com/PhillHenry/
 
 [Copy On Write](CopyOnWrite.html)
 
+[Delete Trips Snapshot](DeleteTripsSnapshot.html)
+
 [Iceberg CRUD](IcebergCRUD.html)
 
 [Java Interface](JavaInterface.html)

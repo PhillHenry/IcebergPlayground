@@ -15,9 +15,8 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
 
   "Concurrent writes" should {
     "cause one transaction to fail" in new SimpleSparkFixture {
-      val fqn: String = s"${SparkForTesting.namespace}." + tableName
       def writeData(): Future[Unit] = Future {
-        spark.createDataFrame(data).writeTo(fqn).create()
+        spark.createDataFrame(data).writeTo(tableName).create()
       }
       Given(s"two transactions trying to write data\n${prettyPrintSampleOf(data)}")
       When("both run at the same time")
@@ -27,6 +26,7 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
         future <- List(first, second)
       } yield Await.ready(future, Duration(1, MINUTES))
       val failures: List[Try[Unit]]  = results.flatMap(_.value.filter(_.isFailure).toList)
+      assert(failures.size == 1)
       val failure = failures.map(_ match {
         case Failure(exception) =>
           exception.printStackTrace()
@@ -36,7 +36,7 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
       Then(s"one fails with exception ${failure}")
       assert(failures.size == 1)
       And("one succeeds")
-      assertDataIn(fqn)
+      assertDataIn(tableName)
     }
   }
 }
