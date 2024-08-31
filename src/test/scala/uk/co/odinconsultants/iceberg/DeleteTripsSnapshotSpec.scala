@@ -12,7 +12,7 @@ class DeleteTripsSnapshotSpec extends SpecPretifier with GivenWhenThen with Tabl
 
   "A snapshot" should {
     val db = "my_db"
-    val catalog = "spark_catalog"
+    val catalog = "local"
     val spark_ns = s"$catalog.$db"
     val dst_table = s"$spark_ns.${tableName}_dst".toLowerCase()
     val src_table = s"$spark_ns.$tableName".toLowerCase()

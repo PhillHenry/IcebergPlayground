@@ -1,6 +1,7 @@
 package uk.co.odinconsultants
 
 import org.apache.iceberg.CatalogProperties
+import org.apache.iceberg.rest.RESTCatalog
 import org.apache.spark.sql.hive.UnsafeSpark
 import org.apache.spark.sql.internal.SQLConf.DEFAULT_CATALOG
 import org.apache.spark.sql.internal.StaticSQLConf.{CATALOG_IMPLEMENTATION, SPARK_SESSION_EXTENSIONS, WAREHOUSE_PATH}
@@ -8,6 +9,7 @@ import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.spark.{SparkConf, SparkContext}
 
 import java.nio.file.Files
+import scala.jdk.CollectionConverters._
 
 object SparkForTesting {
   //System.getProperties().setProperty("derby.system.home", Files.createTempDirectory("derby").toString);
@@ -19,6 +21,10 @@ object SparkForTesting {
   val tmpDir: String         = Files.createTempDirectory("SparkForTesting").toString
   val catalog_class: String  = // "adds support for Iceberg tables to Spark's built-in catalog, and delegates to the built-in catalog for non-Iceberg tables"
     "org.apache.iceberg.spark.SparkSessionCatalog" // not "org.apache.iceberg.spark.SparkCatalog" ?
+
+//  val restCatalog = new RESTCatalog()
+//  restCatalog.initialize("rest_catalog", Map(CatalogProperties.URI -> "http://localhost:12345").asJava)
+
   val sparkConf: SparkConf   = {
     println(s"Using temp directory $tmpDir")
     new SparkConf()
@@ -43,6 +49,13 @@ object SparkForTesting {
       .set(s"spark.sql.catalog.${catalog}.type", "hive")
       .set(s"spark.sql.catalog.${catalog}.warehouse", Files.createTempDirectory("hive").toString)
       .set(s"spark.sql.catalog.${catalog}.cache-enabled", "false")
+
+      .set("spark.sql.catalog.rest", "org.apache.iceberg.spark.SparkCatalog")
+      .set("spark.sql.catalog.rest.type", "rest")
+      .set("spark.sql.catalog.rest.uri", "http://localhost:12345")
+      .set("spark.sql.catalog.rest.auth.type", "basic")
+//      .set("spark.sql.catalog.rest.auth.basic.username", "your-username")
+//      .set("spark.sql.catalog.rest.auth.basic.password", "your-password")
       .setSparkHome(tmpDir)
   }
   sparkConf.set("spark.driver.allowMultipleContexts", "true")
