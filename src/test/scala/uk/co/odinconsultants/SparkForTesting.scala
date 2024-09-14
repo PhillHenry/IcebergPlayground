@@ -2,11 +2,11 @@ package uk.co.odinconsultants
 
 import org.apache.iceberg.CatalogProperties
 import org.apache.iceberg.rest.RESTCatalog
-import org.apache.spark.sql.hive.UnsafeSpark
 import org.apache.spark.sql.internal.SQLConf.DEFAULT_CATALOG
 import org.apache.spark.sql.internal.StaticSQLConf.{CATALOG_IMPLEMENTATION, SPARK_SESSION_EXTENSIONS, WAREHOUSE_PATH}
 import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.iceberg.CatalogUtil.ICEBERG_CATALOG_TYPE_REST
 
 import java.nio.file.Files
 import scala.jdk.CollectionConverters._
@@ -38,33 +38,22 @@ object SparkForTesting {
 //      .set(CATALOG_IMPLEMENTATION.key, "hive")
       .set("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog")
       .set("spark.sql.catalog.local.type", "hadoop")
-      .set(DEFAULT_CATALOG.key, "local")
+      .set(DEFAULT_CATALOG.key, "polaris")
       .set(WAREHOUSE_PATH.key, tmpDir)
-      .set(s"spark.sql.catalog.local.${CatalogProperties.WAREHOUSE_LOCATION}", tmpDir)
-      .set(s"spark.sql.catalog.${sparkCatalog}", "org.apache.iceberg.spark.SparkCatalog") // "supports a Hive Metastore or a Hadoop warehouse as a catalog"
-      .set(s"spark.sql.catalog.${sparkCatalog}.type", "hadoop") // hadoop => "Cannot use non-v1 table 'my_db.deletetripssnapshotspec' as a source", "hive" => "Table/View 'NEXT_LOCK_ID' does not exist."
-      .set(s"spark.sql.catalog.${sparkCatalog}.warehouse", Files.createTempDirectory(s"hive_$sparkCatalog").toString)
-      .set(s"spark.sql.catalog.${sparkCatalog}.cache-enabled", "false")
-      .set(s"spark.sql.catalog.${catalog}", catalog_class)
-      .set(s"spark.sql.catalog.${catalog}.type", "hive")
-      .set(s"spark.sql.catalog.${catalog}.warehouse", Files.createTempDirectory("hive").toString)
-      .set(s"spark.sql.catalog.${catalog}.cache-enabled", "false")
+      .set("spark.sql.catalog.polaris.uri", "http://localhost:8181/api/catalog")
+      .set("spark.sql.catalog.polaris.token", "principal:root;realm:default-realm")
+      .set("spark.sql.catalog.polaris", "org.apache.iceberg.spark.SparkCatalog")
+      .set("spark.sql.catalog.polaris.type", ICEBERG_CATALOG_TYPE_REST)
+      .set("spark.sql.catalog.polaris.warehouse", "manual_spark")
+      .set("spark.sql.defaultCatalog", "polaris")
+      .set("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")
 
-      .set("spark.sql.catalog.rest", "org.apache.iceberg.spark.SparkCatalog")
-      .set("spark.sql.catalog.rest.type", "rest")
-      .set("spark.sql.catalog.rest.uri", "http://localhost:12345")
-      .set("spark.sql.catalog.rest.auth.type", "basic")
-//      .set("spark.sql.catalog.rest.auth.basic.username", "your-username")
-//      .set("spark.sql.catalog.rest.auth.basic.password", "your-password")
       .setSparkHome(tmpDir)
   }
   sparkConf.set("spark.driver.allowMultipleContexts", "true")
-  UnsafeSpark.getHiveConfig().foreach(kv => sparkConf.set(kv._1, kv._2))
   val sc: SparkContext       = SparkContext.getOrCreate(sparkConf)
   val spark: SparkSession    = SparkSession
     .builder()
-//    .config("spark.sql.catalogImplementation", "hive")
-    .enableHiveSupport()
     .getOrCreate()
 //  spark.sql(s"create database $namespace") // Delegated SessionCatalog is missing. Please make sure your are replacing Spark's default catalog, named 'spark_catalog'.
   val sqlContext: SQLContext = spark.sqlContext
