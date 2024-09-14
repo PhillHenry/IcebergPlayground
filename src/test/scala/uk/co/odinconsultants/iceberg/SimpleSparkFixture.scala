@@ -18,7 +18,7 @@ trait SimpleSparkFixture extends SimpleFixture {
 
   val spark: SparkSession = testSpark
 
-  def dataDir(tableName: String): String = TestUtils.dataDir(tableName)
+  def dataDir(tableName: String): String = "/tmp/polaris/" // as defined by the external Polaris service
 
   def icebergTable(tableName: String): Table =
     tables.load(s"$tmpDir/$tableName")

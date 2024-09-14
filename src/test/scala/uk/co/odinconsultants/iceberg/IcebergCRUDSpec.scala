@@ -19,11 +19,9 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
     import spark.implicits._
     val files: MSet[String] = MSet.empty[String]
 
-      val namespace = "namespace"
       val tableName = "polaris." + namespace + "." + this.getClass.getSimpleName.replace("$", "_")
 
     "create the appropriate Iceberg files" in new SimpleSparkFixture {
-      spark.sql(s"CREATE NAMESPACE IF NOT EXISTS $namespace")
       Given(s"data\n${prettyPrintSampleOf(data)}")
       When(s"writing to table '$tableName'")
       spark.createDataFrame(data).writeTo(tableName).create()
