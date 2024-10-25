@@ -2,7 +2,7 @@ package uk.co.odinconsultants.iceberg
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
-import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier, TableNameFixture}
+import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 import java.text.SimpleDateFormat
 
@@ -27,15 +27,16 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
 
       Given(s"data\n${prettyPrintSampleOf(data)}")
       And(s"$num_rows rows are initially written to table '$tableName'")
+      spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
       spark.createDataFrame(data).writeTo(tableName).create()
 
-      val filesBefore = dataFilesIn(tableName).toSet
+      val filesBefore = parquetFiles(tableName).toSet
       val sql =
         s"""CALL system.rewrite_data_files(table => \"$tableName\",
            |options => map('min-input-files','$MIN_INPUT_FILES'))""".stripMargin
       When(s"we execute the SQL ${formatSQL(sql)}")
       spark.sqlContext.sql(sql)
-      val filesAfter = dataFilesIn(tableName).toSet
+      val filesAfter = parquetFiles(tableName).toSet
       val added: Set[String] = filesAfter -- filesBefore
       Then(s"the files added to the original ${filesBefore.size} are:\n${toHumanReadable(added)}")
       val deleted: Set[String] = filesBefore -- filesAfter
@@ -48,7 +49,7 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
       assert(diffHavingOrdered(fromNewFiles).isEmpty)
     }
     s"have snapshots removed when expired" in new SimpleSparkFixture {
-      val filesBefore = dataFilesIn(tableName).toSet
+      val filesBefore = parquetFiles(tableName).toSet
       Given(s"there are already ${filesBefore.size} files for table $tableName")
       val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
       val sql =
@@ -57,7 +58,7 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
            |stream_results => true)""".stripMargin
       When(s"we execute the SQL:${formatSQL(sql)}")
       spark.sqlContext.sql(sql)
-      val filesAfter = dataFilesIn(tableName).toSet
+      val filesAfter = parquetFiles(tableName).toSet
       Then(s"old files have been removed and only ${filesAfter.size} remain")
       assert(filesAfter.size < filesBefore.size)
     }

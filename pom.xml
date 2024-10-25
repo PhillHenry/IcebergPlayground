@@ -149,6 +149,80 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>run-script</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>bash</executable>
+                            <arguments>
+                                <argument>${project.basedir}/scripts/setup.sh</argument>
+                                <!-- Add script arguments here if needed -->
+                                <!-- <argument>arg1</argument> -->
+                                <!-- <argument>arg2</argument> -->
+                            </arguments>
+                            <environmentVariables>
+                                <!-- Optional environment variables -->
+                                <PROJECT_DIR>${project.basedir}</PROJECT_DIR>
+                            </environmentVariables>
+                            <!-- Fail the build if script fails -->
+                            <successCodes>
+                                <successCode>0</successCode>
+                            </successCodes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.45.0</version>
+                <executions>
+                    <execution>
+                        <id>prepare-it-database</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>my-polaris</name>
+                                    <alias>it-database</alias>
+                                    <run>
+<!--                                        <user>1001</user>-->
+                                        <ports>
+                                            <port>8181:8181</port>
+                                        </ports>
+                                        <volumes>
+                                            <bind>
+                                                <volume>/tmp:/tmp</volume>
+                                            </bind>
+                                        </volumes>
+                                        <wait>
+                                            <log>eclipse.jetty.server.Server: Started</log>
+                                            <time>10000</time>
+                                        </wait>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>remove-it-database</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>

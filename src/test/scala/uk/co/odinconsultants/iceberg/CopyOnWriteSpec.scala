@@ -1,12 +1,11 @@
 package uk.co.odinconsultants.iceberg
-import uk.co.odinconsultants.SparkForTesting.spark
+import uk.co.odinconsultants.SparkForTesting.{namespace, spark}
 import uk.co.odinconsultants.documentation_utils.Datum
 
 class CopyOnWriteSpec extends AbstractCrudSpec {
 
   import spark.implicits._
 
-  override def tableName = "cow_table"
   override def mode      = "copy-on-write"
   override def checkDatafiles(
       previous: Set[String],

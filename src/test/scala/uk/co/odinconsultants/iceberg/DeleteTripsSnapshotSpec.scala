@@ -2,7 +2,7 @@ package uk.co.odinconsultants.iceberg
 
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting
-import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier, TableNameFixture}
+import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.SQL.{createDatumTable, insertSQL}
 
 
@@ -61,14 +61,14 @@ class DeleteTripsSnapshotSpec extends SpecPretifier with GivenWhenThen with Tabl
       spark.sqlContext.sql(snapshotSQL)
     }
     s"be cleaned up with remove_orphan_files" ignore new SimpleSparkFixture {
-      val filesBefore = dataFilesIn(tableName).toSet
+      val filesBefore = parquetFiles(tableName).toSet
       Given(s"there are already ${filesBefore.size} files for table $tableName")
       val fqn: String = s"${SparkForTesting.namespace}." + tableName
       val sql =
         s"""CALL system.remove_orphan_files(table => \"$tableName\")""".stripMargin
       When(s"we execute the SQL:${formatSQL(sql)}")
       spark.sqlContext.sql(sql)
-      val filesAfter = dataFilesIn(tableName).toSet
+      val filesAfter = parquetFiles(tableName).toSet
       Then(s"old files have been removed and only ${filesAfter.size} remain")
       assert(filesAfter.size < filesBefore.size)
     }

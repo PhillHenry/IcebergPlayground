@@ -1,7 +1,7 @@
 package uk.co.odinconsultants.iceberg
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.spark
-import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier, TableNameFixture}
+import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 import scala.util.Random
 
@@ -44,6 +44,7 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
       Given(
         s"$num_rows rows of data that look like\n${prettyPrintSampleOf(shuffled)}\nare initially written to table '$tableName'"
       )
+      spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
       spark.createDataFrame(shuffled).writeTo(tableName).create()
       val filesBefore = parquetFiles(tableName)
       assert(filesBefore.length > 0)

@@ -3,7 +3,7 @@ import org.apache.iceberg.Table
 import org.apache.iceberg.data.{IcebergGenerics, Record}
 import org.apache.iceberg.io.CloseableIterable
 import org.scalatest.GivenWhenThen
-import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier, TableNameFixture}
+import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.MetaUtils.timeOrderedSnapshots
 
 import scala.jdk.CollectionConverters._
@@ -16,6 +16,7 @@ class JavaInterfaceSpec extends SpecPretifier with GivenWhenThen with TableNameF
     "have its files visible via the Java APIs" in new SimpleSparkFixture {
       import spark.implicits._
       Given("a table that has seen changes")
+      spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
       spark.createDataFrame(data).writeTo(tableName).create()
       val updateSql = s"update $tableName set $colToChange='$newVal'"
       spark.sqlContext.sql(updateSql)

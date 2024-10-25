@@ -7,7 +7,8 @@ RUN apt install -y unzip
 # Copy the REST catalog into the container
 #COPY --chown=default:root . /app
 
-USER 1001:1001
+RUN useradd -ms /bin/bash henryp
+USER henryp
 
 # Set the working directory in the container, nuke any existing builds
 WORKDIR /app

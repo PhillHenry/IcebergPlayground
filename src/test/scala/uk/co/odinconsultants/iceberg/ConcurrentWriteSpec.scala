@@ -1,7 +1,7 @@
 package uk.co.odinconsultants.iceberg
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting
-import uk.co.odinconsultants.documentation_utils.{SpecPretifier, TableNameFixture}
+import uk.co.odinconsultants.documentation_utils.{SpecPretifier}
 
 import java.util.concurrent.TimeUnit.MINUTES
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,6 +16,7 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
   "Concurrent writes" should {
     "cause one transaction to fail" in new SimpleSparkFixture {
       def writeData(): Future[Unit] = Future {
+        spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
         spark.createDataFrame(data).writeTo(tableName).create()
       }
       Given(s"two transactions trying to write data\n${prettyPrintSampleOf(data)}")

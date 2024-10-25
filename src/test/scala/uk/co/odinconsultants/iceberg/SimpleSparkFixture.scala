@@ -2,9 +2,12 @@ package uk.co.odinconsultants.iceberg
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hive.conf.HiveConf
 import org.apache.iceberg.Table
+import org.apache.iceberg.catalog.{Namespace, TableIdentifier}
 import org.apache.iceberg.hadoop.HadoopTables
+import org.apache.iceberg.spark.{PathIdentifier, Spark3Util, SparkCatalog}
 import org.apache.spark.sql.SparkSession
-import uk.co.odinconsultants.SparkForTesting.{tmpDir, spark => testSpark}
+import uk.co.odinconsultants.SparkForTesting
+import uk.co.odinconsultants.SparkForTesting.{catalog, namespace, spark => testSpark}
 import uk.co.odinconsultants.documentation_utils.{Datum, SimpleFixture}
 
 import java.lang.reflect.Field
@@ -18,17 +21,22 @@ trait SimpleSparkFixture extends SimpleFixture {
 
   val spark: SparkSession = testSpark
 
-  def dataDir(tableName: String): String = "/tmp/polaris/" // as defined by the external Polaris service
+  def dataDir(tableName: String): String = TestUtils.tableDir(tableName)
 
-  def icebergTable(tableName: String): Table =
-    tables.load(s"$tmpDir/$tableName")
+  def icebergTable(tableName: String): Table = {
+    Spark3Util.loadIcebergTable(spark, tableName)
+  }
 
-  def parquetFiles(tableName: String): Seq[String] = dataFilesIn(tableName).filter(_.endsWith(".parquet"))
+  def parquetFiles(tableName: String): Seq[String] = super.dataFilesIn(tableName).filter(_.endsWith(".parquet"))
+
+//  override def dataFilesIn(tableName: String): List[String] = parquetFiles(tableName).toList
 
 }
 
 object TestUtils {
-  def dataDir(tableName: String) = s"$tmpDir/$tableName/data"
+  def tableDir(tableName: String): String = s"/tmp/${tableName.replace(".", "/")}" // as defined by the external Polaris service
+
+  def dataDir(tableName: String) = s"${tableDir(tableName)}/data"
 }
 
 trait UniqueTableFixture extends SimpleSparkFixture {

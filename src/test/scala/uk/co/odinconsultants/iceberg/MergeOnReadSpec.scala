@@ -8,7 +8,6 @@ class MergeOnReadSpec extends AbstractCrudSpec {
 
   import spark.implicits._
 
-  override def tableName = "mor_table"
   override def mode      = "merge-on-read"
 
   override def checkDatafiles(
