@@ -16,7 +16,6 @@ class JavaInterfaceSpec extends SpecPretifier with GivenWhenThen with TableNameF
     "have its files visible via the Java APIs" in new SimpleSparkFixture {
       import spark.implicits._
       Given("a table that has seen changes")
-      spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
       spark.createDataFrame(data).writeTo(tableName).create()
       val updateSql = s"update $tableName set $colToChange='$newVal'"
       spark.sqlContext.sql(updateSql)

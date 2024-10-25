@@ -8,6 +8,11 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 import java.nio.file.Files
 
+/**
+ * If you want to run tests outside of Maven, run:
+ * docker run -i -t -p8181:8181 -v/tmp:/tmp my-polaris
+ * first
+ */
 object SparkForTesting {
   val sparkCatalog: String = "spark_catalog"
   val catalog: String      = "polaris"

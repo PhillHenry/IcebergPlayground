@@ -16,7 +16,6 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
   "Concurrent writes" should {
     "cause one transaction to fail" in new SimpleSparkFixture {
       def writeData(): Future[Unit] = Future {
-        spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
         spark.createDataFrame(data).writeTo(tableName).create()
       }
       Given(s"two transactions trying to write data\n${prettyPrintSampleOf(data)}")

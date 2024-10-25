@@ -27,7 +27,6 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
 
       Given(s"data\n${prettyPrintSampleOf(data)}")
       And(s"$num_rows rows are initially written to table '$tableName'")
-      spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
       spark.createDataFrame(data).writeTo(tableName).create()
 
       val filesBefore = parquetFiles(tableName).toSet

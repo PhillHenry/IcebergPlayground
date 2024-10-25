@@ -22,7 +22,6 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
     "create the appropriate Iceberg files" in new SimpleSparkFixture {
       Given(s"data\n${prettyPrintSampleOf(data)}")
       When(s"writing to table '$tableName'")
-      spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
       spark.createDataFrame(data).writeTo(tableName).create()
       Then("reading the table back yields the same data")
       assertDataIn(tableName)

@@ -2,12 +2,10 @@ package uk.co.odinconsultants.iceberg
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hive.conf.HiveConf
 import org.apache.iceberg.Table
-import org.apache.iceberg.catalog.{Namespace, TableIdentifier}
 import org.apache.iceberg.hadoop.HadoopTables
-import org.apache.iceberg.spark.{PathIdentifier, Spark3Util, SparkCatalog}
+import org.apache.iceberg.spark.Spark3Util
 import org.apache.spark.sql.SparkSession
-import uk.co.odinconsultants.SparkForTesting
-import uk.co.odinconsultants.SparkForTesting.{catalog, namespace, spark => testSpark}
+import uk.co.odinconsultants.SparkForTesting.{spark => testSpark}
 import uk.co.odinconsultants.documentation_utils.{Datum, SimpleFixture}
 
 import java.lang.reflect.Field
@@ -28,8 +26,6 @@ trait SimpleSparkFixture extends SimpleFixture {
   }
 
   def parquetFiles(tableName: String): Seq[String] = super.dataFilesIn(tableName).filter(_.endsWith(".parquet"))
-
-//  override def dataFilesIn(tableName: String): List[String] = parquetFiles(tableName).toList
 
 }
 

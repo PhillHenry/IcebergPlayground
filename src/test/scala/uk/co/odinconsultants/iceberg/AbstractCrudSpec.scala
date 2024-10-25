@@ -18,7 +18,6 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen with Ta
   s"A $mode table" should {
     val files: MSet[String]                              = MSet.empty[String]
     val createSQL: String                                = tableDDL(tableName, mode)
-    spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
     s"create no new files for $mode" in new SimpleSparkFixture {
       Given(s"SQL:${formatSQL(createSQL)}")
       When("we execute it")

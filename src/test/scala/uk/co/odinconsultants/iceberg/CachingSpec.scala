@@ -11,7 +11,7 @@ class CachingSpec extends SpecPretifier with GivenWhenThen with TableNameFixture
 
     "create the appropriate Iceberg files" in new SimpleSparkFixture {
       Given(s"data files\n${prettyPrintSampleOf(data)}")
-      spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
+
       spark.createDataFrame(data).writeTo(tableName).create()
       val output: Dataset[Datum] = spark.read.table(tableName).as[Datum]
       assert(output.collect().size == data.length)

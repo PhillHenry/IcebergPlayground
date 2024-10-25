@@ -44,7 +44,6 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
       Given(
         s"$num_rows rows of data that look like\n${prettyPrintSampleOf(shuffled)}\nare initially written to table '$tableName'"
       )
-      spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
       spark.createDataFrame(shuffled).writeTo(tableName).create()
       val filesBefore = parquetFiles(tableName)
       assert(filesBefore.length > 0)
