@@ -1,6 +1,6 @@
 package uk.co.odinconsultants.iceberg
-import uk.co.odinconsultants.SparkForTesting.namespace
+import uk.co.odinconsultants.SparkForTesting.{namespace, catalog}
 
 trait TableNameFixture {
-  val tableName = "polaris." + namespace + "." + this.getClass.getSimpleName.replace("$", "_")
+  val tableName = catalog + "." + namespace + "." + this.getClass.getSimpleName.replace("$", "_")
 }

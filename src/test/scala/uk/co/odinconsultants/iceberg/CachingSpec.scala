@@ -4,11 +4,10 @@ import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
-class CachingSpec extends SpecPretifier with GivenWhenThen {
+class CachingSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
   "A dataset to CRUD" should {
     info("Unlike DeltaLake, Iceberg does not freeze data in time after a call to .cache()")
     import spark.implicits._
-    val tableName           = "polaris." + namespace + "." + "spark_file_test_writeTo"
 
     "create the appropriate Iceberg files" in new SimpleSparkFixture {
       Given(s"data files\n${prettyPrintSampleOf(data)}")
