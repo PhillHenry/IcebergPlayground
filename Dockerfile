@@ -1,11 +1,13 @@
+# run the shadowDistZip Gradle task then
+# cp POLARIS_SRC_HOME/polaris-service/build/distributions/polaris-service-shadow-999-SNAPSHOT.zip .
+# Build with something like:
+# docker build --build-arg UBER_JAR=polaris-service-shadow-999-SNAPSHOT  -t my-polaris .
+
 FROM ubuntu:24.10
 
 RUN apt update
 RUN apt install -y openjdk-21-jdk
 RUN apt install -y unzip
-
-# Copy the REST catalog into the container
-#COPY --chown=default:root . /app
 
 RUN useradd -ms /bin/bash henryp
 USER henryp
