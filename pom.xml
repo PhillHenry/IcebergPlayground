@@ -185,7 +185,7 @@
                 <version>0.45.0</version>
                 <executions>
                     <execution>
-                        <id>prepare-it-database</id>
+                        <id>prepare-polaris</id>
                         <phase>test-compile</phase>
                         <goals>
                             <goal>start</goal>
@@ -193,10 +193,9 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>my-polaris</name>
-                                    <alias>it-database</alias>
+                                    <name>ph1ll1phenry/polaris_for_bdd</name>
+                                    <alias>polaris</alias>
                                     <run>
-<!--                                        <user>1001</user>-->
                                         <ports>
                                             <port>8181:8181</port>
                                         </ports>
@@ -215,7 +214,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>remove-it-database</id>
+                        <id>remove-polaris</id>
                         <goals>
                             <goal>stop</goal>
                         </goals>
