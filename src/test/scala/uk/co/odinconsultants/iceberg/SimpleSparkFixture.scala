@@ -19,7 +19,13 @@ trait SimpleSparkFixture extends SimpleFixture {
 
   val spark: SparkSession = testSpark
 
-  def dataDir(tableName: String): String = TestUtils.tableDir(tableName)
+  def dataDir(tableName: String): String = {
+    if (tableName.toLowerCase.contains("polaris")) {
+      s"${TestUtils.tableDir(tableName)}/data"
+    } else {
+      TestUtils.tableDir(tableName)
+    }
+  }
 
   def icebergTable(tableName: String): Table = {
     Spark3Util.loadIcebergTable(spark, tableName)

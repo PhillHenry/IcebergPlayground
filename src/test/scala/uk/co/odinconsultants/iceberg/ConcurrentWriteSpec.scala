@@ -1,7 +1,8 @@
 package uk.co.odinconsultants.iceberg
+import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
-import uk.co.odinconsultants.SparkForTesting
-import uk.co.odinconsultants.documentation_utils.{SpecPretifier}
+import uk.co.odinconsultants.SparkForTesting.spark
+import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 import java.util.concurrent.TimeUnit.MINUTES
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -12,6 +13,8 @@ import scala.util.{Failure, Try}
 class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
 
   info("https://iceberg.apache.org/docs/latest/reliability/")
+
+  import spark.implicits._
 
   "Concurrent writes" should {
     "cause one transaction to fail" in new SimpleSparkFixture {
@@ -39,4 +42,21 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
       assertDataIn(tableName)
     }
   }
+
+  "Data integrity" should {
+    "be intact after a failure" in new SimpleSparkFixture {
+      Given(s"the table '$tableName' has had a failed write")
+      When(s"we call spark.read.table(\"$tableName\")")
+      val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
+      private val nRows: Long = table.count()
+      Then(s"the table still contains $nRows records")
+      assert(nRows == data.length)
+      And("failed files are left behind")
+      private val dir: String = dataDir(tableName)
+      print(s"About to read: $dir")
+      val raw: Dataset[Datum] = spark.read.parquet(dir).as[Datum]
+      assert(raw.count() > nRows)
+    }
+  }
+
 }

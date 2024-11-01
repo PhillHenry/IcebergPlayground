@@ -5,5 +5,7 @@ import uk.co.odinconsultants.SparkForTesting.spark
 trait TableNameFixture {
   val tableName = catalog + "." + namespace + "." + this.getClass.getSimpleName.replace("$", "_")
 
-  spark.sql(s"DROP TABLE  IF EXISTS $tableName  PURGE")
+  private val purgeSql = s"DROP TABLE  IF EXISTS $tableName  PURGE"
+  println(s"About to run:\n$purgeSql")
+  spark.sql(purgeSql)
 }
