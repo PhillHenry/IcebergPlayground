@@ -33,7 +33,7 @@
         <scala.compat.version>2.13</scala.compat.version>
         <spark.compat.version>3.5</spark.compat.version>
         <spark.version>${spark.compat.version}.0</spark.version>
-        <iceberg.version>1.5.2</iceberg.version>
+        <iceberg.version>1.6.1</iceberg.version>
         <documentation_utils.version>0.11</documentation_utils.version>
         <polaris.version>1.0.0</polaris.version>
     </properties>
@@ -78,16 +78,6 @@
             <version>1.2.11</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.polaris</groupId>
-            <artifactId>polaris-service</artifactId>
-            <version>${polaris.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.polaris</groupId>
-            <artifactId>polaris-core</artifactId>
-            <version>${polaris.version}</version>
-        </dependency>
-        <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
             <version>4.0.7</version>
@@ -110,6 +100,16 @@
             </artifactId>
             <version>${iceberg.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.polaris</groupId>
+            <artifactId>polaris-service</artifactId>
+            <version>${polaris.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.polaris</groupId>
+            <artifactId>polaris-core</artifactId>
+            <version>${polaris.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>

@@ -4,6 +4,7 @@ import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.spark
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
+import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit.MINUTES
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
@@ -52,10 +53,49 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
       Then(s"the table still contains $nRows records")
       assert(nRows == data.length)
       And("failed files are left behind")
-      private val dir: String = dataDir(tableName)
-      print(s"About to read: $dir")
-      val raw: Dataset[Datum] = spark.read.parquet(dir).as[Datum]
+      val raw: Dataset[Datum] = spark.read.parquet(dataDir(tableName)).as[Datum]
       assert(raw.count() > nRows)
+    }
+  }
+
+  "Orphans" should {
+    "be deleted" ignore new SimpleSparkFixture {
+      val filesBefore = Set(dataFilesIn(tableName))
+      val sql =
+        s"""CALL system.remove_orphan_files(
+           |    table => '$tableName')""".stripMargin
+      When(s"we execute the SQL:${formatSQL(sql)}")
+      spark.sqlContext.sql(sql)
+
+      assert(spark.read.parquet(dataDir(tableName)).as[Datum].count() == data.length * 2)
+
+      val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+
+      /**
+       * java.lang.IllegalArgumentException: Cannot remove orphan files with an interval less
+       * than 24 hours. Executing this procedure with a short interval may corrupt the table if
+       * other operations are happening at the same time. If you are absolutely confident that no
+       * concurrent operations will be affected by removing orphan files with such a short interval,
+       * you can use the Action API to remove orphan files with an arbitrary interval.
+       *       at org.apache.iceberg.spark.procedures.RemoveOrphanFilesProcedure.validateInterval(RemoveOrphanFilesProcedure.java:209)
+       */
+//      spark.sqlContext.sql(s"""CALL system.remove_orphan_files(
+//                              |    table => '$tableName',
+//                              |    older_than => TIMESTAMP '${dateFormat.format(new java.util.Date())}'
+//                              |    )""".stripMargin)
+
+      // hmm, this is compaction for manifests
+      spark.sqlContext.sql(s"""CALL system.rewrite_manifests(
+                              |    table => '$tableName')""".stripMargin)
+
+      // hmm, this is basically compaction for data files
+      spark.sqlContext.sql(s"""CALL system.rewrite_data_files(
+                              |    table => '$tableName')""".stripMargin)
+
+      val filesAfter = Set(dataFilesIn(tableName))
+      print(filesBefore -- filesAfter)
+      assert(filesBefore == filesAfter)
+      assert(spark.read.parquet(dataDir(tableName)).as[Datum].count() == data.length)
     }
   }
 

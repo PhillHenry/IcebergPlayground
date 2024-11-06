@@ -15,3 +15,9 @@ See the docs [here](https://phillhenry.github.io/IcebergPlayground/index.html).
 # See the BDDs
 
 You can see the output of the BDDs [here](https://iceberg.thebigdata.space/)
+
+# Individual tests
+
+They can be run with something like 
+
+`docker stop $(docker ps | grep polaris | awk '{print $1}') ; mvn  -Dtest=ConcurrentWriteSpec test`
