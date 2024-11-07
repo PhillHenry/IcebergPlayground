@@ -77,8 +77,6 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
 
       assert(spark.read.parquet(dataDir(tableName)).as[Datum].count() == data.length * 2)
 
-      val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-
       /** java.lang.IllegalArgumentException: Cannot remove orphan files with an interval less
         * than 24 hours. Executing this procedure with a short interval may corrupt the table if
         * other operations are happening at the same time. If you are absolutely confident that no
