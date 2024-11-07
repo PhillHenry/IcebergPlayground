@@ -86,23 +86,24 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
 //                              |    older_than => TIMESTAMP '${dateFormat.format(new java.util.Date())}'
 //                              |    )""".stripMargin)
 
-      // hmm, this is compaction for manifests
-      spark.sqlContext.sql(s"""CALL system.rewrite_manifests(
-                              |    table => '$tableName')""".stripMargin)
+//      // hmm, this is compaction for manifests
+//      spark.sqlContext.sql(s"""CALL system.rewrite_manifests(
+//                              |    table => '$tableName')""".stripMargin)
+//
+//      // hmm, this is basically compaction for data files
+//      spark.sqlContext.sql(s"""CALL system.rewrite_data_files(
+//                              |    table => '$tableName')""".stripMargin)
 
-      // hmm, this is basically compaction for data files
-      spark.sqlContext.sql(s"""CALL system.rewrite_data_files(
-                              |    table => '$tableName')""".stripMargin)
 
-      val filesAfter = Set(dataFilesIn(tableName))
 
       val actions = SparkActions.get(spark)
       val action = actions.deleteOrphanFiles(icebergTable(tableName))
       action.olderThan(new Date().getTime)
       action.execute()
 
+      val filesAfter = Set(dataFilesIn(tableName))
       print(filesBefore -- filesAfter)
-      assert(filesBefore == filesAfter)
+      assert(filesBefore != filesAfter)
       assert(spark.read.parquet(dataDir(tableName)).as[Datum].count() == data.length)
     }
   }
