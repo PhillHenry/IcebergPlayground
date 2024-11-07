@@ -1,10 +1,12 @@
 package uk.co.odinconsultants.iceberg
+import org.apache.iceberg.spark.actions.SparkActions
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.spark
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.concurrent.TimeUnit.MINUTES
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
@@ -59,7 +61,7 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
   }
 
   "Orphans" should {
-    "be deleted" ignore new SimpleSparkFixture {
+    "be deleted" in new SimpleSparkFixture {
       val filesBefore = Set(dataFilesIn(tableName))
       val sql =
         s"""CALL system.remove_orphan_files(
@@ -93,6 +95,12 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
                               |    table => '$tableName')""".stripMargin)
 
       val filesAfter = Set(dataFilesIn(tableName))
+
+      val actions = SparkActions.get(spark)
+      val action = actions.deleteOrphanFiles(icebergTable(tableName))
+      action.olderThan(new Date().getTime)
+      action.execute()
+
       print(filesBefore -- filesAfter)
       assert(filesBefore == filesAfter)
       assert(spark.read.parquet(dataDir(tableName)).as[Datum].count() == data.length)
