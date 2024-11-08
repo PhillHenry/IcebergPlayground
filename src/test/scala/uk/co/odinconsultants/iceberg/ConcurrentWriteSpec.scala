@@ -69,13 +69,10 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
   "Orphans" should {
     "be deleted" in new SimpleSparkFixture {
       val filesBefore = Set(dataFilesIn(tableName))
-      val sql         =
-        s"""CALL system.remove_orphan_files(
-           |    table => '$tableName')""".stripMargin
-      When(s"we execute the SQL:${formatSQL(sql)}")
-      spark.sqlContext.sql(sql)
 
-      assert(spark.read.parquet(dataDir(tableName)).as[Datum].count() == data.length * 2)
+      val directoryCount: Long = spark.read.parquet(dataDir(tableName)).count()
+      assert(directoryCount == data.length * 2)
+      Given(s"there are $directoryCount raw rows in the directory when there should be ${data.length}")
 
       /** java.lang.IllegalArgumentException: Cannot remove orphan files with an interval less
         * than 24 hours. Executing this procedure with a short interval may corrupt the table if
@@ -89,23 +86,17 @@ class ConcurrentWriteSpec extends SpecPretifier with GivenWhenThen with TableNam
 //                              |    older_than => TIMESTAMP '${dateFormat.format(new java.util.Date())}'
 //                              |    )""".stripMargin)
 
-//      // hmm, this is compaction for manifests
-//      spark.sqlContext.sql(s"""CALL system.rewrite_manifests(
-//                              |    table => '$tableName')""".stripMargin)
-//
-//      // hmm, this is basically compaction for data files
-//      spark.sqlContext.sql(s"""CALL system.rewrite_data_files(
-//                              |    table => '$tableName')""".stripMargin)
-
+      When(s"we use the Java API to call deleteOrphanFiles on anything older than now")
       val actions = SparkActions.get(spark)
       val action  = actions.deleteOrphanFiles(icebergTable(tableName))
       action.olderThan(new Date().getTime)
       action.execute()
 
+      Then(s"old files are deleted and the raw row count is now ${data.length}")
       val filesAfter = Set(dataFilesIn(tableName))
       print(filesBefore -- filesAfter)
       assert(filesBefore != filesAfter)
-      assert(spark.read.parquet(dataDir(tableName)).as[Datum].count() == data.length)
+      assert(spark.read.parquet(dataDir(tableName)).count() == data.length)
     }
   }
 
