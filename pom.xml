@@ -36,6 +36,8 @@
         <iceberg.version>1.6.1</iceberg.version>
         <documentation_utils.version>0.11</documentation_utils.version>
         <polaris.version>1.0.0</polaris.version>
+        <kafka.version>3.9.0</kafka.version>
+        <circe.version>0.15.0-M1</circe.version>
     </properties>
 
     <dependencies>
@@ -143,7 +145,39 @@
             <artifactId>spark</artifactId>
             <version>${documentation_utils.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_${scala.compat.version}</artifactId>
+            <version>${spark.version}</version> <!-- org.apache.kafka:kafka-clients -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.kafka</groupId>
+                    <artifactId>kafka-clients</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_${scala.compat.version}</artifactId>
+            <version>${kafka.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.circe</groupId>
+            <artifactId>circe-core_${scala.compat.version}</artifactId>
+            <version>${circe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.circe</groupId>
+            <artifactId>circe-generic_${scala.compat.version}</artifactId>
+            <version>${circe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.circe</groupId>
+            <artifactId>circe-parser_${scala.compat.version}</artifactId>
+            <version>${circe.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -163,12 +197,8 @@
                             <executable>bash</executable>
                             <arguments>
                                 <argument>${project.basedir}/scripts/setup.sh</argument>
-                                <!-- Add script arguments here if needed -->
-                                <!-- <argument>arg1</argument> -->
-                                <!-- <argument>arg2</argument> -->
                             </arguments>
                             <environmentVariables>
-                                <!-- Optional environment variables -->
                                 <PROJECT_DIR>${project.basedir}</PROJECT_DIR>
                             </environmentVariables>
                             <!-- Fail the build if script fails -->
@@ -207,6 +237,19 @@
                                         </volumes>
                                         <wait>
                                             <log>eclipse.jetty.server.Server: Started</log>
+                                            <time>10000</time>
+                                        </wait>
+                                    </run>
+                                </image>
+                                <image>
+                                    <name>apache/kafka-native:3.9.0</name>
+                                    <alias>kafka</alias>
+                                    <run>
+                                        <ports>
+                                            <port>9092:9092</port>
+                                        </ports>
+                                        <wait>
+                                            <log>Kafka Server started</log>
                                             <time>10000</time>
                                         </wait>
                                     </run>
