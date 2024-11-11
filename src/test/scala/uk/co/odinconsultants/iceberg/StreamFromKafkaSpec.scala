@@ -14,6 +14,7 @@ import io.circe.generic.auto._
 
 import java.text.SimpleDateFormat
 import io.circe.{Decoder, Encoder, Json}
+import org.apache.spark.sql.streaming.OutputMode
 
 import java.sql.{Date, Timestamp}
 import scala.util.Try
@@ -78,6 +79,22 @@ class StreamFromKafkaSpec
         producer.send(record)
       }
 
+//      val df = spark
+//        .readStream
+//        .format("kafka")
+//        .option("kafka.bootstrap.servers",  s"$KafkaHost:$KafkaPort")
+//        .option("subscribe",                TopicName)
+//        .option("offset",                   "earliest")
+//        .option("startingOffsets",          "earliest")
+//        .load()
+//
+//      val dir = dataDir(tableName)
+//      val streamingQuery      = df.writeStream.format("iceberg")
+//        .outputMode(OutputMode.Append())
+//        .option("path",               dir)
+//        .option("checkpointLocation", s"${dir}.checkpoint")
+//        .partitionBy("partitionKey")
+//        .start()
 
     }
   }

@@ -1,6 +1,5 @@
 package uk.co.odinconsultants.iceberg
 import org.apache.iceberg.Table
-import org.apache.iceberg.spark.Spark3Util
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
@@ -16,27 +15,27 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen with Ta
   def mode: String
 
   s"A $mode table" should {
-    val files: MSet[String]                              = MSet.empty[String]
-    val createSQL: String                                = tableDDL(tableName, mode)
+    val files: MSet[String]                                     = MSet.empty[String]
     s"create no new files for $mode" in new SimpleSparkFixture {
+      val createSQL: String = tableDDL(tableName, mode, partitionField)
       Given(s"SQL:${formatSQL(createSQL)}")
       When("we execute it")
       spark.sqlContext.sql(createSQL)
-      val table: Table = icebergTable(tableName)
+      val table: Table      = icebergTable(tableName)
       assert(table != null)
       Then(s"there is an Iceberg table, $table")
     }
     s"insert creates new files for $mode" in new SimpleSparkFixture {
-      val sql: String           = insertSQL(tableName, data)
-      val original: Set[String] = files.toSet
+      val sql: String            = insertSQL(tableName, data)
+      val original: Set[String]  = files.toSet
       Given(s"SQL:${formatSQL(sql)}")
       When("we execute it")
       spark.sqlContext.sql(sql)
       files.addAll(parquetFiles(tableName))
       assert(files.nonEmpty)
-      val dataFiles: Seq[String] =thenTheDataFilesAre(original)
+      val dataFiles: Seq[String] = thenTheDataFilesAre(original)
 //      assert(dataFiles.size == num_partitions * 2) // *2 for CRC files
-      val output: Array[Datum]  = andTheTableContains(tableName)
+      val output: Array[Datum]   = andTheTableContains(tableName)
       assert(output.toSet == data.toSet)
     }
     s"update creates no new files for $mode" in new SimpleSparkFixture {
@@ -70,11 +69,11 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen with Ta
           else s"${Console.CYAN}$edited"
         }
       Then(s"there are now ${files.size} data files:\n${dataFiles.mkString("\n")}${Console.RESET}")
-      val deleted: Seq[String] =
+      val deleted: Seq[String]   =
         previous.toList
-        .filterNot(files.contains)
-        .sorted
-        .map(simpleFileName)
+          .filterNot(files.contains)
+          .sorted
+          .map(simpleFileName)
       if (deleted.nonEmpty) {
         And(s"the deleted files are:\n${Console.RED}${deleted.mkString("\n")}${Console.RESET}")
       }
@@ -83,21 +82,19 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen with Ta
   }
 
   def simpleFileName(x: String): String = {
-    val dir: String    = TestUtils.dataDir(tableName)
+    val dir: String = TestUtils.dataDir(tableName)
     x.substring(dir.length)
   }
 
   def checkDatafiles(previous: Set[String], current: Set[String], changes: Set[Datum]): Unit
 
-  private def tableDDL(tableName: String, mode: String): String = {
+  private def tableDDL(tableName: String, mode: String, partitionField: String): String = {
     val createSQL: String = s"""${createDatumTable(tableName)} TBLPROPERTIES (
                                |    'format-version' = '2',
                                |    'write.delete.mode'='$mode',
                                |    'write.update.mode'='$mode',
                                |    'write.merge.mode'='$mode'
-                               |) PARTITIONED BY (${classOf[
-                                Datum
-                              ].getDeclaredFields.filter(_.getName.toLowerCase.contains("partition")).head.getName}); """.stripMargin
+                               |) PARTITIONED BY ($partitionField); """.stripMargin
     createSQL
   }
 

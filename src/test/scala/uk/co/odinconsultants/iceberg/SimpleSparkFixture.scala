@@ -33,6 +33,10 @@ trait SimpleSparkFixture extends SimpleFixture {
 
   def parquetFiles(tableName: String): Seq[String] = super.dataFilesIn(tableName).filter(_.endsWith(".parquet"))
 
+  def partitionField: String =
+    classOf[
+      Datum
+    ].getDeclaredFields.filter(_.getName.toLowerCase.contains("partition")).head.getName
 }
 
 object TestUtils {

@@ -8,16 +8,16 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 import java.nio.file.Files
 
-/**
- * If you want to run tests outside of Maven, run:
- * docker run -i -t -p8181:8181 -v/tmp:/tmp my-polaris
- * first
- */
+/** If you want to run tests outside of Maven, run:
+  * docker run -i -t -p8181:8181 -v/tmp:/tmp my-polaris
+  * first
+  */
 object SparkForTesting {
+  val numThreads: Int      = 2
   val sparkCatalog: String = "spark_catalog"
   val catalog: String      = "polaris"
   val namespace: String    = "my_namespace"
-  val master: String       = "local[2]"
+  val master: String       = s"local[$numThreads]"
   val tmpDir: String       = Files.createTempDirectory("SparkForTesting").toString
   val catalog_class
       : String = // "adds support for Iceberg tables to Spark's built-in catalog, and delegates to the built-in catalog for non-Iceberg tables"

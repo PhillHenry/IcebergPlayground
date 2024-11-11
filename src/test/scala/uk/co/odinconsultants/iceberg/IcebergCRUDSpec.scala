@@ -1,15 +1,13 @@
 package uk.co.odinconsultants.iceberg
 
-import org.apache.iceberg.{Files, ManifestFiles, Table}
+import org.apache.iceberg.Table
 import org.apache.iceberg.expressions.Expressions
-import org.apache.iceberg.hadoop.HadoopFileIO
 import org.apache.iceberg.spark.actions.SparkActions
 import org.apache.spark.sql.catalyst.TableIdentifier
 import org.apache.spark.sql.catalyst.analysis.NoSuchTableException
-import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.GivenWhenThen
-import uk.co.odinconsultants.SparkForTesting.{spark, _}
+import uk.co.odinconsultants.SparkForTesting.{spark, namespace}
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 import scala.collection.mutable.{Set => MSet}
@@ -29,7 +27,7 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       And("there is no mention of the table in the metastore")
       assert(!spark.sessionState.catalog.tableExists(TableIdentifier(tableName)))
       assertThrows[NoSuchTableException] {
-        spark.sessionState.catalog.externalCatalog.getTable("default", tableName)
+        spark.sessionState.catalog.externalCatalog.getTable(namespace, tableName)
       }
     }
 
