@@ -16,17 +16,18 @@ class WriteDistributionSpec  extends SpecPretifier with GivenWhenThen with Table
     "create the appropriate Iceberg files" in new SimpleSparkFixture {
       val createSQL: String = tableDDL(tableName, partitionField)
       Given(s"SQL:${formatSQL(createSQL)}")
-      spark.createDataFrame(data).writeTo(tableName).create()
+      spark.sql(createSQL)
+      spark.createDataFrame(data).writeTo(tableName).append()
       val before: Seq[String] = parquetFiles(tableName)
       And(s"it has ${data.length} rows over ${before.length} data files when using $numThreads threads")
-      assert(before.length == numThreads)
+      assert(before.length == num_partitions)
       When(s"we add ${data.length} more rows")
       spark.createDataFrame(data).writeTo(tableName).append()
       val after: Seq[String] = parquetFiles(tableName)
       val diff = after.length - before.length
       Then(s"there are now ${diff} more data files")
       assert(diff > 0)
-      assert(after.length == numThreads * 2)
+      assert(after.length == num_partitions * 2)
     }
   }
 
@@ -34,6 +35,7 @@ class WriteDistributionSpec  extends SpecPretifier with GivenWhenThen with Table
   private def tableDDL(tableName: String, partitionField: String): String = {
     val createSQL: String = s"""${createDatumTable(tableName)} TBLPROPERTIES (
                                |    'format-version' = '2',
+                               |    'write.distribution-mode' = 'hash'
                                |) PARTITIONED BY ($partitionField); """.stripMargin
     createSQL
   }

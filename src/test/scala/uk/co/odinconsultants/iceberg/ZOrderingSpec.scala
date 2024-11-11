@@ -11,7 +11,7 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
 
   info("https://iceberg.apache.org/docs/1.4.2/spark-procedures/")
 
-  val initialMaxId = 20000
+  val initialMaxId = 40000
 
   def idRanges(newFiles: List[String]): List[(Int, Int)] = for {
     file <- newFiles

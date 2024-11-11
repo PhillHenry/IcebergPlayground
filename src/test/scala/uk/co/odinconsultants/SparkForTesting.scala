@@ -13,7 +13,7 @@ import java.nio.file.Files
   * first
   */
 object SparkForTesting {
-  val numThreads: Int      = 2
+  val numThreads: Int      = 4
   val sparkCatalog: String = "spark_catalog"
   val catalog: String      = "polaris"
   val namespace: String    = "my_namespace"
