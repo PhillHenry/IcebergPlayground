@@ -51,9 +51,9 @@ b.BWHI {background-color: #aaaaaa}
 A table that has many files
 - should have those files aggregated
   + Given data
-			<b class=YEL>Datum(0,label_0,0,2024-11-12,2024-11-12 10:10:47.007)
-			</b><b class=MAG>Datum(1,label_1,1,2024-11-11,2024-11-12 10:10:47.207)
-			</b><b class=YEL>Datum(2,label_2,2,2024-11-10,2024-11-12 10:10:47.407)
+			<b class=YEL>Datum(0,label_0,0,2024-11-12,2024-11-12 17:12:09.188)
+			</b><b class=MAG>Datum(1,label_1,1,2024-11-11,2024-11-12 17:12:09.388)
+			</b><b class=YEL>Datum(2,label_2,2,2024-11-10,2024-11-12 17:12:09.588)
 			</b>... 
   + And 20000 rows are initially written to table 'polaris.my_namespace.OptimizationSpec' 
   + When we execute the SQL 
@@ -62,7 +62,7 @@ A table that has many files
   options = &gt; map('min-input-files', '2')
 )</b> 
   + Then the files added to the original 4 are:
-<b class=YEL>/tmp/polaris/my_namespace/OptimizationSpec/data/00000-113-111fc305-cbb5-4298-917c-394f7bf75bb2-0-00001.parquet
+<b class=YEL>/tmp/polaris/my_namespace/OptimizationSpec/data/00000-113-77877fc0-02ad-4201-aabb-1399a053b4da-0-00001.parquet
 </b> 
   + And there are no files deleted from the subsequent 5 
   + And these new files contain all the data 
@@ -72,7 +72,7 @@ A table that has many files
   + When we execute the SQL:
 <b class=YEL>CALL system.expire_snapshots(
   table = &gt; "polaris.my_namespace.OptimizationSpec",
-  older_than = &gt; TIMESTAMP '2024-11-12 10:10:59.401',
+  older_than = &gt; TIMESTAMP '2024-11-12 17:12:20.388',
   stream_results = &gt; true
 )</b> 
   + Then old files have been removed and only 1 remain 

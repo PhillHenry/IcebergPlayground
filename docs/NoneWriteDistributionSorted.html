@@ -46,25 +46,26 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>JavaInterfaceSpec:
-+ see https://tabular.io/blog/java-api-part-3/ 
-Iceberg tables
-- should have its files visible via the Java APIs
-  + Given a table that has seen changes 
-  + When we query the table via the Java API 
-  + Then the data file names are:
-			<b class=YEL>file:/tmp/polaris/my_namespace/JavaInterfaceSpec/data/00000-749-665a955e-c159-4f8d-8a63-a4d0b852493c-0-00001.parquet
-			</b> 
-  + And and they contain the most recent data 
-+ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-- should be queried with the Java API
-  + Given a table that has been changed to have column 'label' set to '1731431529021' 
-  + When we select an old version of the table with snapshot ID 2593745541138680701 
-  + Then no values in label are equal to '1731431529021' but look like:
-			<b class=YEL>label_0
-			</b><b class=MAG>label_1
-			</b><b class=YEL>label_2
-			</b>... 
+<pre>NoneWriteDistributionSortedSpec:
++ https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
+Using write.distribution-mode
+- should create the appropriate Iceberg files
+  + Given a table that is created with:
+<b class=YEL>CREATE TABLE polaris.my_namespace.NoneWriteDistributionSortedSpec (
+  id int,
+  label String,
+  partitionKey long,
+  date Date,
+  timestamp Timestamp
+) USING iceberg TBLPROPERTIES (
+  'format-version' = '2',
+  'write.distribution-mode' = 'none'
+) PARTITIONED BY (partitionKey);</b> 
+  + And the data is sorted on the partitionKey column 
+  + And it has 20 rows over 5 data files when using 4 threads 
+  + When we add another 20 rows of the same data that is logically distributed over 5 partitions 
+  + And the data is sorted on the partitionKey column 
+  + Then there are now 5 more data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>

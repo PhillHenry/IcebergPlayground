@@ -47,9 +47,10 @@ b.BWHI {background-color: #aaaaaa}
 </head>
 <body>
 <pre>NoneWriteDistributionSpec:
++ https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
 Using write.distribution-mode
 - should create the appropriate Iceberg files
-  + Given SQL:
+  + Given a table that is created with:
 <b class=YEL>CREATE TABLE polaris.my_namespace.NoneWriteDistributionSpec (
   id int,
   label String,
