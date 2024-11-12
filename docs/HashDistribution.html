@@ -46,37 +46,29 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>OptimizationSpec:
-+ https://iceberg.apache.org/docs/1.4.2/spark-procedures/ 
-A table that has many files
-- should have those files aggregated
-  + Given data
-			<b class=YEL>Datum(0,label_0,0,2024-11-12,2024-11-12 10:10:47.007)
-			</b><b class=MAG>Datum(1,label_1,1,2024-11-11,2024-11-12 10:10:47.207)
-			</b><b class=YEL>Datum(2,label_2,2,2024-11-10,2024-11-12 10:10:47.407)
-			</b>... 
-  + And 20000 rows are initially written to table 'polaris.my_namespace.OptimizationSpec' 
-  + When we execute the SQL 
-<b class=YEL>CALL system.rewrite_data_files(
-  table = &gt; "polaris.my_namespace.OptimizationSpec",
-  options = &gt; map('min-input-files', '2')
-)</b> 
-  + Then the files added to the original 4 are:
-<b class=YEL>/tmp/polaris/my_namespace/OptimizationSpec/data/00000-113-111fc305-cbb5-4298-917c-394f7bf75bb2-0-00001.parquet
-</b> 
-  + And there are no files deleted from the subsequent 5 
-  + And these new files contain all the data 
+<pre>HashDistributionSpec:
+Using write.distribution-mode
+- should create the appropriate Iceberg files
+  + Given SQL:
+<b class=YEL>CREATE TABLE polaris.my_namespace.HashDistributionSpec (
+  id int,
+  label String,
+  partitionKey long,
+  date Date,
+  timestamp Timestamp
+) USING iceberg TBLPROPERTIES (
+  'format-version' = '2',
+  'write.distribution-mode' = 'hash'
+) PARTITIONED BY (partitionKey);</b> 
+  + And it has 20 rows over 5 data files when using 4 threads 
+  + When we add another 20 rows of the same data that is logically distributed over 5 partitions 
+  + Then there are now 5 more data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-- should have snapshots removed when expired
-  + Given there are already 5 files for table polaris.my_namespace.OptimizationSpec 
-  + When we execute the SQL:
-<b class=YEL>CALL system.expire_snapshots(
-  table = &gt; "polaris.my_namespace.OptimizationSpec",
-  older_than = &gt; TIMESTAMP '2024-11-12 10:10:59.401',
-  stream_results = &gt; true
-)</b> 
-  + Then old files have been removed and only 1 remain 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-+ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
+Run completed in 26 seconds, 629 milliseconds.
+Total number of tests run: 26
+Suites: completed 13, aborted 0
+Tests: succeeded 26, failed 0, canceled 0, ignored 6, pending 0
+All tests passed.</pre>
 </body>
 </html>
