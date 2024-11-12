@@ -13,12 +13,20 @@ The code for these tests can be found in [GitHub](https://github.com/PhillHenry/
 
 [Delete Trips Snapshot](DeleteTripsSnapshot.html)
 
+[Hash Distribution](HashDistribution.html)
+
 [Iceberg CRUD](IcebergCRUD.html)
 
 [Java Interface](JavaInterface.html)
 
 [Merge On Read](MergeOnRead.html)
 
+[None Write Distribution](NoneWriteDistribution.html)
+
+[None Write Distribution Sorted](NoneWriteDistributionSorted.html)
+
 [Optimization](Optimization.html)
+
+[Stream From Kafka](StreamFromKafka.html)
 
 [Z Ordering](ZOrdering.html)

@@ -33,16 +33,18 @@ trait SimpleSparkFixture extends SimpleFixture {
 
   def parquetFiles(tableName: String): Seq[String] = super.dataFilesIn(tableName).filter(_.endsWith(".parquet"))
 
-  def partitionField: String =
-    classOf[
-      Datum
-    ].getDeclaredFields.filter(_.getName.toLowerCase.contains("partition")).head.getName
+  def partitionField: String = TestUtils.partitionField
 }
 
 object TestUtils {
   def tableDir(tableName: String): String = s"/tmp/${tableName.replace(".", "/")}" // as defined by the external Polaris service
 
   def dataDir(tableName: String) = s"${tableDir(tableName)}/data"
+
+  def partitionField: String =
+    classOf[
+      Datum
+    ].getDeclaredFields.filter(_.getName.toLowerCase.contains("partition")).head.getName
 }
 
 trait UniqueTableFixture extends SimpleSparkFixture {
