@@ -51,9 +51,9 @@ b.BWHI {background-color: #aaaaaa}
 A table that has many files
 - should have those files aggregated
   + Given data
-			<b class=YEL>Datum(0,label_0,0,2024-01-17,2024-01-17 15:07:24.346)
-			</b><b class=MAG>Datum(1,label_1,1,2024-01-16,2024-01-17 15:07:24.546)
-			</b><b class=YEL>Datum(2,label_2,2,2024-01-15,2024-01-17 15:07:24.746)
+			<b class=YEL>Datum(0,label_0,0,2024-08-21,2024-08-21 16:57:01.626)
+			</b><b class=MAG>Datum(1,label_1,1,2024-08-20,2024-08-21 16:57:01.826)
+			</b><b class=YEL>Datum(2,label_2,2,2024-08-19,2024-08-21 16:57:02.026)
 			</b>... 
   + And 20000 rows are initially written to table 'OptimizationSpec' 
   + When we execute the SQL 
@@ -62,11 +62,21 @@ A table that has many files
   options = &gt; map('min-input-files', '2')
 )</b> 
   + Then the files added to the original 4 are:
-<b class=YEL>/tmp/SparkForTesting6927682153123835972/OptimizationSpec/data/00000-71-f69f1b23-5c22-418d-a81a-c2d9af41eb88-00001.parquet
-</b><b class=MAG>/tmp/SparkForTesting6927682153123835972/OptimizationSpec/data/.00000-71-f69f1b23-5c22-418d-a81a-c2d9af41eb88-00001.parquet.crc
+<b class=YEL>/tmp/SparkForTesting16600608882925912958/OptimizationSpec/data/00000-69-7b5bff1d-5196-48c3-ba2a-0c320acef3a9-0-00001.parquet
+</b><b class=MAG>/tmp/SparkForTesting16600608882925912958/OptimizationSpec/data/.00000-69-7b5bff1d-5196-48c3-ba2a-0c320acef3a9-0-00001.parquet.crc
 </b> 
   + And there are no files deleted from the subsequent 6 
   + And these new files contain all the data 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
+- should have snapshots removed when expired
+  + Given there are already 6 files for table OptimizationSpec 
+  + When we execute the SQL:
+<b class=YEL>CALL system.expire_snapshots(
+  table = &gt; "OptimizationSpec",
+  older_than = &gt; TIMESTAMP '2024-08-21 16:57:16.813',
+  stream_results = &gt; true
+)</b> 
+  + Then old files have been removed and only 2 remain 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>
