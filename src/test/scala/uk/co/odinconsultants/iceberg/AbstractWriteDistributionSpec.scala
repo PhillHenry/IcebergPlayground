@@ -10,17 +10,17 @@ abstract class AbstractWriteDistributionSpec
     with GivenWhenThen
     with TableNameFixture {
 
-  info("https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes")
+  info("See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes")
 
   "Using write.distribution-mode" should {
-    "create the appropriate Iceberg files" in new SimpleSparkFixture {
+    "create the appropriate number of Iceberg files" in new SimpleSparkFixture {
       val createSQL: String   = tableDDL(tableName, partitionField)
       Given(s"a table that is created with:${formatSQL(createSQL)}")
       spark.sql(createSQL)
       appendData(spark, data)
       val before: Seq[String] = parquetFiles(tableName)
       And(
-        s"it has ${data.length} rows over ${before.length} data files when using $numThreads threads"
+        s"it has ${data.length} rows over ${before.length} data files when writing with $numThreads executor threads"
       )
       assert(before.length == expectedNumberOfFilesPerAppend(num_partitions))
       When(
