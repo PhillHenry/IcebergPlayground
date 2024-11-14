@@ -93,6 +93,7 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen with Ta
                                |    'format-version' = '2',
                                |    'write.delete.mode'='$mode',
                                |    'write.update.mode'='$mode',
+                               |    'sort-order' = '$partitionField ASC NULLS FIRST',
                                |    'write.merge.mode'='$mode'
                                |) PARTITIONED BY ($partitionField); """.stripMargin
     createSQL

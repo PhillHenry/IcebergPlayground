@@ -3,7 +3,7 @@ package uk.co.odinconsultants.iceberg
 import org.apache.spark.sql.SparkSession
 import uk.co.odinconsultants.documentation_utils.Datum
 
-class NoneWriteDistributionSortedSpec extends AbstractWriteDistributionSpec {
+class NoneWriteDistributionSortedDataframeSpec extends AbstractWriteDistributionSpec {
 
   override protected def appendData(
                             spark: SparkSession,

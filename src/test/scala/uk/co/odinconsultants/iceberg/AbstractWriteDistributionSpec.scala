@@ -45,7 +45,7 @@ abstract class AbstractWriteDistributionSpec
 
   protected def expectedNumberOfFilesPerAppend(numPartitions: Int): Int
 
-  private def tableDDL(tableName: String, partitionField: String): String =
+  protected def tableDDL(tableName: String, partitionField: String): String =
     s"""${createDatumTable(tableName)} TBLPROPERTIES (
                                |    'format-version' = '2',
                                |    'write.distribution-mode' = '${distributionMode}'
