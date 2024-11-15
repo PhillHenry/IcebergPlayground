@@ -104,7 +104,7 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       )
     }
 
-    "when vacuumed, have old files removed" ignore new SimpleSparkFixture {
+    "when vacuumed, have old files removed" in new SimpleSparkFixture {
       val table: Table = icebergTable(tableName)
       val filesBefore = dataFilesIn(tableName).toSet
       Given(s"the ${filesBefore.size} files are:\n${toHumanReadable(filesBefore)}")
@@ -129,7 +129,7 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       }
     }
 
-    "should delete all files when dropped" ignore  new SimpleSparkFixture {
+    "should delete all files when dropped" in  new SimpleSparkFixture {
       val sqlDrop = s"DROP TABLE $tableName PURGE"
       private val nFiles: Int = parquetFiles(tableName).length
       Given(s"$tableName has $nFiles")
