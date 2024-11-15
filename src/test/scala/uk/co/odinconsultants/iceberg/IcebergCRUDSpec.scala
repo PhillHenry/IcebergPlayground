@@ -3,6 +3,7 @@ package uk.co.odinconsultants.iceberg
 import org.apache.iceberg.Table
 import org.apache.iceberg.expressions.Expressions
 import org.apache.iceberg.spark.actions.SparkActions
+import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.catalyst.TableIdentifier
 import org.apache.spark.sql.catalyst.analysis.NoSuchTableException
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
@@ -81,9 +82,9 @@ class IcebergCRUDSpec extends SpecPretifier with GivenWhenThen with TableNameFix
       And(s"no files are deleted but there are the following new parquet files:\n${toHumanReadable(deltaFiles)}")
       assert((before -- after).size == 0)
       assert((after -- before).size > 0)
-//      val newDFs: DataFrame = spark.read.parquet(deltaFiles.toArray: _*)
-//      And(s"those new files contain just the data with id >= $minID")
-//      assert(newDFs.select(col("id") >= minID).count() == newDFs.count())
+      val newDFs: DataFrame = spark.read.parquet(deltaFiles.toArray: _*)
+      And(s"those new files contain just the data with id >= $minID")
+      assert(newDFs.select(col("id") >= minID).count() == newDFs.count())
     }
 
     "can have its history queried" in new SimpleSparkFixture {
