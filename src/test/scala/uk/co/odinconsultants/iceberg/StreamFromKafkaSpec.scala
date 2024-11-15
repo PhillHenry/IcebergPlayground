@@ -5,7 +5,7 @@ import io.circe.syntax._
 import org.apache.kafka.clients.admin.NewTopic
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.spark.sql.Dataset
-import org.apache.spark.sql.streaming.OutputMode
+import org.apache.spark.sql.streaming.{OutputMode, StreamingQuery}
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.KafkaForTesting._
 import uk.co.odinconsultants.SerializationUtils._
@@ -40,31 +40,28 @@ class StreamFromKafkaSpec
       }
 
       And(s"read from the Kafka topic writing to the Iceberg table")
-      val df = spark
-        .readStream
-        .format("kafka")
-        .option("kafka.bootstrap.servers",  s"$KafkaHost:$KafkaPort")
-        .option("subscribe",                TopicName)
-        .option("offset",                   "earliest")
-        .option("startingOffsets",          "earliest")
-        .load().selectExpr("CAST(value AS STRING)").as[String].map (decodeFromJson).as[Datum]
-
-      val dir = dataDir(tableName)
+      val df = readKafkaViaSpark(TopicName)
       val streamingQuery      = df.writeStream.format("iceberg")
         .outputMode(OutputMode.Append())
         .option("path",               tableName)
-        .option("checkpointLocation", s"${dir}.checkpoint")
-        .partitionBy("partitionKey")
+        .option("checkpointLocation", s"${dataDir(tableName)}.checkpoint")
+        .partitionBy(partitionField)
         .start()
 
-      val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
-      streamingQuery.processAllAvailable()
-      streamingQuery.exception.foreach { x =>
-        x.printStackTrace()
-        fail(x)
-      }
       Then("the table is populated with data")
+      processAllRecordsIn(streamingQuery)
+      val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
       assert(table.count() > 0)
+    }
+  }
+
+  private def processAllRecordsIn(
+      streamingQuery: StreamingQuery
+  ): Unit = {
+    streamingQuery.processAllAvailable()
+    streamingQuery.exception.foreach { x =>
+      x.printStackTrace()
+      fail(x)
     }
   }
 

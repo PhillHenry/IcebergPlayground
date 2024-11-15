@@ -1,6 +1,10 @@
 package uk.co.odinconsultants
 import org.apache.kafka.clients.admin.{AdminClient, AdminClientConfig}
 import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.spark.sql.Dataset
+import uk.co.odinconsultants.SerializationUtils.decodeFromJson
+import uk.co.odinconsultants.SparkForTesting.spark
+import uk.co.odinconsultants.documentation_utils.Datum
 
 import java.util.Properties
 import scala.jdk.CollectionConverters._
@@ -30,4 +34,19 @@ object KafkaForTesting {
   props.put("host.name",                        KafkaHost)
   props.put("advertised.host.name",             KafkaHost)
   val producer = new KafkaProducer[Int, String](props)
+
+  def readKafkaViaSpark(topicName: String): Dataset[Datum] = {
+    import spark.implicits._
+    spark.readStream
+      .format("kafka")
+      .option("kafka.bootstrap.servers", s"$KafkaHost:$KafkaPort")
+      .option("subscribe", topicName)
+      .option("offset", "earliest")
+      .option("startingOffsets", "earliest")
+      .load()
+      .selectExpr("CAST(value AS STRING)")
+      .as[String]
+      .map(decodeFromJson)
+      .as[Datum]
+  }
 }
