@@ -51,9 +51,9 @@ b.BWHI {background-color: #aaaaaa}
 Concurrent writes
 - should cause one transaction to fail
   + Given two transactions trying to write data
-			<b class=YEL>Datum(0,label_0,0,2024-11-15,2024-11-15 09:56:19.303)
-			</b><b class=MAG>Datum(1,label_1,1,2024-11-14,2024-11-15 09:56:19.503)
-			</b><b class=YEL>Datum(2,label_2,2,2024-11-13,2024-11-15 09:56:19.703)
+			<b class=YEL>Datum(0,label_0,0,2024-11-15,2024-11-15 16:48:19.792)
+			</b><b class=MAG>Datum(1,label_1,1,2024-11-14,2024-11-15 16:48:19.992)
+			</b><b class=YEL>Datum(2,label_2,2,2024-11-13,2024-11-15 16:48:20.192)
 			</b>... 
   + When both run at the same time 
   + Then one fails with exception org.apache.iceberg.exceptions.AlreadyExistsException: Requirement failed: table already exists 

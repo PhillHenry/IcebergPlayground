@@ -51,9 +51,9 @@ b.BWHI {background-color: #aaaaaa}
 A table with no particular order
 - should have z-ordered files after rewriting the data
   + Given 40000 rows of data that look like
-			<b class=YEL>Datum(37991,label_37991,1,1920-11-10,2024-11-15 12:02:57.503)
-			</b><b class=MAG>Datum(39523,label_39523,3,1916-08-31,2024-11-15 12:08:03.903)
-			</b><b class=YEL>Datum(5281,label_5281,1,2010-06-01,2024-11-15 10:13:55.503)
+			<b class=YEL>Datum(6919,label_6919,4,2005-12-06,2024-11-15 17:11:23.592)
+			</b><b class=MAG>Datum(12167,label_12167,2,1991-07-25,2024-11-15 17:28:53.192)
+			</b><b class=YEL>Datum(32111,label_32111,1,1936-12-16,2024-11-15 18:35:21.992)
 			</b>...
 are initially written to table 'polaris.my_namespace.ZOrderingSpec' 
   + When we execute the SQL:
@@ -63,75 +63,75 @@ sort_order =&gt; 'zorder(id, date)',
 options =&gt; map('min-input-files','4', 'target-file-size-bytes','49152')
 )</b> 
   + Then added to the original 4 files are:
-<b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00009-37-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00000-28-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00002-30-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00008-36-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00003-31-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00004-32-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00000-28-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00000-28-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00003.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00006-34-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00005-33-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00003-31-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00009-37-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00003.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00002-30-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00001-29-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00006-34-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00003.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00003-31-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00003.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00009-37-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00005-33-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00008-36-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00005-33-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00003.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00007-35-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00007-35-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00006-34-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00004-32-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00001.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00001-29-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00002.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00002-30-766be1bc-0fd0-4270-b487-d1dd9563a9b9-0-00003.parquet
+<b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00006-34-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00005-33-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00003.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00002-30-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00004-32-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00009-37-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00003-31-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00003.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00007-35-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00001-29-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00005-33-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00005-33-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00000-28-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00002-30-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00006-34-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00003-31-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00008-36-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00000-28-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00009-37-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00003.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00007-35-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00008-36-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00007-35-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00003.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00001-29-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00003-31-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00000-28-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00003.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00009-37-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/ZOrderingSpec/data/00004-32-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00002.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/ZOrderingSpec/data/00006-34-a64be0f2-4cf6-430a-bb30-3dde6cbef8f7-0-00003.parquet
 </b> 
   + And there is no overlap in the `id` dimension. The ranges of the id look like:
 <b class=YEL>0 to 1999
 </b><b class=MAG>2000 to 3999
-</b><b class=YEL>4000 to 4052
-</b><b class=MAG>4053 to 6052
-</b><b class=YEL>6053 to 7942
-</b><b class=MAG>7943 to 9942
-</b><b class=YEL>9943 to 11942
-</b><b class=MAG>11943 to 12089
-</b><b class=YEL>12090 to 14089
-</b><b class=MAG>14090 to 16089
-</b><b class=YEL>16090 to 16206
-</b><b class=MAG>16207 to 18206
-</b><b class=YEL>18207 to 20060
-</b><b class=MAG>20061 to 22060
-</b><b class=YEL>22061 to 24060
-</b><b class=MAG>24061 to 24120
-</b><b class=YEL>24121 to 26120
-</b><b class=MAG>26121 to 28120
-</b><b class=YEL>28121 to 28206
-</b><b class=MAG>28207 to 30206
-</b><b class=YEL>30207 to 32092
-</b><b class=MAG>32093 to 34092
-</b><b class=YEL>34093 to 35973
-</b><b class=MAG>35974 to 37973
-</b><b class=YEL>37974 to 39973
-</b><b class=MAG>39974 to 39999
+</b><b class=YEL>4000 to 4186
+</b><b class=MAG>4187 to 6186
+</b><b class=YEL>6187 to 8058
+</b><b class=MAG>8059 to 10058
+</b><b class=YEL>10059 to 11967
+</b><b class=MAG>11968 to 13967
+</b><b class=YEL>13968 to 15967
+</b><b class=MAG>15968 to 16059
+</b><b class=YEL>16060 to 18059
+</b><b class=MAG>18060 to 20013
+</b><b class=YEL>20014 to 22013
+</b><b class=MAG>22014 to 24013
+</b><b class=YEL>24014 to 24241
+</b><b class=MAG>24242 to 26241
+</b><b class=YEL>26242 to 28241
+</b><b class=MAG>28242 to 28284
+</b><b class=YEL>28285 to 30284
+</b><b class=MAG>30285 to 32284
+</b><b class=YEL>32285 to 32288
+</b><b class=MAG>32289 to 34288
+</b><b class=YEL>34289 to 35807
+</b><b class=MAG>35808 to 37807
+</b><b class=YEL>37808 to 39807
+</b><b class=MAG>39808 to 39999
 </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should needs its data rewritten to maintain its z-order
   + Given a z-ordered table called 'polaris.my_namespace.ZOrderingSpec' 
   + When 40000 rows of new data that look like
-			<b class=YEL>Datum(59888,label_19888,3,1970-06-04,2024-11-15 11:02:36.903)
-			</b><b class=MAG>Datum(77133,label_37133,3,1923-03-18,2024-11-15 12:00:05.903)
-			</b><b class=YEL>Datum(47384,label_7384,4,2004-08-28,2024-11-15 10:20:56.103)
+			<b class=YEL>Datum(45226,label_5226,1,2010-07-26,2024-11-15 17:05:44.992)
+			</b><b class=MAG>Datum(56679,label_16679,4,1979-03-18,2024-11-15 17:43:55.592)
+			</b><b class=YEL>Datum(60060,label_20060,0,1969-12-14,2024-11-15 17:55:11.792)
 			</b>...
 are appended to table 'polaris.my_namespace.ZOrderingSpec' 
   + Then the ranges of the ids overlap in the 4 new files and look like:
-<b class=YEL>40000 to 79996
-</b><b class=MAG>40001 to 79968
-</b><b class=YEL>40005 to 79997
-</b><b class=MAG>40006 to 79999
+<b class=YEL>40000 to 79994
+</b><b class=MAG>40001 to 79993
+</b><b class=YEL>40007 to 79996
+</b><b class=MAG>40012 to 79999
 </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
