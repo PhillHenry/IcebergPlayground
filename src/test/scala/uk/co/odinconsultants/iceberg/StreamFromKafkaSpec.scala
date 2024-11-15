@@ -1,43 +1,26 @@
 package uk.co.odinconsultants.iceberg
 
-import org.apache.kafka.clients.admin.{AdminClient, AdminClientConfig}
+import io.circe.generic.auto._
+import io.circe.syntax._
+import io.circe.{Decoder, Encoder, Json}
+import org.apache.kafka.clients.admin.{AdminClient, AdminClientConfig, NewTopic}
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
-import org.apache.kafka.clients.admin.{AdminClient, NewTopic}
+import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.streaming.OutputMode
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.spark
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
-
-import java.util.Properties
-import scala.jdk.CollectionConverters._
-import io.circe.syntax._
-import io.circe.generic.auto._
-
-import java.text.SimpleDateFormat
-import io.circe.{Decoder, Encoder, Json}
-import org.apache.spark.sql.streaming.OutputMode
+import uk.co.odinconsultants.iceberg.SQL.createDatumTable
+import uk.co.odinconsultants.iceberg.StreamFromKafkaSpec._
 
 import java.sql.{Date, Timestamp}
+import java.text.SimpleDateFormat
+import java.util.Properties
+import scala.jdk.CollectionConverters._
 import scala.util.Try
-
 
 class StreamFromKafkaSpec
   extends SpecPretifier with GivenWhenThen with TableNameFixture {
-
-  // Custom date format for serialization
-  val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
-  val timestampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-
-  // Encoder and Decoder for java.sql.Date
-  implicit val dateEncoder: Encoder[Date] = Encoder.instance(date => Json.fromString(dateFormat.format(date)))
-  implicit val dateDecoder: Decoder[Date] = Decoder.decodeString.emap { str =>
-    Try ( new Date(dateFormat.parse(str).getTime) ).toEither.left.map(_ => "Date")
-  }
-
-  // Encoder and Decoder for java.sql.Timestamp
-  implicit val timestampEncoder: Encoder[Timestamp] = Encoder.instance(timestamp => Json.fromString(timestampFormat.format(timestamp)))
-  implicit val timestampDecoder: Decoder[Timestamp] = Decoder.decodeString.emap { str =>
-    Try(new Timestamp(timestampFormat.parse(str).getTime)).toEither.left.map(_ => "Timestamp")
-  }
 
   info("https://iceberg.apache.org/docs/latest/reliability/")
 
@@ -79,24 +62,74 @@ class StreamFromKafkaSpec
         producer.send(record)
       }
 
-//      val df = spark
-//        .readStream
-//        .format("kafka")
-//        .option("kafka.bootstrap.servers",  s"$KafkaHost:$KafkaPort")
-//        .option("subscribe",                TopicName)
-//        .option("offset",                   "earliest")
-//        .option("startingOffsets",          "earliest")
-//        .load()
-//
-//      val dir = dataDir(tableName)
-//      val streamingQuery      = df.writeStream.format("iceberg")
-//        .outputMode(OutputMode.Append())
-//        .option("path",               dir)
-//        .option("checkpointLocation", s"${dir}.checkpoint")
-//        .partitionBy("partitionKey")
-//        .start()
+      spark.sql(tableDDL(tableName, partitionField))
 
+      val df = spark
+        .readStream
+        .format("kafka")
+        .option("kafka.bootstrap.servers",  s"$KafkaHost:$KafkaPort")
+        .option("subscribe",                TopicName)
+        .option("offset",                   "earliest")
+        .option("startingOffsets",          "earliest")
+        .load().selectExpr("CAST(value AS STRING)").as[String].map (decodeFromJson).as[Datum]
+      df.printSchema()
+
+      val dir = dataDir(tableName)
+      val streamingQuery      = df.writeStream.format("iceberg")
+        .outputMode(OutputMode.Append())
+        .option("path",               tableName)
+        .option("checkpointLocation", s"${dir}.checkpoint")
+        .partitionBy("partitionKey")
+        .start()
+
+      val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
+      streamingQuery.processAllAvailable()
+      streamingQuery.exception.foreach { x =>
+        x.printStackTrace()
+        fail(x)
+      }
+      info("Recent progress: " + streamingQuery.recentProgress.size)
+      Thread.sleep(1000)
+
+      assert(table.count() > 0)
     }
   }
 
+  def tableDDL(tableName: String, partitionField: String): String =
+    s"""${createDatumTable(tableName)} TBLPROPERTIES (
+       |    'format-version' = '2',
+       |    'sort-order' = '$partitionField ASC NULLS FIRST',
+       |    'write.distribution-mode' = 'none'
+       |) PARTITIONED BY ($partitionField); """.stripMargin
+
+}
+
+object StreamFromKafkaSpec {
+
+  // Custom date format for serialization
+  val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+  val timestampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+  // Encoder and Decoder for java.sql.Date
+  implicit val dateEncoder: Encoder[Date] = Encoder.instance(date => Json.fromString(dateFormat.format(date)))
+  implicit val dateDecoder: Decoder[Date] = Decoder.decodeString.emap { str =>
+    Try ( new Date(dateFormat.parse(str).getTime) ).toEither.left.map(_ => "Date")
+  }
+
+  // Encoder and Decoder for java.sql.Timestamp
+  implicit val timestampEncoder: Encoder[Timestamp] = Encoder.instance(timestamp => Json.fromString(timestampFormat.format(timestamp)))
+  implicit val timestampDecoder: Decoder[Timestamp] = Decoder.decodeString.emap { str =>
+    Try(new Timestamp(timestampFormat.parse(str).getTime)).toEither.left.map(_ => "Timestamp")
+  }
+
+  import io.circe._
+  import io.circe.generic.auto._
+  import io.circe.parser._
+  val decodeFromJson: String => Datum = { x: String =>
+      val result: Either[Error, Datum] = decode[Datum](x)
+      result match {
+        case Right(x) => x
+        case Left(x)  => ???
+      }
+  }
 }
