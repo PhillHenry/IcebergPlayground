@@ -46,31 +46,26 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>ConcurrentWriteSpec:
-+ https://iceberg.apache.org/docs/latest/reliability/ 
-Concurrent writes
-- should cause one transaction to fail
-  + Given two transactions trying to write data
-			<b class=YEL>Datum(0,label_0,0,2024-11-15,2024-11-15 09:56:19.303)
-			</b><b class=MAG>Datum(1,label_1,1,2024-11-14,2024-11-15 09:56:19.503)
-			</b><b class=YEL>Datum(2,label_2,2,2024-11-13,2024-11-15 09:56:19.703)
-			</b>... 
-  + When both run at the same time 
-  + Then one fails with exception org.apache.iceberg.exceptions.AlreadyExistsException: Requirement failed: table already exists 
-  + And one succeeds 
-+ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-Data integrity
-- should be intact after a failure
-  + Given the table 'polaris.my_namespace.ConcurrentWriteSpec' has had a failed write 
-  + When we call spark.read.table("polaris.my_namespace.ConcurrentWriteSpec") 
-  + Then the table still contains 20 records 
-  + And failed files are left behind 
-+ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-Orphans
-- should be deleted
-  + Given there are 40 raw rows in the directory when there should be 20 
-  + When we use the Java API to call deleteOrphanFiles on anything older than now 
-  + Then old files are deleted and the raw row count is now 20 
+<pre>NoneWriteDistributionSortedDataframeSpec:
++ See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
+Using write.distribution-mode
+- should create the appropriate number of Iceberg files
+  + Given a table that is created with:
+<b class=YEL>CREATE TABLE polaris.my_namespace.NoneWriteDistributionSortedDataframeSpec (
+  id int,
+  label String,
+  partitionKey long,
+  date Date,
+  timestamp Timestamp
+) USING iceberg TBLPROPERTIES (
+  'format-version' = '2',
+  'write.distribution-mode' = 'none'
+) PARTITIONED BY (partitionKey);</b> 
+  + And the data is sorted on the partitionKey column 
+  + And it has 20 rows over 5 data files when writing with 4 executor threads 
+  + When we add another 20 rows of the same data that is logically distributed over 5 partitions 
+  + And the data is sorted on the partitionKey column 
+  + Then there are now 5 more data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>

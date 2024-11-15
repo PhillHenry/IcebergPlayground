@@ -46,16 +46,13 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>Discovery starting.
-Discovery completed in 3 seconds, 54 milliseconds.
-Run starting. Expected test count is: 27
-IcebergCRUDSpec:
+<pre>IcebergCRUDSpec:
 A dataset we CRUD
 - should create the appropriate Iceberg files
   + Given data
-			<b class=YEL>Datum(0,label_0,0,2024-11-12,2024-11-12 17:19:03.455)
-			</b><b class=MAG>Datum(1,label_1,1,2024-11-11,2024-11-12 17:19:03.655)
-			</b><b class=YEL>Datum(2,label_2,2,2024-11-10,2024-11-12 17:19:03.855)
+			<b class=YEL>Datum(0,label_0,0,2024-11-15,2024-11-15 09:56:19.303)
+			</b><b class=MAG>Datum(1,label_1,1,2024-11-14,2024-11-15 09:56:19.503)
+			</b><b class=YEL>Datum(2,label_2,2,2024-11-13,2024-11-15 09:56:19.703)
 			</b>... 
   + When writing to table 'polaris.my_namespace.IcebergCRUDSpec' 
   + Then reading the table back yields the same data 
@@ -70,9 +67,9 @@ set
   + When we execute it 
   + Then all rows are updated 
   + And look like:
-			<b class=YEL>Datum(15,ipse locum,0,2024-10-28,2024-11-12 17:19:06.455)
-			</b><b class=MAG>Datum(16,ipse locum,1,2024-10-27,2024-11-12 17:19:06.655)
-			</b><b class=YEL>Datum(17,ipse locum,2,2024-10-26,2024-11-12 17:19:06.855)
+			<b class=YEL>Datum(0,ipse locum,0,2024-11-15,2024-11-15 09:56:19.303)
+			</b><b class=MAG>Datum(1,ipse locum,1,2024-11-14,2024-11-15 09:56:19.503)
+			</b><b class=YEL>Datum(2,ipse locum,2,2024-11-13,2024-11-15 09:56:19.703)
 			</b>... 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should be able to have its schema updated
@@ -84,9 +81,9 @@ ADD
   + When we execute it 
   + Then all rows are updated 
   + And look like:
-			<b class=YEL>[15,ipse locum,0,2024-10-28,2024-11-12 17:19:06.455,null]
-			</b><b class=MAG>[16,ipse locum,1,2024-10-27,2024-11-12 17:19:06.655,null]
-			</b><b class=YEL>[17,ipse locum,2,2024-10-26,2024-11-12 17:19:06.855,null]
+			<b class=YEL>[0,ipse locum,0,2024-11-15,2024-11-15 09:56:19.303,null]
+			</b><b class=MAG>[1,ipse locum,1,2024-11-14,2024-11-15 09:56:19.503,null]
+			</b><b class=YEL>[2,ipse locum,2,2024-11-13,2024-11-15 09:56:19.703,null]
 			</b>... 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should be able to have rows removed
@@ -96,22 +93,22 @@ ADD
 where
   id &lt; 10</b> 
   + And the parquet files:
-<b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-0-bb80fcd2-293c-440a-9ca9-f5dab7dca980-0-00001.parquet.crc
-</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00003-3-bb80fcd2-293c-440a-9ca9-f5dab7dca980-0-00001.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00001-1-bb80fcd2-293c-440a-9ca9-f5dab7dca980-0-00001.parquet.crc
-</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-6-b390c672-38ca-4b1b-8d11-b2f8a7a1ac63-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00002-2-bb80fcd2-293c-440a-9ca9-f5dab7dca980-0-00001.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-0-bb80fcd2-293c-440a-9ca9-f5dab7dca980-0-00001.parquet
-</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00003-3-bb80fcd2-293c-440a-9ca9-f5dab7dca980-0-00001.parquet.crc
-</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00001-1-bb80fcd2-293c-440a-9ca9-f5dab7dca980-0-00001.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-6-b390c672-38ca-4b1b-8d11-b2f8a7a1ac63-0-00001.parquet.crc
-</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00002-2-bb80fcd2-293c-440a-9ca9-f5dab7dca980-0-00001.parquet.crc
+<b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00003-786-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00002-785-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-783-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00003-786-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-789-3c2ee17c-bf0e-47f4-8aab-15383950171e-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-783-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet.crc
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00002-785-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00001-784-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet.crc
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00001-784-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-789-3c2ee17c-bf0e-47f4-8aab-15383950171e-0-00001.parquet
 </b> 
   + When we execute it 
   + Then there are no longer an rows with ID &lt; 10 
   + And no files are deleted but there are the following new parquet files:
-<b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-12-e791ae78-12ee-4d73-a18d-2a7dfd07ea4c-0-00001.parquet
-</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-12-e791ae78-12ee-4d73-a18d-2a7dfd07ea4c-0-00001.parquet.crc
+<b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-795-1853b44a-ea7c-4172-a4ca-2a6a0ae55af3-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-795-1853b44a-ea7c-4172-a4ca-2a6a0ae55af3-0-00001.parquet
 </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should can have its history queried
@@ -125,9 +122,9 @@ from
 +-----------------------+-------------------+-------------------+-------------------+
 |made_current_at        |snapshot_id        |parent_id          |is_current_ancestor|
 +-----------------------+-------------------+-------------------+-------------------+
-|2024-11-12 17:19:05.324|5782867908816881484|NULL               |true               |
-|2024-11-12 17:19:06.626|731591887857925656 |5782867908816881484|true               |
-|2024-11-12 17:19:07.627|6389498668871541894|731591887857925656 |true               |
+|2024-11-15 09:56:34.583|3648962513681293522|NULL               |true               |
+|2024-11-15 09:56:34.825|651072400600619799 |3648962513681293522|true               |
+|2024-11-15 09:56:35.321|5374671995196474507|651072400600619799 |true               |
 +-----------------------+-------------------+-------------------+-------------------+
 
  
@@ -135,36 +132,64 @@ from
 <b class=YEL>select
   *
 from
-  polaris.my_namespace.IcebergCRUDSpec VERSION AS OF 5782867908816881484</b>
+  polaris.my_namespace.IcebergCRUDSpec VERSION AS OF 3648962513681293522</b>
 +---+--------+------------+----------+-----------------------+
 id |label   |partitionKey|date      |timestamp              |
 +---+--------+------------+----------+-----------------------+
-0  |label_0 |0           |2024-11-12|2024-11-12 17:19:03.455|
-1  |label_1 |1           |2024-11-11|2024-11-12 17:19:03.655|
-2  |label_2 |2           |2024-11-10|2024-11-12 17:19:03.855|
-3  |label_3 |3           |2024-11-09|2024-11-12 17:19:04.055|
-4  |label_4 |4           |2024-11-08|2024-11-12 17:19:04.255|
-5  |label_5 |0           |2024-11-07|2024-11-12 17:19:04.455|
-6  |label_6 |1           |2024-11-06|2024-11-12 17:19:04.655|
-7  |label_7 |2           |2024-11-05|2024-11-12 17:19:04.855|
-8  |label_8 |3           |2024-11-04|2024-11-12 17:19:05.055|
-9  |label_9 |4           |2024-11-03|2024-11-12 17:19:05.255|
-10 |label_10|0           |2024-11-02|2024-11-12 17:19:05.455|
-11 |label_11|1           |2024-11-01|2024-11-12 17:19:05.655|
-12 |label_12|2           |2024-10-31|2024-11-12 17:19:05.855|
-13 |label_13|3           |2024-10-30|2024-11-12 17:19:06.055|
-14 |label_14|4           |2024-10-29|2024-11-12 17:19:06.255|
-15 |label_15|0           |2024-10-28|2024-11-12 17:19:06.455|
-16 |label_16|1           |2024-10-27|2024-11-12 17:19:06.655|
-17 |label_17|2           |2024-10-26|2024-11-12 17:19:06.855|
-18 |label_18|3           |2024-10-25|2024-11-12 17:19:07.055|
-19 |label_19|4           |2024-10-24|2024-11-12 17:19:07.255|
+0  |label_0 |0           |2024-11-15|2024-11-15 09:56:19.303|
+1  |label_1 |1           |2024-11-14|2024-11-15 09:56:19.503|
+2  |label_2 |2           |2024-11-13|2024-11-15 09:56:19.703|
+3  |label_3 |3           |2024-11-12|2024-11-15 09:56:19.903|
+4  |label_4 |4           |2024-11-11|2024-11-15 09:56:20.103|
+5  |label_5 |0           |2024-11-10|2024-11-15 09:56:20.303|
+6  |label_6 |1           |2024-11-09|2024-11-15 09:56:20.503|
+7  |label_7 |2           |2024-11-08|2024-11-15 09:56:20.703|
+8  |label_8 |3           |2024-11-07|2024-11-15 09:56:20.903|
+9  |label_9 |4           |2024-11-06|2024-11-15 09:56:21.103|
+10 |label_10|0           |2024-11-05|2024-11-15 09:56:21.303|
+11 |label_11|1           |2024-11-04|2024-11-15 09:56:21.503|
+12 |label_12|2           |2024-11-03|2024-11-15 09:56:21.703|
+13 |label_13|3           |2024-11-02|2024-11-15 09:56:21.903|
+14 |label_14|4           |2024-11-01|2024-11-15 09:56:22.103|
+15 |label_15|0           |2024-10-31|2024-11-15 09:56:22.303|
+16 |label_16|1           |2024-10-30|2024-11-15 09:56:22.503|
+17 |label_17|2           |2024-10-29|2024-11-15 09:56:22.703|
+18 |label_18|3           |2024-10-28|2024-11-15 09:56:22.903|
+19 |label_19|4           |2024-10-27|2024-11-15 09:56:23.103|
 +---+--------+------------+----------+-----------------------+
 
  
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-- should when vacuumed, have old files removed !!! IGNORED !!!
-- should should delete all files when dropped !!! IGNORED !!!
+- should when vacuumed, have old files removed
+  + Given the 12 files are:
+<b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-783-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-789-3c2ee17c-bf0e-47f4-8aab-15383950171e-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00002-785-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-783-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00003-786-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00001-784-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet.crc
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00001-784-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-795-1853b44a-ea7c-4172-a4ca-2a6a0ae55af3-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00003-786-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-795-1853b44a-ea7c-4172-a4ca-2a6a0ae55af3-0-00001.parquet.crc
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-789-3c2ee17c-bf0e-47f4-8aab-15383950171e-0-00001.parquet
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00002-785-9df84ce5-3672-4e09-ae67-3fed9fc52f3d-0-00001.parquet
+</b> 
+  + When we call expireSnapshot 
+  + Then the original 12 files now look like:
+<b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-789-3c2ee17c-bf0e-47f4-8aab-15383950171e-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-795-1853b44a-ea7c-4172-a4ca-2a6a0ae55af3-0-00001.parquet
+</b><b class=YEL>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/.00000-795-1853b44a-ea7c-4172-a4ca-2a6a0ae55af3-0-00001.parquet.crc
+</b><b class=MAG>/tmp/polaris/my_namespace/IcebergCRUDSpec/data/00000-789-3c2ee17c-bf0e-47f4-8aab-15383950171e-0-00001.parquet
+</b> 
+  + And there are 8 new files 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
+- should should delete all files when dropped
+  + Given polaris.my_namespace.IcebergCRUDSpec has 2 
+  + When we execute:
+<b class=YEL>DROP TABLE polaris.my_namespace.IcebergCRUDSpec PURGE</b> 
+  + Then there are no files 
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>
 </html>
