@@ -8,7 +8,7 @@ You'll need to install `ansi2html`. On Ubuntu, you'd do it with something like:
 
 and run with the scenario_docs profile, eg:
 
-`mvn clean install -Pscenario_docs`
+`mvn clean install -Pscenario_docs -Ddocker.uid=$(id -u) -Ddocker.uid=$(id -g)`
 
 See the docs [here](https://phillhenry.github.io/IcebergPlayground/index.html).
 
@@ -20,4 +20,4 @@ You can see the output of the BDDs [here](https://iceberg.thebigdata.space/)
 
 They can be run with something like 
 
-`docker stop $(docker ps | grep polaris | awk '{print $1}') ; mvn  -Dtest=ConcurrentWriteSpec test`
+`docker stop $(docker ps | grep polaris | awk '{print $1}') ; mvn  -Dtest=ConcurrentWriteSpec test  -Ddocker.uid=$(id -u) -Ddocker.uid=$(id -g)`

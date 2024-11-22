@@ -38,6 +38,8 @@
         <polaris.version>1.0.0</polaris.version>
         <kafka.version>3.9.0</kafka.version>
         <circe.version>0.15.0-M1</circe.version>
+        <docker.uid>1000</docker.uid>
+        <docker.gid>1000</docker.gid>
     </properties>
 
     <dependencies>
@@ -230,6 +232,7 @@
                                         <ports>
                                             <port>8181:8181</port>
                                         </ports>
+                                        <user>${docker.uid}:${docker.gid}</user>
                                         <volumes>
                                             <bind>
                                                 <volume>/tmp:/tmp</volume>

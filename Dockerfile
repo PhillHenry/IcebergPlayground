@@ -9,9 +9,6 @@ RUN apt update
 RUN apt install -y openjdk-21-jdk
 RUN apt install -y unzip
 
-RUN useradd -ms /bin/bash henryp
-USER henryp
-
 # Set the working directory in the container, nuke any existing builds
 WORKDIR /app
 RUN rm -rf build
