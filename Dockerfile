@@ -2,6 +2,8 @@
 # cp POLARIS_SRC_HOME/polaris-service/build/distributions/polaris-service-shadow-999-SNAPSHOT.zip .
 # Build with something like:
 # docker build --build-arg UBER_JAR=polaris-service-shadow-999-SNAPSHOT  -t my-polaris .
+# docker tag $(docker images | grep my-polaris  | awk '{print $3}') ph1ll1phenry/polaris_for_bdd
+# docker push ph1ll1phenry/polaris_for_bdd
 
 FROM ubuntu:24.10
 
