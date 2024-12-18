@@ -10,6 +10,7 @@ FROM ubuntu:24.10
 RUN apt update
 RUN apt install -y openjdk-21-jdk
 RUN apt install -y unzip
+RUN apt-get install lsof
 
 # Set the working directory in the container, nuke any existing builds
 WORKDIR /app
@@ -23,9 +24,12 @@ COPY ${UBER_JAR}.zip ${TARGET}
 RUN unzip /app/${UBER_JAR}.zip
 RUN mv ${TARGET}/${UBER_JAR}/* ${TARGET}
 COPY polaris-server.yml ${TARGET}
+COPY polaris_entrypoint.sh ${TARGET}
+RUN chmod a+rx ${TARGET}/polaris_entrypoint.sh
+RUN chmod -R a+rwx ${TARGET}
 
 EXPOSE 8181
 
 # Run the resulting java binary
 ENTRYPOINT ["/bin/bash"]
-CMD ["/app/bin/polaris-service", "server", "polaris-server.yml"]
+CMD ["/app/polaris_entrypoint.sh"]

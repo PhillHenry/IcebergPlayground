@@ -35,11 +35,8 @@
         <spark.version>${spark.compat.version}.0</spark.version>
         <iceberg.version>1.6.1</iceberg.version>
         <documentation_utils.version>0.11</documentation_utils.version>
-        <polaris.version>1.0.0</polaris.version>
         <kafka.version>3.9.0</kafka.version>
         <circe.version>0.15.0-M1</circe.version>
-        <docker.uid>1000</docker.uid>
-        <docker.gid>1000</docker.gid>
     </properties>
 
     <dependencies>
@@ -106,14 +103,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.polaris</groupId>
-            <artifactId>polaris-service</artifactId>
-            <version>${polaris.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.polaris</groupId>
-            <artifactId>polaris-core</artifactId>
-            <version>${polaris.version}</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -229,10 +221,12 @@
                                     <name>ph1ll1phenry/polaris_for_bdd</name>
                                     <alias>polaris</alias>
                                     <run>
+                                        <env>
+                                            <RUN_USER_ID>${docker.uid}</RUN_USER_ID>
+                                        </env>
                                         <ports>
                                             <port>8181:8181</port>
                                         </ports>
-                                        <user>${docker.uid}:${docker.gid}</user>
                                         <volumes>
                                             <bind>
                                                 <volume>/tmp:/tmp</volume>

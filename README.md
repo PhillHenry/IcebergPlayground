@@ -8,7 +8,7 @@ You'll need to install `ansi2html`. On Ubuntu, you'd do it with something like:
 
 and run with the scenario_docs profile, eg:
 
-`mvn clean install -Pscenario_docs -Ddocker.uid=$(id -u) -Ddocker.gid=$(id -g)`
+`mvn clean install -Pscenario_docs -Ddocker.uid=$(id -u)`
 
 See the docs [here](https://phillhenry.github.io/IcebergPlayground/index.html).
 
