@@ -223,6 +223,7 @@
                                     <run>
                                         <env>
                                             <RUN_USER_ID>${docker.uid}</RUN_USER_ID>
+                                            <RUN_GROUP_ID>${docker.gid}</RUN_GROUP_ID>
                                         </env>
                                         <ports>
                                             <port>8181:8181</port>
