@@ -35,6 +35,8 @@ object SparkForTesting {
       .set(s"spark.sql.catalog.${namespace}", catalog_class)
       .set(DEFAULT_CATALOG.key, catalog)
       .set(WAREHOUSE_PATH.key, tmpDir)
+      .set("spark.sql.iceberg.planning.preserve-data-grouping", "true")
+      .set("spark.sql.sources.v2.bucketing.enabled", "true")
       .set(s"spark.sql.catalog.$catalog.uri", "http://localhost:8181/api/catalog")
       .set(s"spark.sql.catalog.$catalog.token", "principal:root;realm:default-realm")
       .set(s"spark.sql.catalog.$catalog", "org.apache.iceberg.spark.SparkCatalog")
