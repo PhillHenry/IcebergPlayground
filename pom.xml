@@ -204,6 +204,11 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>openshift-maven-plugin</artifactId>
+                <version>1.17.0</version>
+            </plugin>
+            <plugin>
                 <!-- run with something like mvn post-integration-test  -Dsuites='uk.co.odinconsultants.iceberg.ConcurrentWriteSpec' -->
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
