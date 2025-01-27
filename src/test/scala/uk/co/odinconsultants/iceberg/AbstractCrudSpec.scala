@@ -4,11 +4,11 @@ import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
-import uk.co.odinconsultants.iceberg.SQL.{createDatumTable, insertSQL}
+import uk.co.odinconsultants.iceberg.SQL.insertSQL
 
 import scala.collection.mutable.{Set => MSet}
 
-abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen with TableNameFixture {
+abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen with TableNameFixture with UpdatingTable {
 
   import spark.implicits._
 
@@ -87,17 +87,6 @@ abstract class AbstractCrudSpec extends SpecPretifier with GivenWhenThen with Ta
   }
 
   def checkDatafiles(previous: Set[String], current: Set[String], changes: Set[Datum]): Unit
-
-  private def tableDDL(tableName: String, mode: String, partitionField: String): String = {
-    val createSQL: String = s"""${createDatumTable(tableName)} TBLPROPERTIES (
-                               |    'format-version' = '2',
-                               |    'write.delete.mode'='$mode',
-                               |    'write.update.mode'='$mode',
-                               |    'sort-order' = '$partitionField ASC NULLS FIRST',
-                               |    'write.merge.mode'='$mode'
-                               |) PARTITIONED BY ($partitionField); """.stripMargin
-    createSQL
-  }
 
   def andTheTableContains(tableName: String): Array[Datum] = {
     val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]

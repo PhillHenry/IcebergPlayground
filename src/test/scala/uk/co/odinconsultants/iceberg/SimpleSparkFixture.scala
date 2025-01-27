@@ -41,10 +41,18 @@ object TestUtils {
 
   def dataDir(tableName: String) = s"${tableDir(tableName)}/data"
 
-  def partitionField: String =
-    classOf[
-      Datum
-    ].getDeclaredFields.filter(_.getName.toLowerCase.contains("partition")).head.getName
+  val partitionField: String = verifyFieldName("partition")
+
+  val labelField: String = verifyFieldName("label")
+
+  val idField: String = verifyFieldName("id")
+
+  def allFields: Array[String] = classOf[
+    Datum
+  ].getDeclaredFields.map(_.getName.toLowerCase)
+
+  private def verifyFieldName(fieldName: String) =
+    allFields.filter(_.contains(fieldName)).head
 }
 
 trait UniqueTableFixture extends SimpleSparkFixture {
