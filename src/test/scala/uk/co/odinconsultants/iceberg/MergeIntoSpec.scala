@@ -43,10 +43,6 @@ class MergeIntoSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
       val merged = spark.sqlContext.sql(mergeSql)
       private val df: Dataset[Datum] =
         spark.sqlContext.sql(s"SELECT * FROM $tableName ORDER BY $idField").as[Datum]
-      Then(
-        "the initial table looks like:\n" +
-        captureOutputOf(df.show(truncate = false))
-      )
       Then(s"the target table $tableName has the labels from the source table $otherTable")
       val dataPostMerge = df.collect()
       assert(dataPostMerge.length == data.length)
