@@ -24,3 +24,12 @@ You can see the output of the BDDs [here](https://iceberg.thebigdata.space/)
 They can be run with something like 
 
 `docker stop $(docker ps | grep polaris | awk '{print $1}') ; mvn  -Dtest=ConcurrentWriteSpec test  -Ddocker.uid=$(id -u) -Ddocker.gid=$(id -g)`
+
+# Running Polaris
+
+The BDDs extensively use Polaris. 
+To run the container outside of the build process, execute:
+
+`docker run -d -eRUN_USER_ID=$(id -u) -eRUN_GROUP_ID=$(id -g) -p8181:8181 -v/tmp:/tmp ph1ll1phenry/polaris_for_bdd:latest`
+
+This is the recommended way if you want to run a test in your IDE.
