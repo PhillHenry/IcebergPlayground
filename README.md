@@ -4,6 +4,14 @@ Katas for Apache Iceberg etc
 This project assumes we're running a Unix-like OS. 
 I'll make it Windows friendly if there is a demand. 
 
+# Running
+
+The BDDs require Docker images for Kafka and Polaris. 
+Because Polaris writes to a mounted volume, you'll need to pass it your user ID and GID.
+So run all the tests with:
+
+`mvn clean install -Ddocker.uid=$(id -u) -Ddocker.gid=$(id -g)`
+
 # Creating the Documentation
 You'll need to install `ansi2html`. On Ubuntu, you'd do it with something like:
 
