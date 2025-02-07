@@ -1,7 +1,10 @@
 # IcebergPlayground
 Katas for Apache Iceberg etc
 
-# Creating the logs
+This project assumes we're running a Unix-like OS. 
+I'll make it Windows friendly if there is a demand. 
+
+# Creating the Documentation
 You'll need to install `ansi2html`. On Ubuntu, you'd do it with something like:
 
 `sudo apt install colorized-logs`
