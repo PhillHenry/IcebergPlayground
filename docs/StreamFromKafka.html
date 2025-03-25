@@ -48,7 +48,7 @@ b.BWHI {background-color: #aaaaaa}
 <body>
 <pre>StreamFromKafkaSpec:
 + https://iceberg.apache.org/docs/latest/reliability/ 
-Reading from Kafka
+Reading messages from Kafka
 - should be written to Iceberg
   + Given an Iceberg created with:
 
@@ -63,7 +63,7 @@ Reading from Kafka
   'sort-order' = 'partitionKey ASC NULLS FIRST',
   'write.distribution-mode' = 'none'
 ) PARTITIONED BY (partitionKey);</b> 
-  + And a Kafka topic called polaris.my_namespace.StreamFromKafkaSpec1731689299734 
+  + And a Kafka topic called polaris.my_namespace.StreamFromKafkaSpec1742911914635 
   + When we send 20 records to Kafka 
   + And read from the Kafka topic writing to the Iceberg table 
   + Then the table is populated with data 

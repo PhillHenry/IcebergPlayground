@@ -46,26 +46,25 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>NoneWriteDistributionSortedSpec:
-+ See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
-Using write.distribution-mode
-- should create the appropriate number of Iceberg files
-  + Given a table that is created with:
-<b class=YEL>CREATE TABLE polaris.my_namespace.NoneWriteDistributionSortedSpec (
-  id int,
-  label String,
-  partitionKey long,
-  date Date,
-  timestamp Timestamp
-) USING iceberg TBLPROPERTIES (
-  'format-version' = '2',
-  'write.distribution-mode' = 'none'
-) PARTITIONED BY (partitionKey);</b> 
-  + And the data is sorted on the partitionKey column 
-  + And it has 20 rows over 5 data files when writing with 4 executor threads 
-  + When we add another 20 rows of the same data that is logically distributed over 5 partitions 
-  + And the data is sorted on the partitionKey column 
-  + Then there are now 5 more data files 
+<pre>MergeIntoSpec:
++ https://github.com/apache/iceberg/issues/7431 
+A merge-on-read table
+- should create no new files for merge-on-read
+  + Given tables polaris.my_namespace.MergeIntoSpec and polaris.my_namespace.OtherTable both created as 'merge-on-read' containing data that is the same other than the labels column 
+  + When we merge them with:
+
+<b class=YEL>MERGE INTO polaris.my_namespace.MergeIntoSpec t USING (
+  SELECT
+    *
+  FROM
+    polaris.my_namespace.OtherTable
+) s ON s.id = t.id
+WHEN MATCHED THEN
+UPDATE
+SET
+  t.label = s.label
+  WHEN NOT MATCHED THEN INSERT *</b> 
+  + Then the target table polaris.my_namespace.MergeIntoSpec has the labels from the source table polaris.my_namespace.OtherTable 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>
