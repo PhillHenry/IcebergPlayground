@@ -49,7 +49,7 @@ object TestUtils {
 
   def allFields: Array[String] = classOf[
     Datum
-  ].getDeclaredFields.map(_.getName.toLowerCase)
+  ].getDeclaredFields.map(_.getName)
 
   private def verifyFieldName(fieldName: String) =
     allFields.filter(_.contains(fieldName)).head

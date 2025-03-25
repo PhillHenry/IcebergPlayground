@@ -19,6 +19,8 @@ The code for these tests can be found in [GitHub](https://github.com/PhillHenry/
 
 [Java Interface](JavaInterface.html)
 
+[Merge Into](MergeInto.html)
+
 [Merge On Read](MergeOnRead.html)
 
 [None Write Distribution](NoneWriteDistribution.html)
@@ -28,6 +30,8 @@ The code for these tests can be found in [GitHub](https://github.com/PhillHenry/
 [None Write Distribution Sorted Table](NoneWriteDistributionSortedTable.html)
 
 [Optimization](Optimization.html)
+
+[Pushdown](Pushdown.html)
 
 [Stream From Kafka](StreamFromKafka.html)
 
