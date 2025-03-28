@@ -63,7 +63,7 @@ Reading messages from Kafka
   'sort-order' = 'partitionKey ASC NULLS FIRST',
   'write.distribution-mode' = 'none'
 ) PARTITIONED BY (partitionKey);</b> 
-  + And a Kafka topic called polaris.my_namespace.StreamFromKafkaSpec1742911914635 
+  + And a Kafka topic called polaris.my_namespace.StreamFromKafkaSpec1743170374343 
   + When we send 20 records to Kafka 
   + And read from the Kafka topic writing to the Iceberg table 
   + Then the table is populated with data 
