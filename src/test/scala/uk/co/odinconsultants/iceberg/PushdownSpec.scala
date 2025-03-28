@@ -3,13 +3,12 @@ package uk.co.odinconsultants.iceberg
 import org.apache.spark.sql.functions._
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.spark
+import uk.co.odinconsultants.TextUtils.emphasise
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 class PushdownSpec extends SpecPretifier with GivenWhenThen with TableNameFixture with UpdatingTable {
 
   import spark.implicits._
-
-  def emphasise(selection: String, context: String): String = context.replace(selection, s"${Console.BOLD}$selection${Console.RESET}")
 
   s"Predicates" should {
     s"not be pushed down" in new SimpleSparkFixture {

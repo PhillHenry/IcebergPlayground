@@ -2,6 +2,7 @@ package uk.co.odinconsultants.iceberg
 
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting
+import uk.co.odinconsultants.TextUtils.{Emphasis, emphasise, highlight}
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.SQL.{createDatumTable, insertSQL}
 
@@ -32,9 +33,10 @@ class DeleteTripsSnapshotSpec extends SpecPretifier with GivenWhenThen with Tabl
       spark.sql(partitionSQL)
 
       val sql =
-        s"""CALL system.snapshot('$src_table',
+        s"""CALL system.snapshot(
+           |'$src_table',
            |'$dst_table')""".stripMargin
-      When(s"we execute the SQL:${formatSQL(sql)}")
+      When(s"we execute the SQL:${highlight(emphasise("snapshot", sql, Emphasis))}")
       spark.sqlContext.sql(sql)
     }
     val mode = "copy-on-write"
@@ -55,9 +57,10 @@ class DeleteTripsSnapshotSpec extends SpecPretifier with GivenWhenThen with Tabl
       spark.sqlContext.sql(sql)
 
       val snapshotSQL =
-        s"""CALL $catalog.system.snapshot('$src_table',
+        s"""CALL $catalog.system.snapshot(
+           |'$src_table',
            |'$dst_table')""".stripMargin
-      When(s"we execute the SQL:${formatSQL(snapshotSQL)}")
+      When(s"we execute the SQL:${highlight(emphasise("snapshot", snapshotSQL, Emphasis))}")
       spark.sqlContext.sql(snapshotSQL)
     }
     s"be cleaned up with remove_orphan_files" ignore new SimpleSparkFixture {
@@ -65,8 +68,10 @@ class DeleteTripsSnapshotSpec extends SpecPretifier with GivenWhenThen with Tabl
       Given(s"there are already ${filesBefore.size} files for table $tableName")
       val fqn: String = s"${SparkForTesting.namespace}." + tableName
       val sql =
-        s"""CALL system.remove_orphan_files(table => \"$tableName\")""".stripMargin
-      When(s"we execute the SQL:${formatSQL(sql)}")
+        s"""CALL system.remove_orphan_files(
+           |table => \"$tableName\"
+           )""".stripMargin
+      When(s"we execute the SQL:${highlight(emphasise("remove_orphan_files", sql, Emphasis))}")
       spark.sqlContext.sql(sql)
       val filesAfter = parquetFiles(tableName).toSet
       Then(s"old files have been removed and only ${filesAfter.size} remain")

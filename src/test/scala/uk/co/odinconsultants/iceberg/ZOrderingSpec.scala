@@ -1,6 +1,7 @@
 package uk.co.odinconsultants.iceberg
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.spark
+import uk.co.odinconsultants.TextUtils.{Emphasis, emphasise}
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 import scala.util.Random
@@ -49,12 +50,13 @@ class ZOrderingSpec extends SpecPretifier with GivenWhenThen with TableNameFixtu
       assert(filesBefore.length > 0)
 
       val sql =
-        s"""CALL system.rewrite_data_files(table => \"$tableName\",
+        s"""CALL system.rewrite_data_files(
+           |table => \"$tableName\",
            |strategy => 'sort',
            |sort_order => 'zorder(id, date)',
            |options => map('min-input-files','${filesBefore.length}', 'target-file-size-bytes','49152')
            |)""".stripMargin
-      When(s"we execute the SQL:\n${Console.GREEN + sql + Console.RESET}")
+      When(s"we execute the SQL:\n${Console.GREEN + emphasise("rewrite_data_files", sql, Emphasis) + Console.RESET}")
       spark.sqlContext.sql(sql)
 
       val filesAfter = parquetFiles(tableName)

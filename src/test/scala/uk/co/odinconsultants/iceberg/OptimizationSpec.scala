@@ -2,6 +2,7 @@ package uk.co.odinconsultants.iceberg
 import org.apache.spark.sql.Dataset
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting._
+import uk.co.odinconsultants.TextUtils.{Emphasis, emphasise, highlight}
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 
 import java.text.SimpleDateFormat
@@ -31,9 +32,10 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
 
       val filesBefore = parquetFiles(tableName).toSet
       val sql =
-        s"""CALL system.rewrite_data_files(table => \"$tableName\",
+        s"""CALL system.rewrite_data_files(
+           |table => \"$tableName\",
            |options => map('min-input-files','$MIN_INPUT_FILES'))""".stripMargin
-      When(s"we execute the SQL ${formatSQL(sql)}")
+      When(s"we execute the SQL ${highlight(emphasise("rewrite_data_files", sql, Emphasis))}")
       spark.sqlContext.sql(sql)
       val filesAfter = parquetFiles(tableName).toSet
       val added: Set[String] = filesAfter -- filesBefore
@@ -52,10 +54,11 @@ class OptimizationSpec extends SpecPretifier with GivenWhenThen with TableNameFi
       Given(s"there are already ${filesBefore.size} files for table $tableName")
       val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
       val sql =
-        s"""CALL system.expire_snapshots(table => \"$tableName\",
+        s"""CALL system.expire_snapshots(
+           |table => \"$tableName\",
            |older_than => TIMESTAMP '${dateFormat.format(new java.util.Date())}',
            |stream_results => true)""".stripMargin
-      When(s"we execute the SQL:${formatSQL(sql)}")
+      When(s"we execute the SQL:${highlight(emphasise("expire_snapshots", sql, Emphasis))}")
       spark.sqlContext.sql(sql)
       val filesAfter = parquetFiles(tableName).toSet
       Then(s"old files have been removed and only ${filesAfter.size} remain")
