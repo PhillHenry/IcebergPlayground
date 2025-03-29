@@ -25,7 +25,7 @@ class StreamFromKafkaSpec
   val TopicName = tableName + System.currentTimeMillis()
 
   "Reading messages from Kafka" should {
-    "be written to Iceberg" in new SimpleSparkFixture {
+    "be written to Iceberg" in new SimpleSparkFixture with StreamingFixture {
       private val sql: String = tableDDL(tableName, partitionField)
       Given(s"an Iceberg created with:\n${formatSQL(sql)}")
       spark.sql(sql)
@@ -41,27 +41,10 @@ class StreamFromKafkaSpec
 
       And(s"read from the Kafka topic writing to the Iceberg table")
       val df = readKafkaViaSpark(TopicName)
-      val streamingQuery      = df.writeStream.format("iceberg")
-        .outputMode(OutputMode.Append())
-        .option("path",               tableName)
-        .option("checkpointLocation", s"${dataDir(tableName)}.checkpoint")
-        .partitionBy(partitionField)
-        .start()
-
       Then("the table is populated with data")
-      processAllRecordsIn(streamingQuery)
+      processAllRecordsIn(startStreamingQuery(df, tableName))
       val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
-      assert(table.count() > 0)
-    }
-  }
-
-  private def processAllRecordsIn(
-      streamingQuery: StreamingQuery
-  ): Unit = {
-    streamingQuery.processAllAvailable()
-    streamingQuery.exception.foreach { x =>
-      x.printStackTrace()
-      fail(x)
+      assert(table.count() == data.length)
     }
   }
 

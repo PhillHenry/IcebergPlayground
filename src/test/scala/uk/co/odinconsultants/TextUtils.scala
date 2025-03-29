@@ -2,7 +2,7 @@ package uk.co.odinconsultants
 
 object TextUtils {
 
-  val Emphasis: String = Console.YELLOW
+  val Emphasis: String = Console.GREEN
 
   def emphasise(selection: String, context: String, continueFormat: String = ""): String =
     context.replace(selection, s"${Console.BOLD}$selection${Console.RESET}$continueFormat")

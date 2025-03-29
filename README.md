@@ -40,4 +40,8 @@ To run the container outside of the build process, execute:
 
 `docker run -d -eRUN_USER_ID=$(id -u) -eRUN_GROUP_ID=$(id -g) -p8181:8181 -v/tmp:/tmp ph1ll1phenry/polaris_for_bdd:latest`
 
+then don't forget to intialise Polaris with:
+
+`scripts/setup.sh`
+
 This is the recommended way if you want to run a test in your IDE.
