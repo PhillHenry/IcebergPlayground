@@ -30,7 +30,8 @@ class StreamFromKafkaSpec
       Given(s"an Iceberg created with:\n${formatSQL(sql)}")
       spark.sql(sql)
       And(s"a Kafka topic called $TopicName")
-      val topics = Seq[NewTopic](new NewTopic(TopicName, 1, 1.toShort))
+      val numKafkaPartitions = num_partitions / 2
+      val topics = Seq[NewTopic](new NewTopic(TopicName, numKafkaPartitions, 1.toShort))
       adminClient.createTopics(topics.asJava)
 
       When(s"we send ${data.length} records to Kafka")
@@ -45,6 +46,9 @@ class StreamFromKafkaSpec
       processAllRecordsIn(startStreamingQuery(df, tableName))
       val table: Dataset[Datum] = spark.read.table(tableName).as[Datum]
       assert(table.count() == data.length)
+      And(s"the number of data files (${parquetFiles(tableName).size}) is the same as the number of Spark " +
+        s"partitions, not the number of Kafka partitions ($numKafkaPartitions)")
+      assert(parquetFiles(tableName).size == num_partitions)
     }
   }
 

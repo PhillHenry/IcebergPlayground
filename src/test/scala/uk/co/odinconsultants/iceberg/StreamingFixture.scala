@@ -19,6 +19,7 @@ trait StreamingFixture { self: SimpleSparkFixture =>
     .outputMode(OutputMode.Append())
     .option("path",               tableName)
     .option("checkpointLocation", s"${dataDir(tableName)}.checkpoint")
+    .option("fanout-enabled", "true")
     .partitionBy(partitionField)
     .start()
 }
