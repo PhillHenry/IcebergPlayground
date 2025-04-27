@@ -17,7 +17,7 @@ abstract class AbstractWriteDistributionSpec
       val createSQL: String   = tableDDL(tableName, partitionField)
       Given(s"a table that is created with:${formatSQL(createSQL)}")
       spark.sql(createSQL)
-      appendData(spark, data)
+      appendData(spark, amendData(data))
       val before: Seq[String] = parquetFiles(tableName)
       And(
         s"it has ${data.length} rows over ${before.length} data files when writing with $numThreads executor threads"
@@ -26,7 +26,7 @@ abstract class AbstractWriteDistributionSpec
       When(
         s"we add another ${data.length} rows of the same data that is logically distributed over $num_partitions partitions"
       )
-      appendData(spark, data)
+      appendData(spark, amendData(data))
       val after: Seq[String]  = parquetFiles(tableName)
       val diff                = after.length - before.length
       Then(s"there are now ${diff} more data files")
@@ -34,6 +34,8 @@ abstract class AbstractWriteDistributionSpec
       assert(after.length == expectedNumberOfFilesPerAppend(num_partitions) * 2)
     }
   }
+
+  protected def amendData(xs: Seq[Datum]):Seq[Datum] = xs
 
   protected def appendData(
       spark: SparkSession,
