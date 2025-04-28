@@ -19,16 +19,17 @@ abstract class AbstractWriteDistributionSpec
       private val sql: String = otherProperties(partitionField).foldLeft(formatSQL(createSQL))((acc, x) => emphasise(x, acc, Console.YELLOW))
       Given(s"a table that has a distribution mode of ${highlight(distributionMode)}\nand is created with:$sql")
       spark.sql(createSQL)
-      appendData(spark, amendData(data))
+      private val dataToWrite: Seq[Datum] = potentiallyAmendData(data)
+      appendData(spark, dataToWrite)
       val before: Seq[String] = parquetFiles(tableName)
       And(
-        s"it has ${data.length} rows over ${before.length} data files when writing with $numThreads executor threads"
+        s"it has ${data.length} rows over ${before.length} data file(s) when writing with $numThreads executor threads"
       )
       assert(before.length == expectedNumberOfFilesPerAppend(num_partitions))
       When(
-        s"we add another ${data.length} rows of the same data that is logically distributed over $num_partitions partitions"
+        s"we add another ${data.length} rows of the same data that is logically distributed over ${dataToWrite.map(_.partitionKey).toSet.size} partition(s)"
       )
-      appendData(spark, amendData(data))
+      appendData(spark, dataToWrite)
       val after: Seq[String]  = parquetFiles(tableName)
       val diff                = after.length - before.length
       Then(s"there are now ${diff} more data files")
@@ -37,7 +38,7 @@ abstract class AbstractWriteDistributionSpec
     }
   }
 
-  protected def amendData(xs: Seq[Datum]):Seq[Datum] = xs
+  protected def potentiallyAmendData(xs: Seq[Datum]):Seq[Datum] = xs
 
   protected def appendData(
       spark: SparkSession,
