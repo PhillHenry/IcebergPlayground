@@ -4,6 +4,7 @@ import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.numThreads
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.SQL.createDatumTable
+import uk.co.odinconsultants.TextUtils.highlight
 
 abstract class AbstractWriteDistributionSpec
     extends SpecPretifier
@@ -47,9 +48,13 @@ abstract class AbstractWriteDistributionSpec
 
   protected def expectedNumberOfFilesPerAppend(numPartitions: Int): Int
 
-  protected def tableDDL(tableName: String, partitionField: String): String =
+  protected def tableDDL(tableName: String, partitionField: String): String = {
+    val tblProperties = Seq(s"'write.distribution-mode' = '${distributionMode}'") ++ otherProperties(partitionField)
     s"""${createDatumTable(tableName)} TBLPROPERTIES (
                                |    'format-version' = '2',
-                               |    'write.distribution-mode' = '${distributionMode}'
+                               |    ${tblProperties.mkString(",\n    ")}
                                |) PARTITIONED BY ($partitionField); """.stripMargin
+  }
+
+  protected def otherProperties(partitionField: String): Seq[String] = Seq.empty[String]
 }
