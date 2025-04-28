@@ -4,7 +4,7 @@ import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.numThreads
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.SQL.createDatumTable
-import uk.co.odinconsultants.TextUtils.highlight
+import uk.co.odinconsultants.TextUtils.{emphasise, highlight}
 
 abstract class AbstractWriteDistributionSpec
     extends SpecPretifier
@@ -16,7 +16,8 @@ abstract class AbstractWriteDistributionSpec
   "Using write.distribution-mode" should {
     "create the appropriate number of Iceberg files" in new SimpleSparkFixture {
       val createSQL: String   = tableDDL(tableName, partitionField)
-      Given(s"a table that is created with:${formatSQL(createSQL)}")
+      private val sql: String = otherProperties(partitionField).foldLeft(formatSQL(createSQL))((acc, x) => emphasise(x, acc, Console.YELLOW))
+      Given(s"a table that has a distribution mode of ${highlight(distributionMode)}\nand is created with:$sql")
       spark.sql(createSQL)
       appendData(spark, amendData(data))
       val before: Seq[String] = parquetFiles(tableName)
