@@ -15,6 +15,12 @@ The code for these tests can be found in [GitHub](https://github.com/PhillHenry/
 
 [Hash Distribution](HashDistribution.html)
 
+[Hash Distribution Sorted Table](HashDistributionSortedTable.html)
+
+[Hash Distribution Sorted Table One Partition](HashDistributionSortedTableOnePartition.html)
+
+[Hash Write Distribution Sorted Dataframe](HashWriteDistributionSortedDataframe.html)
+
 [Iceberg CRUD](IcebergCRUD.html)
 
 [Java Interface](JavaInterface.html)
