@@ -46,37 +46,34 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>PushdownSpec:
-Predicates
-- should not be pushed down
-  + Given a table partitioned by partitionKey 
-  + When we execute a query that concatenates strings based on partitionKey 
-  + Then The query plan:
-== Physical Plan ==
-*(1) Filter (concat(2025-01-0, cast(partitionKey#1324L as string)) = 2025-01-02)
-+- *(1) ColumnarToRow
-   +- BatchScan polaris.my_namespace.PushdownSpec[id#1322, label#1323, partitionKey#1324L, date#1325, timestamp#1326] polaris.my_namespace.PushdownSpec (branch=null) [<b class="BOLD">filters=,</b> groupedBy=] RuntimeFilters: []
-
-
-
-shows nothing has been pushed down 
+<pre>HashWriteDistributionSortedDataframeSpec:
++ See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
+Using write.distribution-mode
+- should create the appropriate number of Iceberg files
+  + Given a table that has a distribution mode of 
+<b class=GRN>hash</b>
+and is created with:
+<b class=YEL>CREATE TABLE polaris.my_namespace.HashWriteDistributionSortedDataframeSpec (
+  id int,
+  label String,
+  partitionKey long,
+  date Date,
+  timestamp Timestamp
+) USING iceberg TBLPROPERTIES (
+  'format-version' = '2',
+  'write.distribution-mode' = 'hash'
+) PARTITIONED BY (partitionKey);</b> 
+  + And the data is sorted on the partitionKey column 
+  + And it has 20 rows over 5 data files when writing with 4 executor threads 
+  + When we add another 20 rows of the same data that is logically distributed over 5 partitions 
+  + And the data is sorted on the partitionKey column 
+  + Then there are now 5 more data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-- should be pushed down
-  + Given the same table containing data that looks like:
-			<b class=YEL>Datum(0,label_0,0,2025-04-28,2025-04-28 09:35:02.776)
-			</b><b class=MAG>Datum(1,label_1,1,2025-04-27,2025-04-28 09:35:02.976)
-			</b><b class=YEL>Datum(2,label_2,2,2025-04-26,2025-04-28 09:35:03.176)
-			</b>... 
-  + When we execute a query that simply checks the equality of partitionKey 
-  + Then the query plan:
-== Physical Plan ==
-*(1) Filter (isnotnull(partitionKey#1361L) AND (partitionKey#1361L = 1))
-+- *(1) ColumnarToRow
-   +- BatchScan polaris.my_namespace.PushdownSpec[id#1359, label#1360, partitionKey#1361L, date#1362, timestamp#1363] polaris.my_namespace.PushdownSpec (branch=null) [<b class="BOLD">filters=partitionKey</b> IS NOT NULL, partitionKey = 1, groupedBy=] RuntimeFilters: []
-
-
- 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-+ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
+Run completed in 26 seconds, 925 milliseconds.
+Total number of tests run: 37
+Suites: completed 21, aborted 0
+Tests: succeeded 37, failed 0, canceled 0, ignored 4, pending 0
+All tests passed.</pre>
 </body>
 </html>

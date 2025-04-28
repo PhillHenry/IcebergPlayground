@@ -47,13 +47,15 @@ b.BWHI {background-color: #aaaaaa}
 </head>
 <body>
 <pre>Discovery starting.
-Discovery completed in 2 seconds, 585 milliseconds.
-Run starting. Expected test count is: 33
+Discovery completed in 2 seconds, 718 milliseconds.
+Run starting. Expected test count is: 37
 NoneWriteDistributionSortedTableSpec:
 + See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
 Using write.distribution-mode
 - should create the appropriate number of Iceberg files
-  + Given a table that is created with:
+  + Given a table that has a distribution mode of 
+<b class=GRN>none</b>
+and is created with:
 <b class=YEL>CREATE TABLE polaris.my_namespace.NoneWriteDistributionSortedTableSpec (
   id int,
   label String,
@@ -62,8 +64,8 @@ Using write.distribution-mode
   timestamp Timestamp
 ) USING iceberg TBLPROPERTIES (
   'format-version' = '2',
-  'sort-order' = 'partitionKey ASC NULLS FIRST',
-  'write.distribution-mode' = 'none'
+  'write.distribution-mode' = 'none',
+  </b><b class=HIY>'sort-order' = 'partitionKey ASC NULLS FIRST'</b><b class=YEL>
 ) PARTITIONED BY (partitionKey);</b> 
   + And it has 20 rows over 20 data files when writing with 4 executor threads 
   + When we add another 20 rows of the same data that is logically distributed over 5 partitions 

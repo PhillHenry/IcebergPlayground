@@ -46,37 +46,30 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>PushdownSpec:
-Predicates
-- should not be pushed down
-  + Given a table partitioned by partitionKey 
-  + When we execute a query that concatenates strings based on partitionKey 
-  + Then The query plan:
-== Physical Plan ==
-*(1) Filter (concat(2025-01-0, cast(partitionKey#1324L as string)) = 2025-01-02)
-+- *(1) ColumnarToRow
-   +- BatchScan polaris.my_namespace.PushdownSpec[id#1322, label#1323, partitionKey#1324L, date#1325, timestamp#1326] polaris.my_namespace.PushdownSpec (branch=null) [<b class="BOLD">filters=,</b> groupedBy=] RuntimeFilters: []
-
-
-
-shows nothing has been pushed down 
+<pre>NoneWriteDistributionSortedTableOnePartitionSpec:
++ See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
+Using write.distribution-mode
+- should create the appropriate number of Iceberg files
+  + Given a table that has a distribution mode of 
+<b class=GRN>none</b>
+and is created with:
+<b class=YEL>CREATE TABLE polaris.my_namespace.NoneWriteDistributionSortedTableOnePartitionSpec (
+  id int,
+  label String,
+  partitionKey long,
+  date Date,
+  timestamp Timestamp
+) USING iceberg TBLPROPERTIES (
+  'format-version' = '2',
+  'write.distribution-mode' = 'none',
+  </b><b class=HIY>'sort-order' = 'partitionKey ASC NULLS FIRST'</b><b class=YEL>,
+  </b><b class=HIY>'spark.sql.adaptive.advisoryPartitionSizeInBytes' = '1073741824'</b><b class=YEL>
+) PARTITIONED BY (partitionKey);</b> 
+  + And it has 20 rows over 4 data files when writing with 4 executor threads 
+  + When we add another 20 rows of the same data that is logically distributed over 5 partitions 
+  + Then there are now 4 more data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-- should be pushed down
-  + Given the same table containing data that looks like:
-			<b class=YEL>Datum(0,label_0,0,2025-04-28,2025-04-28 09:35:02.776)
-			</b><b class=MAG>Datum(1,label_1,1,2025-04-27,2025-04-28 09:35:02.976)
-			</b><b class=YEL>Datum(2,label_2,2,2025-04-26,2025-04-28 09:35:03.176)
-			</b>... 
-  + When we execute a query that simply checks the equality of partitionKey 
-  + Then the query plan:
-== Physical Plan ==
-*(1) Filter (isnotnull(partitionKey#1361L) AND (partitionKey#1361L = 1))
-+- *(1) ColumnarToRow
-   +- BatchScan polaris.my_namespace.PushdownSpec[id#1359, label#1360, partitionKey#1361L, date#1362, timestamp#1363] polaris.my_namespace.PushdownSpec (branch=null) [<b class="BOLD">filters=partitionKey</b> IS NOT NULL, partitionKey = 1, groupedBy=] RuntimeFilters: []
-
-
- 
-+ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
++ The corner case of all the data being in one partition 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>
 </html>

@@ -51,17 +51,17 @@ b.BWHI {background-color: #aaaaaa}
 A table that has many files
 - should have those files aggregated
   + Given data
-			<b class=YEL>Datum(0,label_0,0,2025-03-28,2025-03-28 13:59:34.403)
-			</b><b class=MAG>Datum(1,label_1,1,2025-03-27,2025-03-28 13:59:34.603)
-			</b><b class=YEL>Datum(2,label_2,2,2025-03-26,2025-03-28 13:59:34.803)
+			<b class=YEL>Datum(0,label_0,0,2025-04-28,2025-04-28 09:35:02.776)
+			</b><b class=MAG>Datum(1,label_1,1,2025-04-27,2025-04-28 09:35:02.976)
+			</b><b class=YEL>Datum(2,label_2,2,2025-04-26,2025-04-28 09:35:03.176)
 			</b>... 
   + And 20000 rows are initially written to table 'polaris.my_namespace.OptimizationSpec' 
   + When we execute the SQL 
-<b class=YEL>CALL system.</b><b class=HIY>rewrite_data_files</b><b class=YEL>(
+<b class=GRN>CALL system.</b><b class=HIG>rewrite_data_files</b><b class=GRN>(
 table =&gt; "polaris.my_namespace.OptimizationSpec",
 options =&gt; map('min-input-files','2'))</b> 
   + Then the files added to the original 4 are:
-<b class=YEL>/tmp/polaris/my_namespace/OptimizationSpec/data/00000-92-ddfc702b-aea3-4aa5-a667-4cb744e2cf4c-0-00001.parquet
+<b class=YEL>/tmp/polaris/my_namespace/OptimizationSpec/data/00000-88-5edbc064-3862-4c2d-ad8c-a90228e3428c-0-00001.parquet
 </b> 
   + And there are no files deleted from the subsequent 5 
   + And these new files contain all the data 
@@ -69,9 +69,9 @@ options =&gt; map('min-input-files','2'))</b>
 - should have snapshots removed when expired
   + Given there are already 5 files for table polaris.my_namespace.OptimizationSpec 
   + When we execute the SQL:
-<b class=YEL>CALL system.</b><b class=HIY>expire_snapshots</b><b class=YEL>(
+<b class=GRN>CALL system.</b><b class=HIG>expire_snapshots</b><b class=GRN>(
 table =&gt; "polaris.my_namespace.OptimizationSpec",
-older_than =&gt; TIMESTAMP '2025-03-28 13:59:42.466',
+older_than =&gt; TIMESTAMP '2025-04-28 09:35:10.776',
 stream_results =&gt; true)</b> 
   + Then old files have been removed and only 1 remain 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 

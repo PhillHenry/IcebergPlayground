@@ -50,7 +50,9 @@ b.BWHI {background-color: #aaaaaa}
 + See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
 Using write.distribution-mode
 - should create the appropriate number of Iceberg files
-  + Given a table that is created with:
+  + Given a table that has a distribution mode of 
+<b class=GRN>none</b>
+and is created with:
 <b class=YEL>CREATE TABLE polaris.my_namespace.NoneWriteDistributionSortedDataframeSpec (
   id int,
   label String,
