@@ -46,17 +46,14 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>Discovery starting.
-Discovery completed in 2 seconds, 661 milliseconds.
-Run starting. Expected test count is: 38
-NoneWriteDistributionSortedTableSpec:
+<pre>HashDistributionSortedTableSmallFilesSpec:
 + See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
 Using write.distribution-mode
 - should create the appropriate number of Iceberg files
   + Given a table that has a distribution mode of 
-<b class=GRN>none</b>
+<b class=GRN>hash</b>
 and is created with:
-<b class=YEL>CREATE TABLE polaris.my_namespace.NoneWriteDistributionSortedTableSpec (
+<b class=YEL>CREATE TABLE polaris.my_namespace.HashDistributionSortedTableSmallFilesSpec (
   id int,
   label String,
   partitionKey long,
@@ -64,27 +61,30 @@ and is created with:
   timestamp Timestamp
 ) USING iceberg TBLPROPERTIES (
   'format-version' = '2',
-  'write.distribution-mode' = 'none',
-  </b><b class=HIY>'sort-order' = 'partitionKey ASC NULLS FIRST'</b><b class=YEL>
+  'write.distribution-mode' = 'hash',
+  </b><b class=HIY>'sort-order' = 'partitionKey ASC NULLS FIRST'</b><b class=YEL>,
+  </b><b class=HIY>'spark.sql.adaptive.advisoryPartitionSizeInBytes' = '128'</b><b class=YEL>,
+  </b><b class=HIY>'write.spark.advisory-partition-size-bytes' = '128'</b><b class=YEL>,
+  </b><b class=HIY>'write.target-file-size-bytes' = '128'</b><b class=YEL>
 ) PARTITIONED BY (partitionKey);</b> 
   + And a query plan that looks like:
 == Parsed Logical Plan ==
-LocalRelation [id#0, label#1, partitionKey#2L, date#3, timestamp#4]
+LocalRelation [id#2463, label#2464, partitionKey#2465L, date#2466, timestamp#2467]
 
 == Analyzed Logical Plan ==
 id: int, label: string, partitionKey: bigint, date: date, timestamp: timestamp
-LocalRelation [id#0, label#1, partitionKey#2L, date#3, timestamp#4]
+LocalRelation [id#2463, label#2464, partitionKey#2465L, date#2466, timestamp#2467]
 
 == Optimized Logical Plan ==
-LocalRelation [id#0, label#1, partitionKey#2L, date#3, timestamp#4]
+LocalRelation [id#2463, label#2464, partitionKey#2465L, date#2466, timestamp#2467]
 
 == Physical Plan ==
-LocalTableScan [id#0, label#1, partitionKey#2L, date#3, timestamp#4]
+LocalTableScan [id#2463, label#2464, partitionKey#2465L, date#2466, timestamp#2467]
 
  
-  + And it has 20 rows over 20 data file(s) when writing with 4 executor threads 
-  + When we add another 20 rows of the same data that is logically distributed over 5 partition(s) 
-  + Then there are now 20 more data files 
+  + And it has 20 rows over 4 data file(s) when writing with 4 executor threads 
+  + When we add another 20 rows of the same data that is logically distributed over 1 partition(s) 
+  + Then there are now 4 more data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>

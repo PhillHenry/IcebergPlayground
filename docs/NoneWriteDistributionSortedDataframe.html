@@ -64,8 +64,29 @@ and is created with:
   'write.distribution-mode' = 'none'
 ) PARTITIONED BY (partitionKey);</b> 
   + And the data is sorted on the partitionKey column 
-  + And it has 20 rows over 5 data files when writing with 4 executor threads 
-  + When we add another 20 rows of the same data that is logically distributed over 5 partitions 
+  + And a query plan that looks like:
+== Parsed Logical Plan ==
+'Sort ['partitionKey ASC NULLS FIRST], true
++- LocalRelation [id#1937, label#1938, partitionKey#1939L, date#1940, timestamp#1941]
+
+== Analyzed Logical Plan ==
+id: int, label: string, partitionKey: bigint, date: date, timestamp: timestamp
+Sort [partitionKey#1939L ASC NULLS FIRST], true
++- LocalRelation [id#1937, label#1938, partitionKey#1939L, date#1940, timestamp#1941]
+
+== Optimized Logical Plan ==
+Sort [partitionKey#1939L ASC NULLS FIRST], true
++- LocalRelation [id#1937, label#1938, partitionKey#1939L, date#1940, timestamp#1941]
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Sort [partitionKey#1939L ASC NULLS FIRST], true, 0
+   +- Exchange rangepartitioning(partitionKey#1939L ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=2176]
+      +- LocalTableScan [id#1937, label#1938, partitionKey#1939L, date#1940, timestamp#1941]
+
+ 
+  + And it has 20 rows over 5 data file(s) when writing with 4 executor threads 
+  + When we add another 20 rows of the same data that is logically distributed over 5 partition(s) 
   + And the data is sorted on the partitionKey column 
   + Then there are now 5 more data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
