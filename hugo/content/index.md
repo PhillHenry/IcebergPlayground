@@ -2,6 +2,7 @@
 
 These are BDD (Behaviour Driven Design) tests that both test
 the code and generate human readable documentation.
+This was run against Spark version 3.5 and Iceberg version 1.6.1
 The code for these tests can be found in [GitHub](https://github.com/PhillHenry/IcebergPlayground)
 
 
@@ -18,6 +19,8 @@ The code for these tests can be found in [GitHub](https://github.com/PhillHenry/
 [Hash Distribution Sorted Table](HashDistributionSortedTable.html)
 
 [Hash Distribution Sorted Table One Partition](HashDistributionSortedTableOnePartition.html)
+
+[Hash Distribution Sorted Table Small Files](HashDistributionSortedTableSmallFiles.html)
 
 [Hash Write Distribution Sorted Dataframe](HashWriteDistributionSortedDataframe.html)
 

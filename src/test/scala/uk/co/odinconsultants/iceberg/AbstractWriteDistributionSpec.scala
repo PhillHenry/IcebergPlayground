@@ -1,5 +1,6 @@
 package uk.co.odinconsultants.iceberg
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.functions.col
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.numThreads
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
@@ -20,7 +21,10 @@ abstract class AbstractWriteDistributionSpec
       Given(s"a table that has a distribution mode of ${highlight(distributionMode)}\nand is created with:$sql")
       spark.sql(createSQL)
       private val dataToWrite: Seq[Datum] = potentiallyAmendData(data)
-      appendData(spark, dataToWrite)
+      val df = appendData(spark, dataToWrite)
+      And("a query plan that looks like:\n" + captureOutputOf(
+        df.explain(true)
+      ))
       val before: Seq[String] = parquetFiles(tableName)
       And(
         s"it has ${data.length} rows over ${before.length} data file(s) when writing with $numThreads executor threads"
@@ -43,8 +47,15 @@ abstract class AbstractWriteDistributionSpec
   protected def appendData(
       spark: SparkSession,
       data: Seq[Datum],
-  ): Unit =
-    spark.createDataFrame(data).writeTo(tableName).append()
+  ): DataFrame = {
+    val x = spark.createDataFrame(data)
+//    val y = spark.range(1000).withColumnRenamed("id", "otherId")
+    val df = x // .join(y, x(TestUtils.partitionField) === y("otherId"), "outer")
+    df
+//      .drop("otherId")
+      .writeTo(tableName).append()
+    df
+  }
 
   protected def distributionMode: String
 

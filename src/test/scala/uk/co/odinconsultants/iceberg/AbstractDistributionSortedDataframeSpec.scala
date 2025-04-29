@@ -1,6 +1,6 @@
 package uk.co.odinconsultants.iceberg
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 import uk.co.odinconsultants.documentation_utils.Datum
 
 abstract class AbstractDistributionSortedDataframeSpec extends AbstractWriteDistributionSpec {
@@ -8,11 +8,13 @@ abstract class AbstractDistributionSortedDataframeSpec extends AbstractWriteDist
   override protected def appendData(
                                      spark: SparkSession,
                                      data: Seq[Datum],
-                                   ): Unit = {
+                                   ): DataFrame = {
 
     val sortField: String = TestUtils.partitionField
     And(s"the data is sorted on the $sortField column")
-    spark.createDataFrame(data).sort(sortField).writeTo(tableName).append()
+    val df = spark.createDataFrame(data).sort(sortField)
+    df.writeTo(tableName).append()
+    df
   }
 
   override def expectedNumberOfFilesPerAppend(numPartitions: Int): Int = numPartitions

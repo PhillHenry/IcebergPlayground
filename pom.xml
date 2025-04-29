@@ -369,6 +369,7 @@
 
 These are BDD (Behaviour Driven Design) tests that both test
 the code and generate human readable documentation.
+This was run against Spark version ${spark.compat.version} and Iceberg version ${iceberg.version}
 The code for these tests can be found in [GitHub](${url})
 
 
