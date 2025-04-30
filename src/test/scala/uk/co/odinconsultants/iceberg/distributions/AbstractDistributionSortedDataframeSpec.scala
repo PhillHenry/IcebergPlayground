@@ -13,7 +13,7 @@ abstract class AbstractDistributionSortedDataframeSpec extends AbstractWriteDist
 
     val sortField: String = TestUtils.partitionField
     And(s"the data is sorted on the $sortField column")
-    val df = spark.createDataFrame(data).sort(sortField)
+    val df = dataFrame(spark, data).sort(sortField)
     df.writeTo(tableName).append()
     df
   }

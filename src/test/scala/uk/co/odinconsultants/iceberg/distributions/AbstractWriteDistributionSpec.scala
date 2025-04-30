@@ -6,7 +6,7 @@ import uk.co.odinconsultants.SparkForTesting.numThreads
 import uk.co.odinconsultants.TextUtils.{emphasise, highlight}
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.SQL.createDatumTable
-import uk.co.odinconsultants.iceberg.{SimpleSparkFixture, TableNameFixture}
+import uk.co.odinconsultants.iceberg.{SimpleSparkFixture, TableNameFixture, TestUtils}
 
 abstract class AbstractWriteDistributionSpec
     extends SpecPretifier
@@ -49,13 +49,17 @@ abstract class AbstractWriteDistributionSpec
       spark: SparkSession,
       data: Seq[Datum],
   ): DataFrame = {
+    val df: DataFrame = dataFrame(spark, data)
+    df.writeTo(tableName).append()
+    df
+  }
+
+  def dataFrame(spark: SparkSession, data: Seq[Datum]) = {
     val x = spark.createDataFrame(data)
+    x
 //    val y = spark.range(1000).withColumnRenamed("id", "otherId")
-    val df = x // .join(y, x(TestUtils.partitionField) === y("otherId"), "outer")
-    df
-//      .drop("otherId")
-      .writeTo(tableName).append()
-    df
+//    val df = x.join(y, x(TestUtils.partitionField) === y("otherId"), "outer")
+//    df.drop("otherId")
   }
 
   protected def distributionMode: String
