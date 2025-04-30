@@ -67,22 +67,22 @@ and is created with:
   + And a query plan that looks like:
 == Parsed Logical Plan ==
 'Sort ['partitionKey ASC NULLS FIRST], true
-+- LocalRelation [id#3513, label#3514, partitionKey#3515L, date#3516, timestamp#3517]
++- LocalRelation [id#2717, label#2718, partitionKey#2719L, date#2720, timestamp#2721]
 
 == Analyzed Logical Plan ==
 id: int, label: string, partitionKey: bigint, date: date, timestamp: timestamp
-Sort [partitionKey#3515L ASC NULLS FIRST], true
-+- LocalRelation [id#3513, label#3514, partitionKey#3515L, date#3516, timestamp#3517]
+Sort [partitionKey#2719L ASC NULLS FIRST], true
++- LocalRelation [id#2717, label#2718, partitionKey#2719L, date#2720, timestamp#2721]
 
 == Optimized Logical Plan ==
-Sort [partitionKey#3515L ASC NULLS FIRST], true
-+- LocalRelation [id#3513, label#3514, partitionKey#3515L, date#3516, timestamp#3517]
+Sort [partitionKey#2719L ASC NULLS FIRST], true
++- LocalRelation [id#2717, label#2718, partitionKey#2719L, date#2720, timestamp#2721]
 
 == Physical Plan ==
 AdaptiveSparkPlan isFinalPlan=false
-+- Sort [partitionKey#3515L ASC NULLS FIRST], true, 0
-   +- Exchange rangepartitioning(partitionKey#3515L ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=4243]
-      +- LocalTableScan [id#3513, label#3514, partitionKey#3515L, date#3516, timestamp#3517]
++- Sort [partitionKey#2719L ASC NULLS FIRST], true, 0
+   +- Exchange rangepartitioning(partitionKey#2719L ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=3212]
+      +- LocalTableScan [id#2717, label#2718, partitionKey#2719L, date#2720, timestamp#2721]
 
  
   + And it has 20 rows over 5 data file(s) when writing with 4 executor threads 
@@ -90,11 +90,6 @@ AdaptiveSparkPlan isFinalPlan=false
   + And the data is sorted on the partitionKey column 
   + Then there are now 5 more data files 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-+ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
-Run completed in 27 seconds, 337 milliseconds.
-Total number of tests run: 38
-Suites: completed 22, aborted 0
-Tests: succeeded 38, failed 0, canceled 0, ignored 4, pending 0
-All tests passed.</pre>
++ <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> </pre>
 </body>
 </html>

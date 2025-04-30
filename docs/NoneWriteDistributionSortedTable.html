@@ -46,10 +46,7 @@ b.BWHI {background-color: #aaaaaa}
 </style>
 </head>
 <body>
-<pre>Discovery starting.
-Discovery completed in 2 seconds, 661 milliseconds.
-Run starting. Expected test count is: 38
-NoneWriteDistributionSortedTableSpec:
+<pre>NoneWriteDistributionSortedTableSpec:
 + See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes 
 Using write.distribution-mode
 - should create the appropriate number of Iceberg files
@@ -69,17 +66,17 @@ and is created with:
 ) PARTITIONED BY (partitionKey);</b> 
   + And a query plan that looks like:
 == Parsed Logical Plan ==
-LocalRelation [id#0, label#1, partitionKey#2L, date#3, timestamp#4]
+LocalRelation [id#3330, label#3331, partitionKey#3332L, date#3333, timestamp#3334]
 
 == Analyzed Logical Plan ==
 id: int, label: string, partitionKey: bigint, date: date, timestamp: timestamp
-LocalRelation [id#0, label#1, partitionKey#2L, date#3, timestamp#4]
+LocalRelation [id#3330, label#3331, partitionKey#3332L, date#3333, timestamp#3334]
 
 == Optimized Logical Plan ==
-LocalRelation [id#0, label#1, partitionKey#2L, date#3, timestamp#4]
+LocalRelation [id#3330, label#3331, partitionKey#3332L, date#3333, timestamp#3334]
 
 == Physical Plan ==
-LocalTableScan [id#0, label#1, partitionKey#2L, date#3, timestamp#4]
+LocalTableScan [id#3330, label#3331, partitionKey#3332L, date#3333, timestamp#3334]
 
  
   + And it has 20 rows over 20 data file(s) when writing with 4 executor threads 

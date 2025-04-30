@@ -51,9 +51,9 @@ A dataset to CRUD
 + Unlike DeltaLake, Iceberg does not freeze data in time after a call to .cache() 
 - should create the appropriate Iceberg files
   + Given data files
-			<b class=YEL>Datum(0,label_0,0,2025-04-29,2025-04-29 09:08:59.095)
-			</b><b class=MAG>Datum(1,label_1,1,2025-04-28,2025-04-29 09:08:59.295)
-			</b><b class=YEL>Datum(2,label_2,2,2025-04-27,2025-04-29 09:08:59.495)
+			<b class=YEL>Datum(0,label_0,0,2025-04-30,2025-04-30 08:22:24.205)
+			</b><b class=MAG>Datum(1,label_1,1,2025-04-29,2025-04-30 08:22:24.405)
+			</b><b class=YEL>Datum(2,label_2,2,2025-04-28,2025-04-30 08:22:24.605)
 			</b>... 
   + When we cache one Dataset and then append more data to the same table 
   + Then reading via a new Dataset reference shows the appended data 

@@ -53,9 +53,9 @@ Predicates
   + When we execute a query that concatenates strings based on partitionKey 
   + Then The query plan:
 == Physical Plan ==
-*(1) Filter (concat(2025-01-0, cast(partitionKey#1366L as string)) = 2025-01-02)
+*(1) Filter (concat(2025-01-0, cast(partitionKey#1075L as string)) = 2025-01-02)
 +- *(1) ColumnarToRow
-   +- BatchScan polaris.my_namespace.PushdownSpec[id#1364, label#1365, partitionKey#1366L, date#1367, timestamp#1368] polaris.my_namespace.PushdownSpec (branch=null) [<b class="BOLD">filters=,</b> groupedBy=] RuntimeFilters: []
+   +- BatchScan polaris.my_namespace.PushdownSpec[id#1073, label#1074, partitionKey#1075L, date#1076, timestamp#1077] polaris.my_namespace.PushdownSpec (branch=null) [<b class="BOLD">filters=,</b> groupedBy=] RuntimeFilters: []
 
 
 
@@ -63,16 +63,16 @@ shows nothing has been pushed down
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should be pushed down
   + Given the same table containing data that looks like:
-			<b class=YEL>Datum(0,label_0,0,2025-04-29,2025-04-29 09:08:59.095)
-			</b><b class=MAG>Datum(1,label_1,1,2025-04-28,2025-04-29 09:08:59.295)
-			</b><b class=YEL>Datum(2,label_2,2,2025-04-27,2025-04-29 09:08:59.495)
+			<b class=YEL>Datum(0,label_0,0,2025-04-30,2025-04-30 08:22:24.205)
+			</b><b class=MAG>Datum(1,label_1,1,2025-04-29,2025-04-30 08:22:24.405)
+			</b><b class=YEL>Datum(2,label_2,2,2025-04-28,2025-04-30 08:22:24.605)
 			</b>... 
   + When we execute a query that simply checks the equality of partitionKey 
   + Then the query plan:
 == Physical Plan ==
-*(1) Filter (isnotnull(partitionKey#1403L) AND (partitionKey#1403L = 1))
+*(1) Filter (isnotnull(partitionKey#1112L) AND (partitionKey#1112L = 1))
 +- *(1) ColumnarToRow
-   +- BatchScan polaris.my_namespace.PushdownSpec[id#1401, label#1402, partitionKey#1403L, date#1404, timestamp#1405] polaris.my_namespace.PushdownSpec (branch=null) [<b class="BOLD">filters=partitionKey</b> IS NOT NULL, partitionKey = 1, groupedBy=] RuntimeFilters: []
+   +- BatchScan polaris.my_namespace.PushdownSpec[id#1110, label#1111, partitionKey#1112L, date#1113, timestamp#1114] polaris.my_namespace.PushdownSpec (branch=null) [<b class="BOLD">filters=partitionKey</b> IS NOT NULL, partitionKey = 1, groupedBy=] RuntimeFilters: []
 
 
  

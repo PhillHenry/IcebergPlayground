@@ -69,17 +69,17 @@ and is created with:
 ) PARTITIONED BY (partitionKey);</b> 
   + And a query plan that looks like:
 == Parsed Logical Plan ==
-LocalRelation [id#3473, label#3474, partitionKey#3475L, date#3476, timestamp#3477]
+LocalRelation [id#1257, label#1258, partitionKey#1259L, date#1260, timestamp#1261]
 
 == Analyzed Logical Plan ==
 id: int, label: string, partitionKey: bigint, date: date, timestamp: timestamp
-LocalRelation [id#3473, label#3474, partitionKey#3475L, date#3476, timestamp#3477]
+LocalRelation [id#1257, label#1258, partitionKey#1259L, date#1260, timestamp#1261]
 
 == Optimized Logical Plan ==
-LocalRelation [id#3473, label#3474, partitionKey#3475L, date#3476, timestamp#3477]
+LocalRelation [id#1257, label#1258, partitionKey#1259L, date#1260, timestamp#1261]
 
 == Physical Plan ==
-LocalTableScan [id#3473, label#3474, partitionKey#3475L, date#3476, timestamp#3477]
+LocalTableScan [id#1257, label#1258, partitionKey#1259L, date#1260, timestamp#1261]
 
  
   + And it has 20 rows over 4 data file(s) when writing with 4 executor threads 

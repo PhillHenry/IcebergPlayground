@@ -67,22 +67,22 @@ and is created with:
   + And a query plan that looks like:
 == Parsed Logical Plan ==
 'Sort ['partitionKey ASC NULLS FIRST], true
-+- LocalRelation [id#1937, label#1938, partitionKey#1939L, date#1940, timestamp#1941]
++- LocalRelation [id#1217, label#1218, partitionKey#1219L, date#1220, timestamp#1221]
 
 == Analyzed Logical Plan ==
 id: int, label: string, partitionKey: bigint, date: date, timestamp: timestamp
-Sort [partitionKey#1939L ASC NULLS FIRST], true
-+- LocalRelation [id#1937, label#1938, partitionKey#1939L, date#1940, timestamp#1941]
+Sort [partitionKey#1219L ASC NULLS FIRST], true
++- LocalRelation [id#1217, label#1218, partitionKey#1219L, date#1220, timestamp#1221]
 
 == Optimized Logical Plan ==
-Sort [partitionKey#1939L ASC NULLS FIRST], true
-+- LocalRelation [id#1937, label#1938, partitionKey#1939L, date#1940, timestamp#1941]
+Sort [partitionKey#1219L ASC NULLS FIRST], true
++- LocalRelation [id#1217, label#1218, partitionKey#1219L, date#1220, timestamp#1221]
 
 == Physical Plan ==
 AdaptiveSparkPlan isFinalPlan=false
-+- Sort [partitionKey#1939L ASC NULLS FIRST], true, 0
-   +- Exchange rangepartitioning(partitionKey#1939L ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=2176]
-      +- LocalTableScan [id#1937, label#1938, partitionKey#1939L, date#1940, timestamp#1941]
++- Sort [partitionKey#1219L ASC NULLS FIRST], true, 0
+   +- Exchange rangepartitioning(partitionKey#1219L ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=2206]
+      +- LocalTableScan [id#1217, label#1218, partitionKey#1219L, date#1220, timestamp#1221]
 
  
   + And it has 20 rows over 5 data file(s) when writing with 4 executor threads 
