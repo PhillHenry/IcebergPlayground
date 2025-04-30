@@ -1,6 +1,8 @@
 package uk.co.odinconsultants.iceberg.distributions
 
 import org.apache.iceberg.TableProperties.SPARK_WRITE_PARTITIONED_FANOUT_ENABLED
+import org.apache.spark.sql.execution.CostMode
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.numThreads
@@ -25,7 +27,7 @@ abstract class AbstractWriteDistributionSpec
       private val dataToWrite: Seq[Datum] = potentiallyAmendData(data)
       val df = appendData(spark, dataToWrite)
       And("a query plan that looks like:\n" + captureOutputOf(
-        df.explain(true)
+        df.explain(CostMode.name)
       ))
       val before: Seq[String] = parquetFiles(tableName)
       And(
@@ -61,10 +63,11 @@ abstract class AbstractWriteDistributionSpec
     import spark.implicits._
     val numDataPartitions = data.map(_.partitionKey).toSet.size
     val x = spark.createDataFrame(data)
-//    val originalNumPartitions = x.rdd.partitions.length
-    val y = spark.range(1000).map(i => (i % numDataPartitions)).withColumnRenamed("value", "otherId")//.repartition(originalNumPartitions)
-    val df = x.join(y, x(TestUtils.partitionField) === y("otherId"), "inner")//.repartition(originalNumPartitions)
-    df.drop("otherId")
+    val otherId = "otherId"
+    val y = spark.range(1000).map(i => (i % numDataPartitions)).withColumnRenamed("value", otherId)
+    val df = x.join(y, x(TestUtils.partitionField) === y(otherId), "inner")
+      .drop(TestUtils.labelField).withColumn(TestUtils.labelField, concat(col(otherId), lit("xxx")))
+    df.drop(otherId)
   }
 
   protected def distributionMode: String
@@ -73,6 +76,7 @@ abstract class AbstractWriteDistributionSpec
 
   protected def tableDDL(tableName: String, partitionField: String): String = {
     val tblProperties = Seq(s"'write.distribution-mode' = '${distributionMode}'") ++ otherProperties(partitionField)
+    // SPARK_WRITE_PARTITIONED_FANOUT_ENABLED appears to make no difference
     s"""${createDatumTable(tableName)} TBLPROPERTIES (
                                |    'format-version' = '2',
                                |    '${SPARK_WRITE_PARTITIONED_FANOUT_ENABLED}' = 'true',
