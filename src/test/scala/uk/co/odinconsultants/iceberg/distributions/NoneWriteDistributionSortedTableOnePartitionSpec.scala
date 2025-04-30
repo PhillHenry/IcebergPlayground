@@ -1,7 +1,8 @@
-package uk.co.odinconsultants.iceberg
+package uk.co.odinconsultants.iceberg.distributions
 
 import uk.co.odinconsultants.SparkForTesting
 import uk.co.odinconsultants.documentation_utils.Datum
+import uk.co.odinconsultants.iceberg.FileSizeProperties
 
 class NoneWriteDistributionSortedTableOnePartitionSpec extends NoneWriteDistributionSortedTableSpec with FileSizeProperties {
   info("The corner case of all the data being in one partition")

@@ -1,4 +1,5 @@
-package uk.co.odinconsultants.iceberg
+package uk.co.odinconsultants.iceberg.distributions
+import uk.co.odinconsultants.iceberg.FileSizeProperties
 
 class HashDistributionSortedTableSpec extends HashDistributionSpec with FileSizeProperties {
   def fileByteSize: Long = 1024*1024*1024

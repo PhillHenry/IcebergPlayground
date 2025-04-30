@@ -1,7 +1,8 @@
-package uk.co.odinconsultants.iceberg
+package uk.co.odinconsultants.iceberg.distributions
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import uk.co.odinconsultants.documentation_utils.Datum
+import uk.co.odinconsultants.iceberg.TestUtils
 
 abstract class AbstractDistributionSortedDataframeSpec extends AbstractWriteDistributionSpec {
 

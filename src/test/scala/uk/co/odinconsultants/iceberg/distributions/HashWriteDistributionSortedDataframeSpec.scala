@@ -1,4 +1,4 @@
-package uk.co.odinconsultants.iceberg
+package uk.co.odinconsultants.iceberg.distributions
 
 class HashWriteDistributionSortedDataframeSpec extends AbstractDistributionSortedDataframeSpec {
 

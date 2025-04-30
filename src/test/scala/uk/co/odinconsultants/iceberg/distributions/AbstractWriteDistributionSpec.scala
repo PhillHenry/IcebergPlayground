@@ -1,11 +1,12 @@
-package uk.co.odinconsultants.iceberg
+package uk.co.odinconsultants.iceberg.distributions
+
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.apache.spark.sql.functions.col
 import org.scalatest.GivenWhenThen
 import uk.co.odinconsultants.SparkForTesting.numThreads
+import uk.co.odinconsultants.TextUtils.{emphasise, highlight}
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.SQL.createDatumTable
-import uk.co.odinconsultants.TextUtils.{emphasise, highlight}
+import uk.co.odinconsultants.iceberg.{SimpleSparkFixture, TableNameFixture}
 
 abstract class AbstractWriteDistributionSpec
     extends SpecPretifier
