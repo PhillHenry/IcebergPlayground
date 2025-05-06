@@ -11,6 +11,8 @@ import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
 import uk.co.odinconsultants.iceberg.SQL.createDatumTable
 import uk.co.odinconsultants.iceberg.{SimpleSparkFixture, TableNameFixture, TestUtils}
 
+import scala.util.Random
+
 abstract class AbstractWriteDistributionSpec
     extends SpecPretifier
     with GivenWhenThen
@@ -54,7 +56,7 @@ abstract class AbstractWriteDistributionSpec
   ): DataFrame = {
     val df: DataFrame = dataFrame(spark, data)
     df.writeTo(tableName)
-//      .option("fanout-enabled", "true") // seems to make no difference
+      .option("fanout-enabled", "true") // seems to make no difference but Russell now recommends it despite docs
       .append()
     df
   }
@@ -62,7 +64,7 @@ abstract class AbstractWriteDistributionSpec
   def dataFrame(spark: SparkSession, data: Seq[Datum]) = {
     import spark.implicits._
     val numDataPartitions = data.map(_.partitionKey).toSet.size
-    val x = spark.createDataFrame(data)
+    val x = spark.createDataFrame(Random.shuffle(data))
     val otherId = "otherId"
     val y = spark.range(1000).map(i => (i % numDataPartitions)).withColumnRenamed("value", otherId)
     val df = x.join(y, x(TestUtils.partitionField) === y(otherId), "inner")
