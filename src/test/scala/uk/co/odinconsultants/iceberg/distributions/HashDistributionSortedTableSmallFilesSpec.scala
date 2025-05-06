@@ -9,5 +9,5 @@ class HashDistributionSortedTableSmallFilesSpec extends HashDistributionSortedTa
    * For Spark 3.3, this fails (passes for 3.5).
    * The number of files per append in Spark 3.3 is 1, even when the files are small.
    */
-  override def expectedNumberOfFilesPerAppend(numPartitions: Int): Int = SparkForTesting.numThreads
+  override def expectedNumberOfFilesPerAppend(numLogicalPartitions: Int): Int = SparkForTesting.numThreads
 }

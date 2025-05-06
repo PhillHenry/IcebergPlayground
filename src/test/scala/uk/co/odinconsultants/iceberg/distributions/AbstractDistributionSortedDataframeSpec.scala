@@ -18,5 +18,5 @@ abstract class AbstractDistributionSortedDataframeSpec extends AbstractWriteDist
     df
   }
 
-  override def expectedNumberOfFilesPerAppend(numPartitions: Int): Int = numPartitions
+  override def expectedNumberOfFilesPerAppend(numLogicalPartitions: Int): Int = numLogicalPartitions
 }

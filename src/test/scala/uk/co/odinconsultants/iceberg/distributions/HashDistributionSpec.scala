@@ -4,5 +4,5 @@ class HashDistributionSpec extends AbstractWriteDistributionSpec {
 
   override def distributionMode(): String = "hash"
 
-  override def expectedNumberOfFilesPerAppend(numPartitions: Int): Int = numPartitions
+  override def expectedNumberOfFilesPerAppend(numLogicalPartitions: Int): Int = numLogicalPartitions
 }

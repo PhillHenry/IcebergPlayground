@@ -80,7 +80,7 @@ abstract class AbstractWriteDistributionSpec
 
   protected def distributionMode: String
 
-  protected def expectedNumberOfFilesPerAppend(numPartitions: Int): Int
+  protected def expectedNumberOfFilesPerAppend(numLogicalPartitions: Int): Int
 
   protected def tableDDL(tableName: String, partitionField: String): String = {
     val tblProperties = Seq(s"'write.distribution-mode' = '${distributionMode}'") ++ otherProperties(partitionField)
