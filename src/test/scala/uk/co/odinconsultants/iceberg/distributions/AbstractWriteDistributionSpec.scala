@@ -5,6 +5,7 @@ import org.apache.spark.sql.execution.CostMode
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.scalatest.GivenWhenThen
+import uk.co.odinconsultants.SparkForTesting
 import uk.co.odinconsultants.SparkForTesting.numThreads
 import uk.co.odinconsultants.TextUtils.{emphasise, highlight}
 import uk.co.odinconsultants.documentation_utils.{Datum, SpecPretifier}
@@ -18,10 +19,15 @@ abstract class AbstractWriteDistributionSpec
     with GivenWhenThen
     with TableNameFixture {
 
+  val NUM_DF_PARTITIONS = SparkForTesting.numThreads + 2
+
   info("See https://iceberg.apache.org/docs/1.6.0/spark-writes/#writing-distribution-modes")
 
   "Using write.distribution-mode" should {
     "create the appropriate number of Iceberg files" in new SimpleSparkFixture {
+      assert(NUM_DF_PARTITIONS != numThreads)
+      assert(NUM_DF_PARTITIONS != num_partitions)
+      assert(numThreads != num_partitions)
       val createSQL: String   = tableDDL(tableName, partitionField)
       private val sql: String = otherProperties(partitionField).foldLeft(formatSQL(createSQL))((acc, x) => emphasise(x, acc, Console.YELLOW))
       Given(s"a table that has a distribution mode of ${highlight(distributionMode)}\nand is created with:$sql")
@@ -69,7 +75,7 @@ abstract class AbstractWriteDistributionSpec
     val y = spark.range(1000).map(i => (i % numDataPartitions)).withColumnRenamed("value", otherId)
     val df = x.join(y, x(TestUtils.partitionField) === y(otherId), "inner")
       .drop(TestUtils.labelField).withColumn(TestUtils.labelField, concat(col(otherId), lit("xxx")))
-    df.drop(otherId)
+    df.drop(otherId).repartition(NUM_DF_PARTITIONS)
   }
 
   protected def distributionMode: String
