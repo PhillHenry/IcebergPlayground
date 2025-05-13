@@ -25,9 +25,11 @@ abstract class AbstractWriteDistributionSpec
 
   "Using write.distribution-mode" should {
     "create the appropriate number of Iceberg files" in new SimpleSparkFixture {
+      // avoid coincidences:
       assert(NUM_DF_PARTITIONS != numThreads)
       assert(NUM_DF_PARTITIONS != num_partitions)
       assert(numThreads != num_partitions)
+
       val createSQL: String   = tableDDL(tableName, partitionField)
       private val sql: String = otherProperties(partitionField).foldLeft(formatSQL(createSQL))((acc, x) => emphasise(x, acc, Console.YELLOW))
       Given(s"a table that has a distribution mode of ${highlight(distributionMode)}\nand is created with:$sql")

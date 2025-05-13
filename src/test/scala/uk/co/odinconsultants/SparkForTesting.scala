@@ -5,6 +5,7 @@ import org.apache.spark.sql.internal.SQLConf.DEFAULT_CATALOG
 import org.apache.spark.sql.internal.StaticSQLConf.{SPARK_SESSION_EXTENSIONS, WAREHOUSE_PATH}
 import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.spark.{SparkConf, SparkContext}
+import uk.co.odinconsultants.polaris.PolarisRESTSetup
 
 import java.nio.file.Files
 
@@ -24,6 +25,7 @@ object SparkForTesting {
     "org.apache.iceberg.spark.SparkSessionCatalog" // not "org.apache.iceberg.spark.SparkCatalog" ?
 
   val sparkConf: SparkConf   = {
+    PolarisRESTSetup.setup()
     println(s"Using temp directory $tmpDir")
     new SparkConf()
       .setMaster(master)
@@ -39,7 +41,7 @@ object SparkForTesting {
       .set("spark.sql.sources.bucketing.enabled", "true")
       .set("spark.sql.sources.v2.bucketing.enabled", "true")
       .set(s"spark.sql.catalog.$catalog.uri", "http://localhost:8181/api/catalog")
-      .set(s"spark.sql.catalog.$catalog.token", "principal:root;realm:default-realm")
+      .set(s"spark.sql.catalog.$catalog.token", PolarisRESTSetup.accessToken)
       .set(s"spark.sql.catalog.$catalog", "org.apache.iceberg.spark.SparkCatalog")
       .set(s"spark.sql.catalog.$catalog.type", ICEBERG_CATALOG_TYPE_REST)
       .set(s"spark.sql.catalog.$catalog.warehouse", "manual_spark")

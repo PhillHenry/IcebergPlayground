@@ -2,7 +2,7 @@ rm -rf /tmp/polaris/ || echo "/tmp/polaris/ does not yet exist"
 mkdir /tmp/polaris/
 chmod -R a+rw /tmp/polaris/
 
-SPARK_BEARER_TOKEN="${REGTEST_ROOT_BEARER_TOKEN:-principal:root;realm:default-realm}"
+export SPARK_BEARER_TOKEN=$(curl -X POST http://localhost:8181/api/catalog/v1/oauth/tokens   -H "Polaris-Realm: POLARIS"   -d "grant_type=client_credentials"   -d "client_id=root"   -d "client_secret=secret"   -d "scope=PRINCIPAL_ROLE:ALL" | jq -r '.access_token' )
 
 # create a catalog backed by the local filesystem
 curl -X POST -H "Authorization: Bearer ${SPARK_BEARER_TOKEN}" \

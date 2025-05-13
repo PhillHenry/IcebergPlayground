@@ -26,14 +26,14 @@
 
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <encoding>UTF-8</encoding>
         <scala.version>2.13.14</scala.version>
         <scala.compat.version>2.13</scala.compat.version>
         <spark.compat.version>3.5</spark.compat.version>
         <spark.version>${spark.compat.version}.0</spark.version>
-        <iceberg.version>1.6.1</iceberg.version>
+        <iceberg.version>1.9.0</iceberg.version>
         <documentation_utils.version>0.11</documentation_utils.version>
         <kafka.version>3.9.0</kafka.version>
         <circe.version>0.15.0-M1</circe.version>
@@ -87,20 +87,17 @@
             <groupId>org.apache.iceberg</groupId>
             <artifactId>iceberg-core</artifactId>
             <version>${iceberg.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.iceberg</groupId>
             <artifactId>iceberg-spark</artifactId>
             <version>${iceberg.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.iceberg</groupId>
             <artifactId>iceberg-spark-runtime-${spark.compat.version}_${scala.compat.version}
             </artifactId>
             <version>${iceberg.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -127,7 +124,6 @@
             <artifactId>parquet</artifactId>
             <version>1.10.0</version>
             <type>pom</type>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>uk.co.odinconsultants.documentation_utils</groupId>
@@ -172,37 +168,15 @@
             <artifactId>circe-parser_${scala.compat.version}</artifactId>
             <version>${circe.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5-fluent</artifactId>
+            <version>5.3</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>run-script</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>bash</executable>
-                            <arguments>
-                                <argument>${project.basedir}/scripts/setup.sh</argument>
-                            </arguments>
-                            <environmentVariables>
-                                <PROJECT_DIR>${project.basedir}</PROJECT_DIR>
-                            </environmentVariables>
-                            <!-- Fail the build if script fails -->
-                            <successCodes>
-                                <successCode>0</successCode>
-                            </successCodes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.eclipse.jkube</groupId>
                 <artifactId>openshift-maven-plugin</artifactId>
@@ -229,6 +203,8 @@
                                         <env>
                                             <RUN_USER_ID>${docker.uid}</RUN_USER_ID>
                                             <RUN_GROUP_ID>${docker.gid}</RUN_GROUP_ID>
+                                            <QUARKUS_PROFILE>test</QUARKUS_PROFILE>
+                                            <POLARIS_BOOTSTRAP_CREDENTIALS>POLARIS,root,secret</POLARIS_BOOTSTRAP_CREDENTIALS>
                                         </env>
                                         <ports>
                                             <port>8181:8181</port>
@@ -239,7 +215,7 @@
                                             </bind>
                                         </volumes>
                                         <wait>
-                                            <log>eclipse.jetty.server.Server: Started</log>
+                                            <log>Profile test activated</log>
                                             <time>10000</time>
                                         </wait>
                                     </run>
@@ -277,14 +253,11 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <compilerArgs>
-                        <arg>--add-exports java.base/sun.nio.ch=ALL-UNNAMED</arg>
                         <arg>--add-exports=java.base/sun.net.util=ALL-UNNAMED</arg>
                         <arg>--add-exports=java.management/sun.management=ALL-UNNAMED</arg>
                         <arg>--add-exports=java.rmi/sun.rmi.registry=ALL-UNNAMED</arg>
                         <arg>--add-exports=java.security.jgss/sun.security.krb5=ALL-UNNAMED</arg>
-                        <arg>--add-modules=jdk.incubator.vector</arg>
                         <arg>--add-opens=java.base/java.nio=ALL-UNNAMED</arg>
-                        <arg>--enable-preview</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
@@ -302,7 +275,6 @@
                         </goals>
                         <configuration>
                             <args>
-                                <!--<arg>-make:transitive</arg>-->
                                 <arg>-dependencyfile</arg>
                                 <arg>${project.build.directory}/.scala_dependencies</arg>
                                 <arg>-Ywarn-value-discard</arg>
