@@ -53,14 +53,14 @@ Iceberg tables
   + Given a table that has seen changes 
   + When we query the table via the Java API 
   + Then the data file names are:
-			<b class=YEL>file:/tmp/polaris/my_namespace/JavaInterfaceSpec/data/00000-857-8bd348d7-5824-48a7-a1b6-fd168f172bff-0-00001.parquet
+			<b class=YEL>file:/tmp/polaris/my_namespace/JavaInterfaceSpec/data/00000-857-a9a84258-f16c-4b67-943c-3a8702c0d6fb-0-00001.parquet
 			</b> 
   + And and they contain the most recent data 
 + <b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b><b class=WHI>+ </b><b class=CYN>+ </b><b class=BLU>+ </b><b class=RED>+ </b><b class=GRN>+ </b><b class=MAG>+ </b><b class=YEL>+ </b> 
 - should be queried with the Java API
-  + Given a table that has been changed to have column 'label' set to '1746001343922' 
-  + When we select an old version of the table with snapshot ID 6508204650396151118 
-  + Then no values in label are equal to '1746001343922' but look like:
+  + Given a table that has been changed to have column 'label' set to '1747154279399' 
+  + When we select an old version of the table with snapshot ID 8280918363631778208 
+  + Then no values in label are equal to '1747154279399' but look like:
 			<b class=YEL>label_0
 			</b><b class=MAG>label_1
 			</b><b class=YEL>label_2

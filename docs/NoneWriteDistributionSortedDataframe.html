@@ -61,28 +61,38 @@ and is created with:
   timestamp Timestamp
 ) USING iceberg TBLPROPERTIES (
   'format-version' = '2',
+  'write.spark.fanout.enabled' = 'true',
   'write.distribution-mode' = 'none'
 ) PARTITIONED BY (partitionKey);</b> 
   + And the data is sorted on the partitionKey column 
   + And a query plan that looks like:
-== Parsed Logical Plan ==
-'Sort ['partitionKey ASC NULLS FIRST], true
-+- LocalRelation [id#1217, label#1218, partitionKey#1219L, date#1220, timestamp#1221]
-
-== Analyzed Logical Plan ==
-id: int, label: string, partitionKey: bigint, date: date, timestamp: timestamp
-Sort [partitionKey#1219L ASC NULLS FIRST], true
-+- LocalRelation [id#1217, label#1218, partitionKey#1219L, date#1220, timestamp#1221]
-
 == Optimized Logical Plan ==
-Sort [partitionKey#1219L ASC NULLS FIRST], true
-+- LocalRelation [id#1217, label#1218, partitionKey#1219L, date#1220, timestamp#1221]
+Sort [partitionKey#1219L ASC NULLS FIRST], true, Statistics(sizeInBytes=6.3 MiB)
++- Repartition 6, true, Statistics(sizeInBytes=6.3 MiB)
+   +- Project [id#1217, partitionKey#1219L, date#1220, timestamp#1221, concat(cast(otherId#1235L as string), xxx) AS label#1254], Statistics(sizeInBytes=6.3 MiB)
+      +- Join Inner, (partitionKey#1219L = otherId#1235L), Statistics(sizeInBytes=4.9 MiB)
+         :- LocalRelation [id#1217, partitionKey#1219L, date#1220, timestamp#1221], Statistics(sizeInBytes=640.0 B, rowCount=20)
+         +- Project [value#1232L AS otherId#1235L], Statistics(sizeInBytes=7.8 KiB)
+            +- SerializeFromObject [input[0, bigint, false] AS value#1232L], Statistics(sizeInBytes=7.8 KiB)
+               +- MapElements uk.co.odinconsultants.iceberg.distributions.AbstractWriteDistributionSpec$$Lambda$5586/0x0000000802566990@62d9fa4a, class java.lang.Long, [StructField(value,LongType,true)], obj#1231: bigint, Statistics(sizeInBytes=7.8 KiB)
+                  +- DeserializeToObject staticinvoke(class java.lang.Long, ObjectType(class java.lang.Long), valueOf, id#1227L, true, false, true), obj#1230: java.lang.Long, Statistics(sizeInBytes=7.8 KiB)
+                     +- Range (0, 1000, step=1, splits=Some(4)), Statistics(sizeInBytes=7.8 KiB, rowCount=1.00E+3)
 
 == Physical Plan ==
 AdaptiveSparkPlan isFinalPlan=false
 +- Sort [partitionKey#1219L ASC NULLS FIRST], true, 0
-   +- Exchange rangepartitioning(partitionKey#1219L ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=2206]
-      +- LocalTableScan [id#1217, label#1218, partitionKey#1219L, date#1220, timestamp#1221]
+   +- Exchange rangepartitioning(partitionKey#1219L ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=2382]
+      +- Exchange RoundRobinPartitioning(6), REPARTITION_BY_NUM, [plan_id=2380]
+         +- Project [id#1217, partitionKey#1219L, date#1220, timestamp#1221, concat(cast(otherId#1235L as string), xxx) AS label#1254]
+            +- BroadcastHashJoin [partitionKey#1219L], [otherId#1235L], Inner, BuildLeft, false
+               :- BroadcastExchange HashedRelationBroadcastMode(List(input[1, bigint, false]),false), [plan_id=2377]
+               :  +- LocalTableScan [id#1217, partitionKey#1219L, date#1220, timestamp#1221]
+               +- Project [value#1232L AS otherId#1235L]
+                  +- SerializeFromObject [input[0, bigint, false] AS value#1232L]
+                     +- MapElements uk.co.odinconsultants.iceberg.distributions.AbstractWriteDistributionSpec$$Lambda$5586/0x0000000802566990@62d9fa4a, obj#1231: bigint
+                        +- DeserializeToObject staticinvoke(class java.lang.Long, ObjectType(class java.lang.Long), valueOf, id#1227L, true, false, true), obj#1230: java.lang.Long
+                           +- Range (0, 1000, step=1, splits=4)
+
 
  
   + And it has 20 rows over 5 data file(s) when writing with 4 executor threads 

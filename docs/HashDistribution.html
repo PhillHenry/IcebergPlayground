@@ -61,21 +61,34 @@ and is created with:
   timestamp Timestamp
 ) USING iceberg TBLPROPERTIES (
   'format-version' = '2',
+  'write.spark.fanout.enabled' = 'true',
   'write.distribution-mode' = 'hash'
 ) PARTITIONED BY (partitionKey);</b> 
   + And a query plan that looks like:
-== Parsed Logical Plan ==
-LocalRelation [id#1921, label#1922, partitionKey#1923L, date#1924, timestamp#1925]
-
-== Analyzed Logical Plan ==
-id: int, label: string, partitionKey: bigint, date: date, timestamp: timestamp
-LocalRelation [id#1921, label#1922, partitionKey#1923L, date#1924, timestamp#1925]
-
 == Optimized Logical Plan ==
-LocalRelation [id#1921, label#1922, partitionKey#1923L, date#1924, timestamp#1925]
+Repartition 6, true, Statistics(sizeInBytes=6.3 MiB)
++- Project [id#2233, partitionKey#2235L, date#2236, timestamp#2237, concat(cast(otherId#2251L as string), xxx) AS label#2270], Statistics(sizeInBytes=6.3 MiB)
+   +- Join Inner, (partitionKey#2235L = otherId#2251L), Statistics(sizeInBytes=4.9 MiB)
+      :- LocalRelation [id#2233, partitionKey#2235L, date#2236, timestamp#2237], Statistics(sizeInBytes=640.0 B, rowCount=20)
+      +- Project [value#2248L AS otherId#2251L], Statistics(sizeInBytes=7.8 KiB)
+         +- SerializeFromObject [input[0, bigint, false] AS value#2248L], Statistics(sizeInBytes=7.8 KiB)
+            +- MapElements uk.co.odinconsultants.iceberg.distributions.AbstractWriteDistributionSpec$$Lambda$5586/0x0000000802566990@778f85fc, class java.lang.Long, [StructField(value,LongType,true)], obj#2247: bigint, Statistics(sizeInBytes=7.8 KiB)
+               +- DeserializeToObject staticinvoke(class java.lang.Long, ObjectType(class java.lang.Long), valueOf, id#2243L, true, false, true), obj#2246: java.lang.Long, Statistics(sizeInBytes=7.8 KiB)
+                  +- Range (0, 1000, step=1, splits=Some(4)), Statistics(sizeInBytes=7.8 KiB, rowCount=1.00E+3)
 
 == Physical Plan ==
-LocalTableScan [id#1921, label#1922, partitionKey#1923L, date#1924, timestamp#1925]
+AdaptiveSparkPlan isFinalPlan=false
++- Exchange RoundRobinPartitioning(6), REPARTITION_BY_NUM, [plan_id=4168]
+   +- Project [id#2233, partitionKey#2235L, date#2236, timestamp#2237, concat(cast(otherId#2251L as string), xxx) AS label#2270]
+      +- BroadcastHashJoin [partitionKey#2235L], [otherId#2251L], Inner, BuildLeft, false
+         :- BroadcastExchange HashedRelationBroadcastMode(List(input[1, bigint, false]),false), [plan_id=4165]
+         :  +- LocalTableScan [id#2233, partitionKey#2235L, date#2236, timestamp#2237]
+         +- Project [value#2248L AS otherId#2251L]
+            +- SerializeFromObject [input[0, bigint, false] AS value#2248L]
+               +- MapElements uk.co.odinconsultants.iceberg.distributions.AbstractWriteDistributionSpec$$Lambda$5586/0x0000000802566990@778f85fc, obj#2247: bigint
+                  +- DeserializeToObject staticinvoke(class java.lang.Long, ObjectType(class java.lang.Long), valueOf, id#2243L, true, false, true), obj#2246: java.lang.Long
+                     +- Range (0, 1000, step=1, splits=4)
+
 
  
   + And it has 20 rows over 5 data file(s) when writing with 4 executor threads 
