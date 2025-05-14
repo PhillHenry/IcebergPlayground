@@ -12,6 +12,9 @@ So run all the tests with:
 
 `mvn clean install -Ddocker.uid=$(id -u) -Ddocker.gid=$(id -g)`
 
+We use a bespoke Polaris Docker image (see the notes in `Dockerfile`) because we must fiddle with 
+permissions (see `polaris_entrypoint.sh`) to allow both the tests and Polaris to write to the host's storage.
+
 # Creating the Documentation
 You'll need to install `ansi2html`. On Ubuntu, you'd do it with something like:
 
