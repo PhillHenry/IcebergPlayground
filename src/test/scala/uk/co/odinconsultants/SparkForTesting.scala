@@ -6,6 +6,7 @@ import org.apache.spark.sql.internal.StaticSQLConf.{SPARK_SESSION_EXTENSIONS, WA
 import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.spark.{SparkConf, SparkContext}
 import uk.co.odinconsultants.polaris.PolarisRESTSetup
+import uk.co.odinconsultants.polaris.PolarisRESTSetup.WAREHOUSE_NAME
 
 import java.nio.file.Files
 
@@ -44,7 +45,7 @@ object SparkForTesting {
       .set(s"spark.sql.catalog.$catalog.token", PolarisRESTSetup.accessToken)
       .set(s"spark.sql.catalog.$catalog", "org.apache.iceberg.spark.SparkCatalog")
       .set(s"spark.sql.catalog.$catalog.type", ICEBERG_CATALOG_TYPE_REST)
-      .set(s"spark.sql.catalog.$catalog.warehouse", "manual_spark")
+      .set(s"spark.sql.catalog.$catalog.warehouse", WAREHOUSE_NAME)
       .set(
         "spark.sql.extensions",
         "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions",

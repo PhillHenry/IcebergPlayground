@@ -36,7 +36,7 @@ abstract class AbstractWriteDistributionSpec
       spark.sql(createSQL)
       private val dataToWrite: Seq[Datum] = potentiallyAmendData(data)
       val df = appendData(spark, dataToWrite)
-      And("a query plan that looks like:\n" + captureOutputOf(
+      And("when appending data to the table, a query plan that looks like:\n" + captureOutputOf(
         df.explain(CostMode.name)
       ))
       val before: Seq[String] = parquetFiles(tableName)

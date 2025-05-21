@@ -41,7 +41,7 @@ They can be run with something like
 The BDDs extensively use Polaris. 
 To run the container outside of the build process, execute:
 
-`docker run -d -eRUN_USER_ID=$(id -u) -eRUN_GROUP_ID=$(id -g) -p8181:8181 -v/tmp:/tmp ph1ll1phenry/polaris_for_bdd:latest`
+`docker run -d -eRUN_USER_ID=$(id -u) -eRUN_GROUP_ID=$(id -g) -ePOLARIS_BOOTSTRAP_CREDENTIALS="POLARIS,root,secret" -p8181:8181 -v/tmp:/tmp ph1ll1phenry/polaris_for_bdd:latest`
 
 then don't forget to intialise Polaris by running `PolarisRESTSetup`.
 
