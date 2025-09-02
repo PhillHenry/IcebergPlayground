@@ -7,29 +7,33 @@
 
 FROM ubuntu:24.10
 
-RUN apt update
-RUN apt install -y openjdk-21-jdk
-RUN apt install -y unzip
-RUN apt-get install lsof
+# Install everything in one layer: bash, java, unzip, lsof
+RUN apt-get update && \
+    apt-get install -y openjdk-21-jdk unzip lsof bash coreutils && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set the working directory in the container, nuke any existing builds
+# Set working directory
 WORKDIR /app
 RUN rm -rf build
 
+# Arguments for build
 ARG UBER_JAR
 ARG TARGET=/app
 
-WORKDIR /app
+# Copy and unpack your jar
 COPY ${UBER_JAR}.zip ${TARGET}
-RUN unzip /app/${UBER_JAR}.zip
-RUN mv ${TARGET}/${UBER_JAR}/* ${TARGET}
-COPY polaris-server.yml ${TARGET}
-COPY polaris_entrypoint.sh ${TARGET}
-RUN chmod a+rx ${TARGET}/polaris_entrypoint.sh
-RUN chmod -R a+rwx ${TARGET}
+RUN unzip ${TARGET}/${UBER_JAR}.zip -d ${TARGET} && \
+    mv ${TARGET}/${UBER_JAR}/* ${TARGET}
+COPY ./target/quarkus-app/quarkus/quarkus-application.dat ${TARGET}/server/quarkus
 
+# Copy config and entrypoint
+COPY polaris-server.yml ${TARGET}/server
+COPY polaris_entrypoint.sh ${TARGET}
+RUN chmod a+rx ${TARGET}/polaris_entrypoint.sh && chmod -R a+rwx ${TARGET}
+
+# Expose port
 EXPOSE 8181
 
-# Run the resulting java binary
-ENTRYPOINT ["/bin/bash"]
-CMD ["/app/polaris_entrypoint.sh"]
+# Run entrypoint
+ENTRYPOINT ["/app/polaris_entrypoint.sh"]
+
