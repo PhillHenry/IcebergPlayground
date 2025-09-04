@@ -61,6 +61,27 @@
 <!--            <artifactId>quarkus-resteasy</artifactId>-->
 <!--            <version>${quarkus.platform.version}</version>-->
 <!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.iceberg</groupId>-->
+<!--            <artifactId>iceberg-core</artifactId>-->
+<!--            <version>${iceberg.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.iceberg</groupId>-->
+<!--            <artifactId>iceberg-spark</artifactId>-->
+<!--            <version>${iceberg.version}</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.iceberg</groupId>
+            <artifactId>iceberg-spark-runtime-${spark.compat.version}_${scala.compat.version}
+            </artifactId>
+            <version>${iceberg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.iceberg</groupId>
+            <artifactId>iceberg-kafka-connect</artifactId>
+            <version>${iceberg.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
@@ -104,11 +125,6 @@
             <version>4.0.7</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-core</artifactId>
-            <version>${iceberg.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>connect-api</artifactId>
             <version>${kafka.version}</version>
@@ -117,22 +133,6 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>connect-json</artifactId>
             <version>${kafka.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-kafka-connect</artifactId>
-            <version>${iceberg.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-spark</artifactId>
-            <version>${iceberg.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-spark-runtime-${spark.compat.version}_${scala.compat.version}
-            </artifactId>
-            <version>${iceberg.version}</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -163,23 +163,25 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.parquet</groupId>
-            <artifactId>parquet</artifactId>
-            <version>1.10.0</version>
-            <type>pom</type>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.parquet</groupId>-->
+<!--            <artifactId>parquet</artifactId>-->
+<!--            <version>1.10.0</version>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>uk.co.odinconsultants.documentation_utils</groupId>
             <artifactId>scalatest_utils</artifactId>
@@ -271,11 +273,7 @@
                                         <env>
                                             <RUN_USER_ID>${docker.uid}</RUN_USER_ID>
                                             <RUN_GROUP_ID>${docker.gid}</RUN_GROUP_ID>
-<!--                                            <JAVA_OPTS>-Dpolaris.bootstrap.credentials=POLARIS,root,s3cr3t -Dpolaris.features.\"SUPPORTED_CATALOG_STORAGE_TYPES\"=[\"FILE\"] -Dpolaris.readiness.ignore-severe-issues=true</JAVA_OPTS>-->
-<!--                                            <JAVA_OPTS>-Dpolaris.bootstrap.credentials=POLARIS,root,s3cr3t -Dpolaris.features.\"ALLOW_INSECURE_STORAGE_TYPES\"=true -Dpolaris.features."SUPPORTED_CATALOG_STORAGE_TYPES"=["FILE","S3","GCS","AZURE"] -Dpolaris.readiness.ignore-severe-issues=true</JAVA_OPTS>-->
                                             <JAVA_OPTS>-Dpolaris.bootstrap.credentials=POLARIS,root,s3cr3t</JAVA_OPTS>
-<!--                                            <JAVA_OPTS>-Dpolaris.bootstrap.credentials=POLARIS,root,s3cr3t -Dpolaris.features.\"ALLOW_INSECURE_STORAGE_TYPES\"=true -Dpolaris.features.\"SUPPORTED_CATALOG_STORAGE_TYPES\"=[\"FILE\",\"S3\",\"GCS\",\"AZURE\"] -Dpolaris.readiness.ignore-severe-issues=true</JAVA_OPTS>-->
-<!--                                            <JAVA_OPTS>-Dpolaris.bootstrap.credentials=POLARIS,root,s3cr3t  -Dquarkus.console.color=true</JAVA_OPTS>-->
                                             <QUARKUS_PROFILE>prod</QUARKUS_PROFILE>
 <!--                                            <POLARIS_BOOTSTRAP_CREDENTIALS>POLARIS,root,secret</POLARIS_BOOTSTRAP_CREDENTIALS>-->
                                         </env>
