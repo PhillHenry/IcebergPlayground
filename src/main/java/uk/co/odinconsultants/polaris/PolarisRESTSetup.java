@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class PolarisRESTSetup {
     private static final String clientId = "root";
-    private static final String clientSecret = "secret";
+    private static final String clientSecret = "s3cr3t";
     private static final String polarisUrl = "http://localhost:8181";
     public static final String accessToken = getAccessToken();
     public static final String WAREHOUSE_NAME = "manual_spark";
@@ -80,12 +80,14 @@ public class PolarisRESTSetup {
     public static String getAccessToken() throws RuntimeException {
         HttpPost post = new HttpPost(polarisUrl + "/api/catalog/v1/oauth/tokens");
         post.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        post.setHeader("Polaris-Realm", "POLARIS");
         String body = "grant_type=client_credentials&client_id=" + clientId +
                 "&client_secret=" + clientSecret + "&scope=PRINCIPAL_ROLE:ALL";
         try {
             ClassicHttpResponse response = makeCall(body, post);
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> tokenResponse = mapper.readValue(response.getEntity().getContent(), Map.class);
+            System.out.println("tokenResponse = " + tokenResponse);
             String accessTokenFromResponse = (String) tokenResponse.get("access_token");
             System.out.println("accessTokenFromResponse = " + accessTokenFromResponse);
             return accessTokenFromResponse;
