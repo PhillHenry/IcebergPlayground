@@ -1,20 +1,18 @@
 package uk.co.odinconsultants.polaris;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpPut;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.ClassicHttpResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.message.BasicClassicHttpRequest;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
-public class PolarisRESTSetup {
+public class PolarisAWSRESTSetup {
     private static final String clientId = "root";
     private static final String clientSecret = "s3cr3t";
     private static final String polarisUrl = "http://localhost:8181";
@@ -34,16 +32,18 @@ public class PolarisRESTSetup {
         postJsonCall("/api/management/v1/catalogs",
                 "{\n" +
                 "           \"catalog\": {\n" +
-                        "             \"name\": \"" + WAREHOUSE_NAME + "\",\n" +
+                "             \"name\": \"" + WAREHOUSE_NAME + "\",\n" +
                 "             \"type\": \"INTERNAL\",\n" +
                 "             \"readOnly\": false,\n" +
                 "             \"properties\": {\n" +
-                "               \"default-base-location\": \"file:///tmp/polaris/\"\n" +
+                "               \"default-base-location\": \"s3://phbucketthatshouldreallynotexistyet/\"\n" +
                 "             },\n" +
                 "             \"storageConfigInfo\": {\n" +
-                "               \"storageType\": \"FILE\",\n" +
+                "               \"roleArn\": \"arn:aws:iam::975050164516:role/myrole\",\n" +
+                "               \"storageType\": \"S3\",\n" +
+                "               \"region\": \"eu-west-2\",\n" +
                 "               \"allowedLocations\": [\n" +
-                "                 \"file:///tmp/polaris/\"\n" +
+                "                 \"s3://phbucketthatshouldreallynotexistyet/\"\n" +
                 "               ]\n" +
                 "             }\n" +
                 "           }\n" +
@@ -89,9 +89,9 @@ public class PolarisRESTSetup {
             ClassicHttpResponse response = makeCall(body, post);
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> tokenResponse = mapper.readValue(response.getEntity().getContent(), Map.class);
-            System.out.println("tokenResponse = " + tokenResponse);
+            System.out.println("AWS tokenResponse = " + tokenResponse);
             String accessTokenFromResponse = (String) tokenResponse.get("access_token");
-            System.out.println("accessTokenFromResponse = " + accessTokenFromResponse);
+            System.out.println("AWS accessTokenFromResponse = " + accessTokenFromResponse);
             return accessTokenFromResponse;
         } catch (Exception e) {
             throw new RuntimeException(e);

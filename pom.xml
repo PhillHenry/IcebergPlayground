@@ -33,7 +33,7 @@
         <scala.compat.version>2.13</scala.compat.version>
         <spark.compat.version>3.5</spark.compat.version>
         <spark.version>${spark.compat.version}.0</spark.version>
-        <iceberg.version>1.9.0</iceberg.version>
+        <iceberg.version>1.9.2</iceberg.version>
         <documentation_utils.version>0.11</documentation_utils.version>
         <kafka.version>3.9.0</kafka.version>
         <circe.version>0.15.0-M1</circe.version>
@@ -61,16 +61,7 @@
 <!--            <artifactId>quarkus-resteasy</artifactId>-->
 <!--            <version>${quarkus.platform.version}</version>-->
 <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.iceberg</groupId>-->
-<!--            <artifactId>iceberg-core</artifactId>-->
-<!--            <version>${iceberg.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.iceberg</groupId>-->
-<!--            <artifactId>iceberg-spark</artifactId>-->
-<!--            <version>${iceberg.version}</version>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>org.apache.iceberg</groupId>
             <artifactId>iceberg-spark-runtime-${spark.compat.version}_${scala.compat.version}
@@ -176,12 +167,6 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.parquet</groupId>-->
-<!--            <artifactId>parquet</artifactId>-->
-<!--            <version>1.10.0</version>-->
-<!--            <type>pom</type>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>uk.co.odinconsultants.documentation_utils</groupId>
             <artifactId>scalatest_utils</artifactId>
@@ -228,7 +213,13 @@
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5-fluent</artifactId>
-            <version>5.3</version>
+            <version>5.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-aws -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-aws</artifactId>
+            <version>3.4.2</version>
         </dependency>
     </dependencies>
 
