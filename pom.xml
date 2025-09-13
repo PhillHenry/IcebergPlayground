@@ -56,6 +56,14 @@
 <!--    </dependencyManagement>-->
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/com.azure/azure-storage-file-datalake -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-storage-file-datalake</artifactId>
+            <version>12.22.0</version>
+        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>io.quarkus</groupId>-->
 <!--            <artifactId>quarkus-resteasy</artifactId>-->
@@ -227,6 +235,14 @@
             <artifactId>google-cloud-storage</artifactId>
             <version>2.57.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.azure/azure-sdk-bom -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-sdk-bom</artifactId>
+            <version>1.2.31</version>
+            <type>pom</type>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -428,5 +444,27 @@ The code for these tests can be found in [GitHub](${url})
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+
+
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>SparkPackagesRepo</id>-->
+<!--            <name>Spark Packages Repo</name>-->
+<!--            <url>https://dl.bintray.com/spark-packages/maven/</url>-->
+<!--            <layout>default</layout>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>JFrog</id>-->
+<!--            <url>https://usetyl.jfrog.io/usetyl/tyl-maven</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>confluent</id>-->
+<!--            <url>http://packages.confluent.io/maven/</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>mvnrepo</id>-->
+<!--            <url>https://mvnrepository.com/</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 
 </project>
